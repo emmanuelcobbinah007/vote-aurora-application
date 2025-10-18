@@ -319,7 +319,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
             Audit & Results
           </h2>
           <div className="flex items-center space-x-2">
-            <RefreshCw className="h-4 w-4 animate-spin text-[#cc910d]" />
+            <RefreshCw className="h-4 w-4 animate-spin text-[#2ecc71]" />
             <span className="text-sm text-gray-500">Loading...</span>
           </div>
         </div>
@@ -352,7 +352,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
             }}
             variant="outline"
             size="sm"
-            className="border-[#cc910d] text-[#cc910d] hover:bg-[#cc910d] hover:text-white"
+            className="border-[#2ecc71] text-[#2ecc71] hover:bg-[#2ecc71] hover:text-white"
           >
             <RefreshCw className="h-4 w-4 mr-2" />
             Retry
@@ -386,7 +386,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-            <BarChart3 className="h-6 w-6 mr-2" style={{ color: "#cc910d" }} />
+            <BarChart3 className="h-6 w-6 mr-2" style={{ color: "#2ecc71" }} />
             Audit & Results
           </h2>
           <p className="text-gray-600 mt-1">
@@ -400,7 +400,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
               refetchAnalytics();
               refetchAudit();
             }}
-            className="flex items-center space-x-2 border-[#cc910d] text-[#cc910d] hover:bg-[#cc910d] hover:text-white"
+            className="flex items-center space-x-2 border-[#2ecc71] text-[#2ecc71] hover:bg-[#2ecc71] hover:text-white"
           >
             <RefreshCw className="h-4 w-4" />
             <span>Refresh</span>
@@ -423,7 +423,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
             >
               <Button
                 className="text-white flex items-center space-x-2"
-                style={{ backgroundColor: "#cc910d" }}
+                style={{ backgroundColor: "#2ecc71" }}
               >
                 <Eye className="h-4 w-4" />
                 <span>View Full Results</span>
@@ -441,13 +441,13 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
               className="p-2 rounded-lg"
               style={{
                 backgroundColor:
-                  election.status === "LIVE" ? "#22c55e1a" : "#cc910d1a",
+                  election.status === "LIVE" ? "#22c55e1a" : "#2ecc711a",
               }}
             >
               {election.status === "LIVE" ? (
                 <Activity className="h-5 w-5 text-green-600" />
               ) : (
-                <Clock className="h-5 w-5" style={{ color: "#cc910d" }} />
+                <Clock className="h-5 w-5" style={{ color: "#2ecc71" }} />
               )}
             </div>
             <div>
@@ -461,8 +461,8 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
 
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Vote className="h-5 w-5 text-blue-600" />
+            <div className="p-2 bg-green-100 rounded-lg">
+              <Vote className="h-5 w-5 text-[#2ecc71]" />
             </div>
             <div>
               <p className="text-sm text-gray-600">Total Votes</p>
@@ -475,8 +475,8 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
 
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <TrendingUp className="h-5 w-5 text-purple-600" />
+            <div className="p-2 bg-green-100 rounded-lg">
+              <TrendingUp className="h-5 w-5 text-[#2ecc71]" />
             </div>
             <div>
               <p className="text-sm text-gray-600">Turnout Rate</p>
@@ -509,12 +509,12 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
             onClick={() => setActiveTab("results")}
             className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
               activeTab === "results"
-                ? "border-yellow-600 text-yellow-600"
+                ? "border-green-600 text-green-600"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
             style={
               activeTab === "results"
-                ? { borderColor: "#cc910d", color: "#cc910d" }
+                ? { borderColor: "#2ecc71", color: "#2ecc71" }
                 : {}
             }
           >
@@ -525,12 +525,12 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
             onClick={() => setActiveTab("audit")}
             className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
               activeTab === "audit"
-                ? "border-yellow-600 text-yellow-600"
+                ? "border-green-600 text-green-600"
                 : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
             }`}
             style={
               activeTab === "audit"
-                ? { borderColor: "#cc910d", color: "#cc910d" }
+                ? { borderColor: "#2ecc71", color: "#2ecc71" }
                 : {}
             }
           >
@@ -585,7 +585,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
                                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
                                 >
                                   <div className="flex items-center space-x-3">
-                                    <div className="w-8 h-8 bg-[#cc910d] rounded-full flex items-center justify-center">
+                                    <div className="w-8 h-8 bg-[#2ecc71] rounded-full flex items-center justify-center">
                                       <span className="text-sm font-medium text-white">
                                         {index + 1}
                                       </span>
@@ -605,7 +605,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
                                     </p>
                                     <div className="w-20 bg-gray-200 rounded-full h-2 mt-1">
                                       <div
-                                        className="h-2 rounded-full bg-[#cc910d]"
+                                        className="h-2 rounded-full bg-[#2ecc71]"
                                         style={{
                                           width: `${candidate.percentage}%`,
                                         }}
@@ -632,8 +632,8 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <Card className="p-4">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-[#cc910d] bg-opacity-10 rounded-lg">
-                        <Vote className="h-5 w-5 text-[#cc910d]" />
+                      <div className="p-2 bg-[#2ecc71] bg-opacity-10 rounded-lg">
+                        <Vote className="h-5 w-5 text-[#2ecc71]" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Total Votes</p>
@@ -647,8 +647,8 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
 
                   <Card className="p-4">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-[#cc910d] bg-opacity-10 rounded-lg">
-                        <TrendingUp className="h-5 w-5 text-[#cc910d]" />
+                      <div className="p-2 bg-[#2ecc71] bg-opacity-10 rounded-lg">
+                        <TrendingUp className="h-5 w-5 text-[#2ecc71]" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Voter Turnout</p>
@@ -670,8 +670,8 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
 
                   <Card className="p-4">
                     <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-[#cc910d] bg-opacity-10 rounded-lg">
-                        <User className="h-5 w-5 text-[#cc910d]" />
+                      <div className="p-2 bg-[#2ecc71] bg-opacity-10 rounded-lg">
+                        <User className="h-5 w-5 text-[#2ecc71]" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">
@@ -760,7 +760,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <Activity
                   className="h-5 w-5 mr-2"
-                  style={{ color: "#cc910d" }}
+                  style={{ color: "#2ecc71" }}
                 />
                 System Health
               </h3>
@@ -784,7 +784,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <AlertTriangle className="h-5 w-5 text-yellow-600" />
+                  <AlertTriangle className="h-5 w-5 text-green-600" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">
                       Monitoring

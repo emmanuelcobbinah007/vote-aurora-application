@@ -94,7 +94,7 @@ const AuditLogCard: React.FC<AuditLogCardProps> = ({ log, index }) => {
             <div className="space-y-1">
               <div className="text-sm text-gray-700">
                 System backup completed:{" "}
-                <span className="font-medium text-blue-600">
+                <span className="font-medium text-[#2ecc71]">
                   {parsed.backup_type}
                 </span>
               </div>
@@ -140,17 +140,17 @@ const AuditLogCard: React.FC<AuditLogCardProps> = ({ log, index }) => {
   const getActionColor = (action: string) => {
     switch (action) {
       case "USER_LOGIN":
-        return "text-blue-600 bg-blue-50";
+        return "text-[#2ecc71] bg-green-50";
       case "ADMIN_CREATED":
-        return "text-green-600 bg-green-50";
+        return "text-[#2ecc71] bg-green-50";
       case "ELECTION_APPROVED":
-        return "text-green-600 bg-green-50";
+        return "text-[#2ecc71] bg-green-50";
       case "SECURITY_ALERT":
         return "text-red-600 bg-red-50";
       case "SUBADMIN_SUSPENDED":
         return "text-orange-600 bg-orange-50";
       case "SYSTEM_BACKUP":
-        return "text-blue-600 bg-blue-50";
+        return "text-[#2ecc71] bg-green-50";
       default:
         return "text-gray-600 bg-gray-50";
     }

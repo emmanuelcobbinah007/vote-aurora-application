@@ -34,8 +34,8 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-            <User className="w-5 h-5 text-amber-600" />
+          <div className="w-10 h-10 rounded-full bg-[#2ecc71]/20 flex items-center justify-center">
+            <User className="w-5 h-5 text-[#2ecc71]" />
           </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-900">
@@ -48,7 +48,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
         </div>
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="flex items-center space-x-2 px-4 py-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors duration-200"
+          className="flex items-center space-x-2 px-4 py-2 text-[#2ecc71] hover:bg-[#2ecc71]/10 rounded-lg transition-colors duration-200"
         >
           <Edit3 className="w-4 h-4" />
           <span className="text-sm font-medium">
@@ -71,7 +71,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
                 setFormData({ ...formData, name: e.target.value })
               }
               disabled={!isEditing}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors duration-200 ${
+              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent transition-colors duration-200 ${
                 isEditing
                   ? "border-gray-300 bg-white"
                   : "border-gray-200 bg-gray-50"
@@ -93,7 +93,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
                 setFormData({ ...formData, email: e.target.value })
               }
               disabled={!isEditing}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors duration-200 ${
+              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent transition-colors duration-200 ${
                 isEditing
                   ? "border-gray-300 bg-white"
                   : "border-gray-200 bg-gray-50"
@@ -115,7 +115,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
                 setFormData({ ...formData, phone: e.target.value })
               }
               disabled={!isEditing}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors duration-200 ${
+              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent transition-colors duration-200 ${
                 isEditing
                   ? "border-gray-300 bg-white"
                   : "border-gray-200 bg-gray-50"
@@ -137,7 +137,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
                 setFormData({ ...formData, address: e.target.value })
               }
               disabled={!isEditing}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-colors duration-200 ${
+              className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent transition-colors duration-200 ${
                 isEditing
                   ? "border-gray-300 bg-white"
                   : "border-gray-200 bg-gray-50"
@@ -158,7 +158,7 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ user }) => {
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex items-center space-x-2 px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors duration-200 disabled:opacity-50"
+            className="flex items-center space-x-2 px-6 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] transition-colors duration-200 disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>{isSaving ? "Saving..." : "Save Changes"}</span>

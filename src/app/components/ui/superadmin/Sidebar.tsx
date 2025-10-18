@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BarChart3,
@@ -11,7 +10,6 @@ import {
   ChevronRight,
   Vote,
   PieChart,
-  ClipboardList,
   Settings,
   UserPlus,
   CheckCircle,
@@ -308,7 +306,7 @@ const Sidebar = () => {
                       } py-3 rounded-xl transition-all duration-200 group relative ${
                         isActive
                           ? "bg-[#2ecc71] text-white shadow-sm"
-                          : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                          : "text-gray-700 hover:bg-gray-100 "
                       }`}
                       style={{
                         animationDelay: `${0.3 + index * 0.1}s`,

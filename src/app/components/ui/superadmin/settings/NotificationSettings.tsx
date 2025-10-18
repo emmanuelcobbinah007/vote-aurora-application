@@ -116,12 +116,12 @@ const NotificationSettings: React.FC = () => {
           return (
             <div
               key={category.key}
-              className="p-4 border border-gray-200 rounded-lg hover:border-amber-300 transition-colors duration-200"
+              className="p-4 border border-gray-200 rounded-lg hover:border-green-300 transition-colors duration-200"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
-                    <IconComponent className="w-4 h-4 text-amber-600" />
+                  <div className="w-8 h-8 rounded-full bg-[#2ecc71]/20 flex items-center justify-center">
+                    <IconComponent className="w-4 h-4 text-[#2ecc71]" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">
@@ -139,7 +139,7 @@ const NotificationSettings: React.FC = () => {
                     onChange={() => handleToggle(category.key)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#2ecc71]"></div>
                 </label>
               </div>
             </div>
@@ -169,7 +169,7 @@ const NotificationSettings: React.FC = () => {
                   onChange={() => handleToggle(setting.key)}
                   className="sr-only peer"
                 />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#2ecc71]"></div>
               </label>
             </div>
           ))}
@@ -181,7 +181,7 @@ const NotificationSettings: React.FC = () => {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="flex items-center space-x-2 px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors duration-200 disabled:opacity-50"
+          className="flex items-center space-x-2 px-6 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] transition-colors duration-200 disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
           <span>{isSaving ? "Saving..." : "Save Preferences"}</span>

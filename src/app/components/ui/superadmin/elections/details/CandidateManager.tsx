@@ -190,7 +190,7 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-            <Users className="h-6 w-6 mr-2" style={{ color: "#cc910d" }} />
+            <Users className="h-6 w-6 mr-2" style={{ color: "#2ecc71" }} />
             Candidate Management
           </h2>
           <p className="text-gray-600 mt-1">
@@ -214,7 +214,7 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
             disabled={isElectionLocked}
             className="text-white flex items-center space-x-2"
             style={{
-              backgroundColor: isElectionLocked ? "#9ca3af" : "#cc910d",
+              backgroundColor: isElectionLocked ? "#9ca3af" : "#2ecc71",
             }}
           >
             <Plus className="h-4 w-4" />
@@ -225,14 +225,14 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
 
       {/* Election Locked Warning */}
       {isElectionLocked && (
-        <Card className="p-4 bg-orange-50 border-orange-200">
+        <Card className="p-4 bg-green-50 border-green-200">
           <div className="flex items-start space-x-3">
-            <Lock className="h-5 w-5 text-orange-600 mt-0.5" />
+            <Lock className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-orange-900">
+              <h4 className="text-sm font-medium text-green-900">
                 Candidate Management Locked
               </h4>
-              <p className="text-sm text-orange-700 mt-1">
+              <p className="text-sm text-green-700 mt-1">
                 Candidate modifications are not allowed while the election is{" "}
                 {electionData?.status?.toLowerCase()}. You can view candidates
                 but cannot add, edit, or delete them until the election ends.
@@ -255,7 +255,7 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
               className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-opacity-50"
               style={
                 {
-                  "--tw-ring-color": "#cc910d",
+                  "--tw-ring-color": "#2ecc71",
                 } as React.CSSProperties
               }
             >
@@ -464,14 +464,14 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
       )}
 
       {/* Info Card */}
-      <Card className="p-4 bg-blue-50 border-blue-200">
+      <Card className="p-4 bg-green-50 border-green-200">
         <div className="flex items-start space-x-3">
-          <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+          <AlertCircle className="h-5 w-5 text-green-600 mt-0.5" />
           <div>
-            <h4 className="text-sm font-medium text-blue-900">
+            <h4 className="text-sm font-medium text-green-900">
               About Candidates
             </h4>
-            <p className="text-sm text-blue-700 mt-1">
+            <p className="text-sm text-green-700 mt-1">
               Candidates are individuals who are running for specific portfolios
               in your election. Each candidate must be assigned to exactly one
               portfolio. You can add photos and manifestos to help voters make

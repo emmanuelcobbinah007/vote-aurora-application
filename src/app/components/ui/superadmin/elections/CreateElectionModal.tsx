@@ -233,14 +233,14 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
                   <Calendar
                     className="h-5 w-5 mr-2"
-                    style={{ color: "#cc910d" }}
+                    style={{ color: "#2ecc71" }}
                   />
                   {selectedElection ? "Edit Election" : "Create New Election"}
                   {isReadOnlyMode && (
                     <Lock className="h-4 w-4 ml-2 text-red-500" />
                   )}
                   {isRestrictedMode && (
-                    <AlertTriangle className="h-4 w-4 ml-2 text-amber-500" />
+                    <AlertTriangle className="h-4 w-4 ml-2 text-[#2ecc71]" />
                   )}
                 </h3>
                 <button
@@ -258,19 +258,19 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                   className={`p-4 border-b ${
                     isReadOnlyMode
                       ? "bg-red-50 border-red-200"
-                      : "bg-amber-50 border-amber-200"
+                      : "bg-green-50 border-green-200"
                   }`}
                 >
                   <div className="flex items-center">
                     {isReadOnlyMode ? (
                       <Lock className="h-5 w-5 text-red-500 mr-3" />
                     ) : (
-                      <AlertTriangle className="h-5 w-5 text-amber-500 mr-3" />
+                      <AlertTriangle className="h-5 w-5 text-green-500 mr-3" />
                     )}
                     <div>
                       <h4
                         className={`font-medium ${
-                          isReadOnlyMode ? "text-red-800" : "text-amber-800"
+                          isReadOnlyMode ? "text-red-800" : "text-green-800"
                         }`}
                       >
                         {isReadOnlyMode
@@ -279,7 +279,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       </h4>
                       <p
                         className={`text-sm ${
-                          isReadOnlyMode ? "text-red-600" : "text-amber-600"
+                          isReadOnlyMode ? "text-red-600" : "text-green-600"
                         }`}
                       >
                         {isReadOnlyMode
@@ -316,7 +316,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                     }`}
                     style={
                       {
-                        "--tw-ring-color": "#cc910d",
+                        "--tw-ring-color": "#2ecc71",
                         "--tw-ring-opacity": "0.5",
                       } as React.CSSProperties
                     }
@@ -350,7 +350,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                     }`}
                     style={
                       {
-                        "--tw-ring-color": "#cc910d",
+                        "--tw-ring-color": "#2ecc71",
                         "--tw-ring-opacity": "0.5",
                       } as React.CSSProperties
                     }
@@ -373,7 +373,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                         name="is_general"
                         value="true"
                         disabled={isFieldDisabled("is_general")}
-                        className={`h-4 w-4 text-amber-600 border-gray-300 focus:ring-amber-500 ${
+                        className={`h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500 ${
                           isFieldDisabled("is_general")
                             ? "cursor-not-allowed"
                             : ""
@@ -395,7 +395,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                         name="is_general"
                         value="false"
                         disabled={isFieldDisabled("is_general")}
-                        className={`h-4 w-4 text-amber-600 border-gray-300 focus:ring-amber-500 ${
+                        className={`h-4 w-4 text-green-600 border-gray-300 focus:ring-green-500 ${
                           isFieldDisabled("is_general")
                             ? "cursor-not-allowed"
                             : ""
@@ -424,7 +424,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                         <Lock className="h-3 w-3 ml-1 text-gray-400" />
                       )}
                       {loadingDepartments && !isFieldDisabled("department") && (
-                        <div className="ml-2 animate-spin rounded-full h-4 w-4 border-b-2 border-amber-600"></div>
+                        <div className="ml-2 animate-spin rounded-full h-4 w-4 border-b-2 border-green-600"></div>
                       )}
                     </label>
                     <Field
@@ -444,7 +444,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       }`}
                       style={
                         {
-                          "--tw-ring-color": "#cc910d",
+                          "--tw-ring-color": "#2ecc71",
                           "--tw-ring-opacity": "0.5",
                         } as React.CSSProperties
                       }
@@ -464,7 +464,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       ))}
                     </Field>
                     {departmentError && !isFieldDisabled("department") && (
-                      <p className="text-amber-600 text-sm mt-1 flex items-center">
+                      <p className="text-green-600 text-sm mt-1 flex items-center">
                         <span className="mr-1"> </span>
                         {departmentError} (Using default departments)
                       </p>
@@ -519,7 +519,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       }`}
                       style={
                         {
-                          "--tw-ring-color": "#cc910d",
+                          "--tw-ring-color": "#2ecc71",
                           "--tw-ring-opacity": "0.5",
                         } as React.CSSProperties
                       }
@@ -536,7 +536,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       <Clock className="h-4 w-4 mr-1" />
                       End Time *
                       {isRestrictedMode && (
-                        <span className="ml-1 text-xs text-amber-600 font-normal">
+                        <span className="ml-1 text-xs text-green-600 font-normal">
                           (Editable)
                         </span>
                       )}
@@ -558,14 +558,14 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                           : ""
                       } ${
                         isRestrictedMode && !isFieldDisabled("end_time")
-                          ? "border-amber-300 bg-amber-50"
+                          ? "border-green-300 bg-green-50"
                           : ""
                       }`}
                       style={
                         {
                           "--tw-ring-color": isRestrictedMode
-                            ? "#f59e0b"
-                            : "#cc910d",
+                            ? "#2ecc71"
+                            : "#2ecc71",
                           "--tw-ring-opacity": "0.5",
                         } as React.CSSProperties
                       }
@@ -576,7 +576,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       className="text-red-500 text-sm mt-1"
                     />
                     {isRestrictedMode && !isFieldDisabled("end_time") && (
-                      <p className="text-xs text-amber-600 mt-1">
+                      <p className="text-xs text-green-600 mt-1">
                         You can extend the election end time while it's live
                       </p>
                     )}
@@ -588,8 +588,8 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                   <div
                     className="rounded-lg p-4"
                     style={{
-                      backgroundColor: "#cc910d1a",
-                      borderColor: "#cc910d",
+                      backgroundColor: "#2ecc711a",
+                      borderColor: "#2ecc71",
                       borderWidth: "1px",
                     }}
                   >
@@ -597,13 +597,13 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                       <div className="flex-shrink-0">
                         <Calendar
                           className="h-5 w-5"
-                          style={{ color: "#cc910d" }}
+                          style={{ color: "#2ecc71" }}
                         />
                       </div>
                       <div className="ml-3">
                         <h3
                           className="text-sm font-medium"
-                          style={{ color: "#8b7109" }}
+                          style={{ color: "#1a7f37" }}
                         >
                           {isRestrictedMode
                             ? "Live Election"
@@ -611,7 +611,7 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                         </h3>
                         <div
                           className="mt-2 text-sm"
-                          style={{ color: "#a0890b" }}
+                          style={{ color: "#166534" }}
                         >
                           <p>
                             {isRestrictedMode
@@ -641,17 +641,17 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                     disabled={isSubmitting}
                     className="text-white"
                     style={{
-                      backgroundColor: isRestrictedMode ? "#f59e0b" : "#cc910d",
+                      backgroundColor: isRestrictedMode ? "#2ecc71" : "#2ecc71",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.backgroundColor = isRestrictedMode
-                        ? "#d97706"
-                        : "#b8820c";
+                        ? "#27ae60"
+                        : "#27ae60";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = isRestrictedMode
-                        ? "#f59e0b"
-                        : "#cc910d";
+                        ? "#2ecc71"
+                        : "#2ecc71";
                     }}
                   >
                     {isSubmitting ? (

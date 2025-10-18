@@ -5,7 +5,7 @@ import ElectionCard from "./ElectionCard";
 import ElectionsSearch from "./ElectionsSearch";
 import InviteAdminModal from "./InviteAdminModal";
 import Pagination from "../../shared/Pagination";
-import { Election, AdminAssignment } from "./subadminTypes";
+import { Election } from "./subadminTypes";
 import {
   SearchBarShimmer,
   ElectionCardShimmer as DashboardElectionCardShimmer,

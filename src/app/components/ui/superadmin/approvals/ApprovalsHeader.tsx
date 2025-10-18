@@ -10,8 +10,8 @@ const ApprovalsHeader: React.FC<ApprovalsHeaderProps> = ({ totalCount }) => {
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6">
       <div className="flex items-center space-x-3">
-        <div className="p-2 bg-[#cc910d]/10 rounded-lg">
-          <FileText className="w-6 h-6 text-[#cc910d]" />
+        <div className="p-2 bg-[#2ecc71]/10 rounded-lg">
+          <FileText className="w-6 h-6 text-[#2ecc71]" />
         </div>
         <div>
           <p className="text-sm text-gray-600">

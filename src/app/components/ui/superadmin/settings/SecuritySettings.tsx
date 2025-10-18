@@ -67,7 +67,7 @@ const SecuritySettings: React.FC = () => {
                     currentPassword: e.target.value,
                   })
                 }
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent pr-12"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent pr-12"
                 placeholder="Enter current password"
               />
               <button
@@ -99,7 +99,7 @@ const SecuritySettings: React.FC = () => {
                       newPassword: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent pr-12"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent pr-12"
                   placeholder="Enter new password"
                 />
                 <button
@@ -130,7 +130,7 @@ const SecuritySettings: React.FC = () => {
                       confirmPassword: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent pr-12"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent pr-12"
                   placeholder="Confirm new password"
                 />
                 <button
@@ -156,7 +156,7 @@ const SecuritySettings: React.FC = () => {
               !passwordData.newPassword ||
               !passwordData.confirmPassword
             }
-            className="flex items-center space-x-2 px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center space-x-2 px-6 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save className="w-4 h-4" />
             <span>{isSaving ? "Updating..." : "Update Password"}</span>
@@ -184,7 +184,7 @@ const SecuritySettings: React.FC = () => {
               onChange={(e) => setTwoFactorEnabled(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#2ecc71]"></div>
           </label>
         </div>
       </div>

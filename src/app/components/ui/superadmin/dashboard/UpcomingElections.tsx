@@ -108,7 +108,7 @@ const UpcomingElections: React.FC<UpcomingElectionsProps> = ({
           <div className="text-center py-8 text-gray-500">
             <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
             <p>No upcoming elections</p>
-            <Link href={`/superadmin/${superadminId}/elections/create`}>
+            <Link href={`/superadmin/${superadminId}/elections`}>
               <Button variant="outline" size="sm" className="mt-2">
                 Create Election
               </Button>
@@ -162,7 +162,7 @@ const UpcomingElections: React.FC<UpcomingElectionsProps> = ({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="p-0 h-auto font-normal text-amber-600 hover:text-amber-700"
+                          className="p-0 h-auto font-normal text-[#2ecc71] hover:text-amber-700"
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           View Details

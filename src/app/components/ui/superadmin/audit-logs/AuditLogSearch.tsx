@@ -18,7 +18,7 @@ const AuditLogSearch: React.FC<AuditLogSearchProps> = ({
         placeholder="Search audit logs..."
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
-        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none bg-white"
+        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent outline-none bg-white"
       />
     </div>
   );

@@ -41,17 +41,17 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "DRAFT":
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-green-50 text-green-700 border-green-200";
       case "PENDING_APPROVAL":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        return "bg-green-100 text-green-800 border-green-300";
       case "APPROVED":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-green-200 text-green-900 border-green-400";
       case "LIVE":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "bg-[#2ecc71] text-white border-[#2ecc71]";
       case "CLOSED":
         return "bg-red-100 text-red-800 border-red-200";
       case "ARCHIVED":
-        return "bg-purple-100 text-purple-800 border-purple-200";
+        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
@@ -63,7 +63,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         {/* Election Info Card */}
         <Card className="p-6 lg:col-span-2">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <FileText className="h-5 w-5 mr-2" style={{ color: "#cc910d" }} />
+            <FileText className="h-5 w-5 mr-2" style={{ color: "#2ecc71" }} />
             Election Information
           </h3>
           <div className="space-y-4">
@@ -105,7 +105,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         {/* Quick Stats Card */}
         <Card className="p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-            <BarChart3 className="h-5 w-5 mr-2" style={{ color: "#cc910d" }} />
+            <BarChart3 className="h-5 w-5 mr-2" style={{ color: "#2ecc71" }} />
             Quick Stats
           </h3>
           <div className="space-y-4">
@@ -142,17 +142,17 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Next Steps</h3>
         <div className="space-y-3">
           {portfolios.length === 0 && (
-            <div className="flex items-center justify-between p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
               <div className="flex items-center">
-                <Settings className="h-5 w-5 text-yellow-600 mr-3" />
-                <span className="text-yellow-800">
+                <Settings className="h-5 w-5 text-green-600 mr-3" />
+                <span className="text-green-800">
                   Add portfolios (positions) to your election
                 </span>
               </div>
               <Button
                 size="sm"
                 onClick={() => onTabChange("portfolios")}
-                style={{ backgroundColor: "#cc910d" }}
+                style={{ backgroundColor: "#2ecc71" }}
                 className="text-white"
               >
                 Add Portfolios
@@ -160,17 +160,17 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             </div>
           )}
           {portfolios.length > 0 && candidates.length === 0 && (
-            <div className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-green-100 border border-green-300 rounded-lg">
               <div className="flex items-center">
-                <Users className="h-5 w-5 text-blue-600 mr-3" />
-                <span className="text-blue-800">
+                <Users className="h-5 w-5 text-green-700 mr-3" />
+                <span className="text-green-900">
                   Add candidates to your portfolios
                 </span>
               </div>
               <Button
                 size="sm"
                 onClick={() => onTabChange("candidates")}
-                style={{ backgroundColor: "#cc910d" }}
+                style={{ backgroundColor: "#2ecc71" }}
                 className="text-white"
               >
                 Add Candidates
@@ -178,17 +178,17 @@ const OverviewTab: React.FC<OverviewTabProps> = ({
             </div>
           )}
           {candidates.length > 0 && ballots.length === 0 && (
-            <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-green-200 border border-green-400 rounded-lg">
               <div className="flex items-center">
-                <Calendar className="h-5 w-5 text-green-600 mr-3" />
-                <span className="text-green-800">
+                <Calendar className="h-5 w-5 text-green-800 mr-3" />
+                <span className="text-green-900">
                   Configure ballot order and structure
                 </span>
               </div>
               <Button
                 size="sm"
                 onClick={() => onTabChange("ballot-setup")}
-                style={{ backgroundColor: "#cc910d" }}
+                style={{ backgroundColor: "#2ecc71" }}
                 className="text-white"
               >
                 Setup Ballot

@@ -35,7 +35,7 @@ export const ElectionsSearch: React.FC<ElectionsSearchProps> = ({
             placeholder="Search elections by title or description..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#cc910d] focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-[#2ecc71] rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent"
           />
         </div>
 
@@ -45,7 +45,7 @@ export const ElectionsSearch: React.FC<ElectionsSearchProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => onStatusFilterChange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#cc910d] focus:border-transparent"
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent"
           >
             {statusOptions.map((option) => (
               <option key={option.value} value={option.value}>

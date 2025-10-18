@@ -28,7 +28,7 @@ const ApprovalsSearch: React.FC<ApprovalsSearchProps> = ({
             placeholder="Search by election title, creator, or department..."
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#cc910d]/20 focus:border-[#cc910d] transition-colors"
+            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71]/20 focus:border-[#2ecc71] transition-colors"
           />
           {searchTerm && (
             <button
@@ -44,7 +44,7 @@ const ApprovalsSearch: React.FC<ApprovalsSearchProps> = ({
         <select
           value={statusFilter}
           onChange={(e) => onStatusFilterChange(e.target.value)}
-          className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#cc910d]/20 focus:border-[#cc910d] transition-colors"
+          className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71]/20 focus:border-[#2ecc71] transition-colors"
         >
           <option value="all">All Status</option>
           <option value="pending">Pending</option>

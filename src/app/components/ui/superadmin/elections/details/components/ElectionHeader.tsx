@@ -34,17 +34,17 @@ const ElectionHeader: React.FC<ElectionHeaderProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "DRAFT":
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-green-50 text-green-700 border-green-200";
       case "PENDING_APPROVAL":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+        return "bg-green-100 text-green-800 border-green-300";
       case "APPROVED":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-green-200 text-green-900 border-green-400";
       case "LIVE":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "bg-[#2ecc71] text-white border-[#2ecc71]";
       case "CLOSED":
         return "bg-red-100 text-red-800 border-red-200";
       case "ARCHIVED":
-        return "bg-purple-100 text-purple-800 border-purple-200";
+        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }

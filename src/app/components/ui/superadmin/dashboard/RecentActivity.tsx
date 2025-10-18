@@ -54,19 +54,19 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
   const getActivityColor = (type: string) => {
     switch (type) {
       case "election":
-        return "text-amber-600 bg-amber-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
       case "admin":
-        return "text-gray-600 bg-gray-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
       case "approval":
-        return "text-green-600 bg-green-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
       case "settings":
-        return "text-amber-600 bg-amber-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
       case "token":
-        return "text-gray-600 bg-gray-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
       case "audit":
-        return "text-amber-600 bg-amber-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
       default:
-        return "text-gray-600 bg-gray-50";
+        return "text-[#2ecc71] bg-[#e6f9f1]";
     }
   };
 

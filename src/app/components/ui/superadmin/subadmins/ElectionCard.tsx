@@ -87,8 +87,8 @@ export const ElectionCard: React.FC<ElectionCardProps> = ({
                 key={assignment.id}
                 className="flex items-center gap-2 text-sm text-gray-600"
               >
-                <div className="w-6 h-6 bg-[#cc910d] bg-opacity-10 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-[#cc910d]">
+                <div className="w-6 h-6 bg-[#2ecc71] bg-opacity-10 rounded-full flex items-center justify-center">
+                  <span className="text-xs font-medium text-[#2ecc71]">
                     {assignment.admin.full_name.charAt(0)}
                   </span>
                 </div>
@@ -111,7 +111,7 @@ export const ElectionCard: React.FC<ElectionCardProps> = ({
       {/* Action Button */}
       <button
         onClick={onInviteAdmin}
-        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#cc910d] text-white rounded-lg hover:bg-[#b8820c] transition-colors"
+        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] transition-colors"
       >
         <UserPlus className="h-4 w-4" />
         <span>Invite Admin</span>

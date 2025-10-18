@@ -262,7 +262,7 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="admin@upsa.edu.gh"
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#cc910d] focus:border-transparent ${
+                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent ${
                   formik.touched.email && formik.errors.email
                     ? "border-red-500"
                     : "border-gray-300"
@@ -283,8 +283,8 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
             </div>
           )}
 
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="text-sm text-blue-800">
+          <div className="bg-green-50 p-4 rounded-lg">
+            <p className="text-sm text-[#2ecc71]">
               <strong>Note:</strong> The administrator will receive an email
               invitation to manage this election. They can accept the invitation
               to gain access.
@@ -303,7 +303,7 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
             <button
               type="submit"
               disabled={isSubmittingState}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#cc910d] text-white rounded-lg hover:bg-[#b8820c] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmittingState ? (
                 <>

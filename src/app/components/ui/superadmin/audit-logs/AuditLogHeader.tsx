@@ -42,7 +42,7 @@ const AuditLogHeader: React.FC<AuditLogHeaderProps> = ({
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center space-x-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] transition-colors"
           >
             <Filter className="w-4 h-4" />
             <span>

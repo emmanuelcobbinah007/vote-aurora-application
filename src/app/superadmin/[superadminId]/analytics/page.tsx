@@ -57,7 +57,7 @@ const SuperadminAnalyticsPage: React.FC = () => {
             </p>
             <button
               onClick={() => refetch()}
-              className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-md transition-colors"
+              className="bg-[#2ecc71] hover:bg-[#1e8e3e] text-white px-6 py-2 rounded-md transition-colors"
             >
               Retry
             </button>

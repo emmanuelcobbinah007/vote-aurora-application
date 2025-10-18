@@ -43,14 +43,14 @@ const ElectionTabs: React.FC<ElectionTabsProps> = ({
 
     return `py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 ${
       isActive
-        ? "border-yellow-600 text-yellow-600"
+        ? "border-[#2ecc71] text-[#2ecc71]"
         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
     } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`;
   };
 
   const getTabStyle = (tab: ElectionTab) => {
     return activeTab === tab
-      ? { borderColor: "#cc910d", color: "#cc910d" }
+      ? { borderColor: "#2ecc71", color: "#2ecc71" }
       : {};
   };
 

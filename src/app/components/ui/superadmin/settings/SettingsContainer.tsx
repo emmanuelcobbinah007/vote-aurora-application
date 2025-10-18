@@ -1,13 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {
-  User,
-  Shield,
-  Bell,
-  Monitor,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { User, Shield, Bell } from "lucide-react";
 import ProfileSettings from "./ProfileSettings";
 import SecuritySettings from "./SecuritySettings";
 import NotificationSettings from "./NotificationSettings";
@@ -67,33 +60,33 @@ const SettingsContainer: React.FC = () => {
                 onClick={() => setActiveSection(section.id)}
                 className={`p-4 rounded-lg border-2 text-left transition-all duration-200 ${
                   isActive
-                    ? "border-amber-500 bg-amber-50 shadow-sm"
-                    : "border-gray-200 hover:border-amber-300 hover:bg-amber-25"
+                    ? "border-[#2ecc71] bg-green-50 shadow-sm"
+                    : "border-gray-200 hover:border-green-300 hover:bg-green-25"
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      isActive ? "bg-amber-100" : "bg-gray-100"
+                      isActive ? "bg-[#2ecc71]/20" : "bg-gray-100"
                     }`}
                   >
                     <IconComponent
                       className={`w-5 h-5 ${
-                        isActive ? "text-amber-600" : "text-gray-600"
+                        isActive ? "text-[#2ecc71]" : "text-gray-600"
                       }`}
                     />
                   </div>
                   <div className="flex-1">
                     <h3
                       className={`font-medium ${
-                        isActive ? "text-amber-900" : "text-gray-900"
+                        isActive ? "text-green-900" : "text-gray-900"
                       }`}
                     >
                       {section.title}
                     </h3>
                     <p
                       className={`text-sm ${
-                        isActive ? "text-amber-600" : "text-gray-500"
+                        isActive ? "text-[#2ecc71]" : "text-gray-500"
                       }`}
                     >
                       {section.description}

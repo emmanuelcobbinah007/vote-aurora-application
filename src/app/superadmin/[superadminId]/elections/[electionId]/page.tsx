@@ -52,7 +52,7 @@ const ElectionDetailsRoute = () => {
           </p>
           <button
             onClick={handleBack}
-            className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg"
+            className="bg-[#2ecc71] hover:bg-[#27ae60] text-white px-4 py-2 rounded-lg"
           >
             Back to Elections
           </button>

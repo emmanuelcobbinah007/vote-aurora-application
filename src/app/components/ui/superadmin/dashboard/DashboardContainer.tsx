@@ -2,24 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  TrendingUp,
-  Users,
-  Vote,
-  Calendar,
-  Activity,
-  Settings,
-  Plus,
-  Eye,
-  UserPlus,
-  BarChart3,
-  CheckCircle,
-  Clock,
-  AlertCircle,
-} from "lucide-react";
+import { Settings, BarChart3 } from "lucide-react";
 import DashboardSummaryCards from "./DashboardSummaryCards";
 import RecentActivity from "./RecentActivity";
 import UpcomingElections from "./UpcomingElections";
@@ -80,7 +64,7 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({
           <div className="flex justify-between items-start">
             <div>
               <p className="text-gray-600 mt-2">
-                Welcome back! Here's an overview of your e-voting system.
+                Welcome back! Here's an overview of VoteAurora.
               </p>
             </div>
             <div className="flex gap-3">

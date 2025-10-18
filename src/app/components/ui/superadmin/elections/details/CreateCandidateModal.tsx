@@ -111,7 +111,7 @@ const CreateCandidateModal: React.FC<CreateCandidateModalProps> = ({
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center">
                   <Users
                     className="h-5 w-5 mr-2"
-                    style={{ color: "#cc910d" }}
+                    style={{ color: "#2ecc71" }}
                   />
                   {title}
                 </h3>
@@ -142,7 +142,7 @@ const CreateCandidateModal: React.FC<CreateCandidateModalProps> = ({
                       }`}
                       style={
                         {
-                          "--tw-ring-color": "#cc910d",
+                          "--tw-ring-color": "#2ecc71",
                           "--tw-ring-opacity": "0.5",
                         } as React.CSSProperties
                       }
@@ -178,7 +178,7 @@ const CreateCandidateModal: React.FC<CreateCandidateModalProps> = ({
                     }`}
                     style={
                       {
-                        "--tw-ring-color": "#cc910d",
+                        "--tw-ring-color": "#2ecc71",
                         "--tw-ring-opacity": "0.5",
                       } as React.CSSProperties
                     }
@@ -217,7 +217,7 @@ const CreateCandidateModal: React.FC<CreateCandidateModalProps> = ({
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
                     style={
                       {
-                        "--tw-ring-color": "#cc910d",
+                        "--tw-ring-color": "#2ecc71",
                         "--tw-ring-opacity": "0.5",
                       } as React.CSSProperties
                     }
@@ -229,25 +229,25 @@ const CreateCandidateModal: React.FC<CreateCandidateModalProps> = ({
                 <div
                   className="rounded-lg p-4"
                   style={{
-                    backgroundColor: "#cc910d1a",
-                    borderColor: "#cc910d",
+                    backgroundColor: "#2ecc711a",
+                    borderColor: "#2ecc71",
                     borderWidth: "1px",
                   }}
                 >
                   <div className="flex">
                     <div className="flex-shrink-0">
-                      <Users className="h-5 w-5" style={{ color: "#cc910d" }} />
+                      <Users className="h-5 w-5" style={{ color: "#2ecc71" }} />
                     </div>
                     <div className="ml-3">
                       <h3
                         className="text-sm font-medium"
-                        style={{ color: "#8b7109" }}
+                        style={{ color: "#1a7f37" }}
                       >
                         Candidate Information
                       </h3>
                       <div
                         className="mt-2 text-sm"
-                        style={{ color: "#a0890b" }}
+                        style={{ color: "#166534" }}
                       >
                         <p>
                           Add candidate details to help voters make informed
@@ -275,13 +275,13 @@ const CreateCandidateModal: React.FC<CreateCandidateModalProps> = ({
                   disabled={isSubmitting}
                   className="text-white"
                   style={{
-                    backgroundColor: "#cc910d",
+                    backgroundColor: "#2ecc71",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "#b8820c";
+                    e.currentTarget.style.backgroundColor = "#27ae60";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "#cc910d";
+                    e.currentTarget.style.backgroundColor = "#2ecc71";
                   }}
                 >
                   {isSubmitting ? (

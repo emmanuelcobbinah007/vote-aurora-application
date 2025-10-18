@@ -45,7 +45,7 @@ const SystemHealth: React.FC<SystemHealthProps> = ({ healthData }) => {
       case "healthy":
         return "text-green-600 bg-green-100";
       case "warning":
-        return "text-amber-600 bg-amber-100";
+        return "text-green-500 bg-green-50";
       case "critical":
         return "text-red-600 bg-red-100";
       default:
@@ -55,13 +55,13 @@ const SystemHealth: React.FC<SystemHealthProps> = ({ healthData }) => {
 
   const getLoadColor = (load: number) => {
     if (load < 30) return "text-green-600";
-    if (load < 70) return "text-amber-600";
+    if (load < 70) return "text-green-500";
     return "text-red-600";
   };
 
   const getLoadBgColor = (load: number) => {
     if (load < 30) return "bg-green-500";
-    if (load < 70) return "bg-amber-500";
+    if (load < 70) return "bg-green-400";
     return "bg-red-500";
   };
 
@@ -155,8 +155,8 @@ const SystemHealth: React.FC<SystemHealthProps> = ({ healthData }) => {
 
             return (
               <div key={index} className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-amber-50">
-                  <IconComponent className="w-4 h-4 text-amber-600" />
+                <div className="p-2 rounded-lg bg-green-50">
+                  <IconComponent className="w-4 h-4 text-green-600" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
@@ -196,11 +196,11 @@ const SystemHealth: React.FC<SystemHealthProps> = ({ healthData }) => {
         <div className="mt-6 pt-4 border-t border-gray-200">
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
-              <div className="text-lg font-semibold text-amber-600">99.9%</div>
+              <div className="text-lg font-semibold text-green-600">99.9%</div>
               <div className="text-xs text-gray-500">Uptime This Month</div>
             </div>
             <div>
-              <div className="text-lg font-semibold text-amber-600">
+              <div className="text-lg font-semibold text-green-600">
                 &lt; 100ms
               </div>
               <div className="text-xs text-gray-500">Avg Response Time</div>

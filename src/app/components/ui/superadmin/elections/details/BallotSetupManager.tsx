@@ -31,7 +31,6 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Portfolio, Candidate, Ballot } from "./ElectionDetailsTypes";
 import { usePortfolios } from "@/hooks/usePortfolios";
 import { useCandidates } from "@/hooks/useCandidates";
 import { useBallotOrder, useUpdateBallotOrder } from "@/hooks/useBallots";
@@ -119,12 +118,12 @@ const SortablePortfolioItem: React.FC<SortablePortfolioItemProps> = ({
               {item.candidatesCount !== 1 ? "s" : ""}
             </span>
             {item.candidatesCount === 0 && (
-              <Badge className="bg-orange-100 text-orange-800 border-orange-200">
+              <Badge className="bg-green-100 text-green-800 border-green-200">
                 No Candidates
               </Badge>
             )}
             {item.candidatesCount > 0 && (
-              <Badge className="bg-green-100 text-green-800 border-green-200">
+              <Badge className="bg-green-200 text-green-900 border-green-400">
                 Ready
               </Badge>
             )}
@@ -321,7 +320,7 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-            <Calendar className="h-6 w-6 mr-2" style={{ color: "#cc910d" }} />
+            <Calendar className="h-6 w-6 mr-2" style={{ color: "#2ecc71" }} />
             Ballot Setup
           </h2>
           <p className="text-gray-600 mt-1">
@@ -357,7 +356,7 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
               <Button
                 onClick={saveChanges}
                 className="text-white"
-                style={{ backgroundColor: "#cc910d" }}
+                style={{ backgroundColor: "#2ecc71" }}
                 disabled={updateBallotOrderMutation.isPending}
               >
                 {updateBallotOrderMutation.isPending
@@ -371,14 +370,14 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
 
       {/* Election Locked Warning */}
       {isElectionLocked && (
-        <Card className="p-4 bg-orange-50 border-orange-200">
+        <Card className="p-4 bg-green-50 border-green-200">
           <div className="flex items-start space-x-3">
-            <Lock className="h-5 w-5 text-orange-600 mt-0.5" />
+            <Lock className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-orange-900">
+              <h4 className="text-sm font-medium text-green-900">
                 Ballot Setup Locked
               </h4>
-              <p className="text-sm text-orange-700 mt-1">
+              <p className="text-sm text-green-700 mt-1">
                 Ballot modifications are not allowed while the election is{" "}
                 {electionData?.status?.toLowerCase()}. The ballot structure is
                 now fixed and cannot be changed until the election ends.
@@ -394,9 +393,9 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
           <div className="flex items-center space-x-3">
             <div
               className="p-2 rounded-lg"
-              style={{ backgroundColor: "#cc910d1a" }}
+              style={{ backgroundColor: "#2ecc711a" }}
             >
-              <Settings className="h-5 w-5" style={{ color: "#cc910d" }} />
+              <Settings className="h-5 w-5" style={{ color: "#2ecc71" }} />
             </div>
             <div>
               <p className="text-sm text-gray-600">Total Portfolios</p>
@@ -423,8 +422,8 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
 
         <Card className="p-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <CheckCircle className="h-5 w-5 text-blue-600" />
+            <div className="p-2 bg-green-100 bg-opacity-10 rounded-lg">
+              <CheckCircle className="h-5 w-5 text-[#2ecc71]" />
             </div>
             <div>
               <p className="text-sm text-gray-600">Ready Portfolios</p>
@@ -444,12 +443,12 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
           </h3>
           <div className="flex items-center space-x-2">
             {hasUnsavedChanges && (
-              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
+              <Badge className="bg-green-100 text-green-800 border-green-200">
                 Unsaved Changes
               </Badge>
             )}
             {isElectionLocked && (
-              <Badge className="bg-orange-100 text-orange-800 border-orange-200">
+              <Badge className="bg-green-200 text-green-900 border-green-400">
                 <Lock className="h-3 w-3 mr-1" />
                 Locked
               </Badge>
@@ -482,14 +481,14 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
 
       {/* Warnings */}
       {portfoliosWithCandidates < portfolios.length && (
-        <Card className="p-4 bg-orange-50 border-orange-200">
+        <Card className="p-4 bg-green-50 border-green-200">
           <div className="flex items-start space-x-3">
-            <AlertCircle className="h-5 w-5 text-orange-600 mt-0.5" />
+            <AlertCircle className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-orange-900">
+              <h4 className="text-sm font-medium text-green-900">
                 Incomplete Ballot Setup
               </h4>
-              <p className="text-sm text-orange-700 mt-1">
+              <p className="text-sm text-green-700 mt-1">
                 {portfolios.length - portfoliosWithCandidates} portfolio
                 {portfolios.length - portfoliosWithCandidates !== 1
                   ? "s have"
@@ -503,14 +502,14 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
       )}
 
       {/* Instructions */}
-      <Card className="p-4 bg-blue-50 border-blue-200">
+      <Card className="p-4 bg-green-50 border-green-200">
         <div className="flex items-start space-x-3">
-          <Calendar className="h-5 w-5 text-blue-600 mt-0.5" />
+          <Calendar className="h-5 w-5 text-green-600 mt-0.5" />
           <div>
-            <h4 className="text-sm font-medium text-blue-900">
+            <h4 className="text-sm font-medium text-green-900">
               Ballot Setup Instructions
             </h4>
-            <div className="text-sm text-blue-700 mt-1 space-y-1">
+            <div className="text-sm text-green-700 mt-1 space-y-1">
               <p>
                 • Click and drag portfolios by the grip handle (⋮⋮) to reorder
                 them as they will appear on the ballot

@@ -28,7 +28,7 @@ const EmptyApprovalsState: React.FC<EmptyApprovalsStateProps> = ({
           </p>
           <button
             onClick={onClearFilters}
-            className="px-4 py-2 bg-[#cc910d] text-white rounded-lg hover:bg-[#b8820c] transition-colors"
+            className="px-4 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#1e8e3e] transition-colors"
           >
             Clear search
           </button>
@@ -40,7 +40,7 @@ const EmptyApprovalsState: React.FC<EmptyApprovalsStateProps> = ({
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
       <div className="max-w-md mx-auto">
-        <FileText className="w-12 h-12 mx-auto mb-4 text-[#cc910d]" />
+        <FileText className="w-12 h-12 mx-auto mb-4 text-[#2ecc71]" />
         <h3 className="text-lg font-medium text-gray-900 mb-2">
           No approvals yet
         </h3>

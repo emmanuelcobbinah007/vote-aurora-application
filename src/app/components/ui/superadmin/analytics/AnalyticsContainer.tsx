@@ -15,8 +15,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
 } from "recharts";
 import {
   TrendingUp,
@@ -61,7 +59,7 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
       case "CLOSED":
         return "bg-gray-100 text-gray-800 border-gray-200";
       case "APPROVED":
-        return "bg-amber-100 text-amber-800 border-amber-200";
+        return "bg-green-100 text-green-800 border-green-200";
       case "PENDING_APPROVAL":
         return "bg-gray-100 text-gray-600 border-gray-200";
       case "DRAFT":
@@ -113,12 +111,12 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
     {
       name: "Active",
       value: adaptedData.activeElections || 0,
-      color: "#D97706",
+      color: "#2ecc71",
     },
     {
       name: "Completed",
       value: adaptedData.completedElections || 0,
-      color: "#92400E",
+      color: "#1e8e3e",
     },
     {
       name: "Upcoming",
@@ -126,7 +124,7 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
         (adaptedData.totalElections || 0) -
         (adaptedData.activeElections || 0) -
         (adaptedData.completedElections || 0),
-      color: "#F59E0B",
+      color: "#22a045",
     },
   ];
 
@@ -158,7 +156,7 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
       {/* Header */}
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-amber-700 mt-2">
+          <p className="text-[#2ecc71] mt-2">
             Comprehensive insights into all elections
           </p>
         </div>
@@ -202,8 +200,8 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
                   {adaptedData.activeElections || 0}
                 </p>
               </div>
-              <div className="h-12 w-12 bg-amber-100 rounded-lg flex items-center justify-center">
-                <Activity className="h-6 w-6 text-amber-600" />
+              <div className="h-12 w-12 bg-[#2ecc71]/20 rounded-lg flex items-center justify-center">
+                <Activity className="h-6 w-6 text-[#2ecc71]" />
               </div>
             </div>
           </CardContent>
@@ -236,8 +234,8 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
                   {adaptedData.averageTurnout?.toFixed(1) || "0.0"}%
                 </p>
               </div>
-              <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-orange-600" />
+              <div className="h-12 w-12 bg-[#2ecc71]/20 rounded-lg flex items-center justify-center">
+                <TrendingUp className="h-6 w-6 text-[#2ecc71]" />
               </div>
             </div>
           </CardContent>
@@ -282,7 +280,7 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
                   labelLine={false}
                   label={({ name, value }) => `${name}: ${value}`}
                   outerRadius={80}
-                  fill="#F59E0B"
+                  fill="#2ecc71"
                   dataKey="value"
                 >
                   {electionStatusData.map((entry, index) => (
@@ -472,7 +470,7 @@ const AnalyticsContainer: React.FC<AnalyticsContainerProps> = ({
                         </span>
                         <div className="w-16 bg-gray-200 rounded-full h-2">
                           <div
-                            className="bg-amber-500 h-2 rounded-full"
+                            className="bg-[#2ecc71] h-2 rounded-full"
                             style={{
                               width: `${Math.min(
                                 electionSummary.turnoutPercentage,

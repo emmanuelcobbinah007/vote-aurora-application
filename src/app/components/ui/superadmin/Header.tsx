@@ -3,14 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   Search,
-  Bell,
   X,
-  Clock,
   Vote,
-  Users,
   Shield,
-  Crown,
-  FileText,
   PieChart,
   ClipboardList,
   Settings,
@@ -201,13 +196,13 @@ const Header = () => {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "page":
-        return "text-amber-700 bg-amber-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
       case "action":
-        return "text-emerald-600 bg-emerald-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
       case "recent":
-        return "text-purple-600 bg-purple-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
       default:
-        return "text-gray-600 bg-gray-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
     }
   };
 
@@ -306,7 +301,7 @@ const Header = () => {
               className="w-80 pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white text-sm"
               style={
                 {
-                  "--tw-ring-color": "#cc910d",
+                  "--tw-ring-color": "#2ecc71",
                 } as React.CSSProperties
               }
             />

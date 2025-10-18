@@ -8,7 +8,6 @@ import {
   Settings,
   Edit,
   Trash2,
-  FileText,
   AlertCircle,
   Users,
   RefreshCw,
@@ -123,7 +122,7 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-            <Settings className="h-6 w-6 mr-2" style={{ color: "#cc910d" }} />
+            <Settings className="h-6 w-6 mr-2" style={{ color: "#2ecc71" }} />
             Portfolio Management
           </h2>
           <p className="text-gray-600 mt-1">
@@ -147,7 +146,7 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
             disabled={isElectionLocked}
             className="text-white flex items-center space-x-2"
             style={{
-              backgroundColor: isElectionLocked ? "#9ca3af" : "#cc910d",
+              backgroundColor: isElectionLocked ? "#9ca3af" : "#2ecc71",
             }}
           >
             <Plus className="h-4 w-4" />
@@ -158,14 +157,14 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
 
       {/* Election Locked Warning */}
       {isElectionLocked && (
-        <Card className="p-4 bg-orange-50 border-orange-200">
+        <Card className="p-4 bg-green-50 border-green-200">
           <div className="flex items-start space-x-3">
-            <Lock className="h-5 w-5 text-orange-600 mt-0.5" />
+            <Lock className="h-5 w-5 text-green-600 mt-0.5" />
             <div>
-              <h4 className="text-sm font-medium text-orange-900">
+              <h4 className="text-sm font-medium text-green-900">
                 Portfolio Management Locked
               </h4>
-              <p className="text-sm text-orange-700 mt-1">
+              <p className="text-sm text-green-700 mt-1">
                 Portfolio modifications are not allowed while the election is{" "}
                 {electionData?.status?.toLowerCase()}. You can view portfolios
                 but cannot add, edit, or delete them until the election ends.
@@ -205,7 +204,7 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
             disabled={isElectionLocked}
             className="text-white"
             style={{
-              backgroundColor: isElectionLocked ? "#9ca3af" : "#cc910d",
+              backgroundColor: isElectionLocked ? "#9ca3af" : "#2ecc71",
             }}
           >
             <Plus className="h-4 w-4 mr-2" />
@@ -281,14 +280,14 @@ const PortfolioManager: React.FC<PortfolioManagerProps> = ({
       )}
 
       {/* Info Card */}
-      <Card className="p-4 bg-blue-50 border-blue-200">
+      <Card className="p-4 bg-green-50 border-green-200">
         <div className="flex items-start space-x-3">
-          <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+          <AlertCircle className="h-5 w-5 text-green-600 mt-0.5" />
           <div>
-            <h4 className="text-sm font-medium text-blue-900">
+            <h4 className="text-sm font-medium text-green-900">
               About Portfolios
             </h4>
-            <p className="text-sm text-blue-700 mt-1">
+            <p className="text-sm text-green-700 mt-1">
               Portfolios represent the different positions or roles that
               candidates can run for in your election. Examples include
               President, Vice President, Secretary, Treasurer, etc. Each
