@@ -13,9 +13,16 @@ interface PreferencesFormProps {
   onSuccess?: () => void;
 }
 
-const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormProps) => {
+const PreferencesForm = ({
+  adminId,
+  adminProfile,
+  onSuccess,
+}: PreferencesFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   interface FormValues {
     full_name: string;
@@ -34,12 +41,17 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
       }
       if (!values.email) {
         errors.email = "Email is required";
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+      ) {
         errors.email = "Invalid email address";
       }
       return errors;
     },
-    onSubmit: async (values: FormValues, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
+    onSubmit: async (
+      values: FormValues,
+      { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+    ) => {
       try {
         setIsSubmitting(true);
         setMessage(null);
@@ -49,13 +61,15 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
           email: values.email,
         });
 
-        setMessage({ type: 'success', text: 'Profile updated successfully!' });
+        setMessage({ type: "success", text: "Profile updated successfully!" });
         onSuccess?.();
       } catch (error: any) {
         console.error("Error updating profile:", error);
-        setMessage({ 
-          type: 'error', 
-          text: error.response?.data?.error || 'Failed to update profile. Please try again.' 
+        setMessage({
+          type: "error",
+          text:
+            error.response?.data?.error ||
+            "Failed to update profile. Please try again.",
         });
       } finally {
         setIsSubmitting(false);
@@ -65,15 +79,20 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="bg-white shadow-sm rounded-lg p-4 md:col-span-2">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="bg-white shadow-sm rounded-lg p-4 md:col-span-2"
+    >
       <h2 className="text-lg font-medium mb-3">Profile Information</h2>
-      
+
       {message && (
-        <div className={`p-3 rounded-md mb-4 text-sm ${
-          message.type === 'success' 
-            ? 'bg-green-50 text-green-700 border border-green-200' 
-            : 'bg-red-50 text-red-700 border border-red-200'
-        }`}>
+        <div
+          className={`p-3 rounded-md mb-4 text-sm ${
+            message.type === "success"
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+          }`}
+        >
           {message.text}
         </div>
       )}
@@ -98,7 +117,9 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
         </div>
 
         <div>
-          <label className="text-sm font-medium block mb-1">Email Address</label>
+          <label className="text-sm font-medium block mb-1">
+            Email Address
+          </label>
           <input
             name="email"
             type="email"
