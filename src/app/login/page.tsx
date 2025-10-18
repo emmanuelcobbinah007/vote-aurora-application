@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import UPSA_crest from "../../../public/VoteAurora.png";
+import voteAurora_crest from "../../../public/VoteAurora.png";
 import loginPageImage from "../../../public/login_page_image.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -203,7 +203,7 @@ const page = () => {
         <div className="flex-1 h-screen mx-4 my-3 w-[50%]">
           <div className="flex items-center space-x-3 mx-4 mt-3 opacity-0 animate-fade-in-up">
             <Image
-              src={UPSA_crest}
+              src={voteAurora_crest}
               alt="UPSA University Crest"
               width={160}
               height={55}

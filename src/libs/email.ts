@@ -172,7 +172,7 @@ class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1>VoteUPSA</h1>
+            <h1>VoteAurora</h1>
           </div>
           <div class="content">
             <h2>${title}</h2>
@@ -187,7 +187,7 @@ class EmailService {
             }
           </div>
           <div class="footer">
-            <p>&copy; ${new Date().getFullYear()} VoteUPSA - University of Professional Studies, Accra</p>
+            <p>&copy; ${new Date().getFullYear()} VoteAurora - University of Professional Studies, Accra</p>
             <p>Secure • Anonymous • Verified</p>
           </div>
         </div>
@@ -370,7 +370,7 @@ class EmailService {
       <body>
         <div class="container">
           <div class="header">
-            <h1>VoteUPSA</h1>
+            <h1>VoteAurora</h1>
             <div class="subtitle">University of Professional Studies, Accra</div>
           </div>
           <div class="content">
@@ -387,7 +387,7 @@ class EmailService {
             ${note ? `<div class="warning-box"><p>${note}</p></div>` : ""}
           </div>
           <div class="footer">
-            <p>&copy; ${new Date().getFullYear()} VoteUPSA - University of Professional Studies, Accra</p>
+            <p>&copy; ${new Date().getFullYear()} VoteAurora - University of Professional Studies, Accra</p>
             <p>Secure • Anonymous • Verified</p>
           </div>
         </div>
@@ -405,7 +405,7 @@ class EmailService {
     try {
       const mailOptions = {
         from: {
-          name: process.env.FROM_NAME || "VoteUPSA",
+          name: process.env.FROM_NAME || "VoteAurora",
           address: process.env.FROM_EMAIL || process.env.SMTP_USER || "",
         },
         to,
@@ -428,10 +428,10 @@ class EmailService {
     role: string,
     inviterName?: string
   ): Promise<void> {
-    const subject = `Invitation to Join VoteUPSA as ${role}`;
+    const subject = `Invitation to Join VoteAurora as ${role}`;
     const body = `
       <p>Hello,</p>
-      <p>You have been invited to join <strong>VoteUPSA</strong> as a <strong><span class="badge">${role}</span></strong>.
+      <p>You have been invited to join <strong>VoteAurora</strong> as a <strong><span class="badge">${role}</span></strong>.
       ${
         inviterName
           ? ` This invitation was sent by <strong>${inviterName}</strong>.`
@@ -439,23 +439,23 @@ class EmailService {
       }</p>
       
       <div class="info-box">
-        <h3>About VoteUPSA</h3>
-        <p>VoteUPSA is the official electronic voting system for the University of Professional Studies, Accra. As a ${role.toLowerCase()}, you will have access to manage and oversee election processes.</p>
+        <h3>About VoteAurora</h3>
+        <p>VoteAurora is the official electronic voting system for the University of Professional Studies, Accra. As a ${role.toLowerCase()}, you will have access to manage and oversee election processes.</p>
       </div>
       
       <p>Please click the button below to accept your invitation and set up your account:</p>
     `;
     const html = this.getBaseTemplate(
-      `Welcome to VoteUPSA`,
+      `Welcome to VoteAurora`,
       body,
       "Accept Invitation",
       invitationLink,
       "This invitation link is unique to you and will expire in 7 days. Please do not share it with others."
     );
     const text = `
-VoteUPSA - ${role} Invitation
+VoteAurora - ${role} Invitation
 
-You have been invited to join VoteUPSA as a ${role}.
+You have been invited to join VoteAurora as a ${role}.
 ${inviterName ? `Invited by: ${inviterName}` : ""}
 
 Accept your invitation: ${invitationLink}
@@ -469,10 +469,10 @@ Link expires in 7 days.
     resetLink: string,
     userName?: string
   ): Promise<void> {
-    const subject = "Password Reset Request - VoteUPSA";
+    const subject = "Password Reset Request - VoteAurora";
     const body = `
       <p>Hello${userName ? " " + userName : ""},</p>
-      <p>We received a request to reset your VoteUPSA password. If you didn't make this request, you can safely ignore this email.</p>
+      <p>We received a request to reset your VoteAurora password. If you didn't make this request, you can safely ignore this email.</p>
       
       <div class="warning-box">
         <h3>Security Notice</h3>
@@ -489,7 +489,7 @@ Link expires in 7 days.
       "If you did not request this password reset, please contact support immediately."
     );
     const text = `
-Password Reset Request - VoteUPSA
+Password Reset Request - VoteAurora
 
 Hello${userName ? " " + userName : ""},
 
@@ -512,7 +512,7 @@ This link will expire in 1 hour. If you did not request this, please ignore this
     },
     reviewLink: string
   ): Promise<void> {
-    const subject = "New Election Awaiting Your Approval - VoteUPSA";
+    const subject = "New Election Awaiting Your Approval - VoteAurora";
     const body = `
       <p>Hello <strong>${approverName}</strong>,</p>
       <p>A new election has been submitted for your approval and requires your review.</p>
@@ -561,7 +561,7 @@ This link will expire in 1 hour. If you did not request this, please ignore this
       "This election is currently pending your approval. Please review it as soon as possible."
     );
     const text = `
-New Election Awaiting Your Approval - VoteUPSA
+New Election Awaiting Your Approval - VoteAurora
 
 Hello ${approverName},
 
@@ -682,7 +682,7 @@ Review the election: ${reviewLink}
     );
 
     const text = `
-Election ${actionInfo.status} - VoteUPSA
+Election ${actionInfo.status} - VoteAurora
 
 Hello ${recipientName},
 
@@ -714,7 +714,7 @@ View your dashboard: ${dashboardLink}
     assignedBy: string,
     dashboardLink: string
   ): Promise<void> {
-    const subject = "Election Assignment - VoteUPSA";
+    const subject = "Election Assignment - VoteAurora";
     const body = `
       <p>Hello <strong>${adminName}</strong>,</p>
       <p>You have been assigned to manage an election.</p>
@@ -745,7 +745,7 @@ View your dashboard: ${dashboardLink}
     );
 
     const text = `
-Election Assignment - VoteUPSA
+Election Assignment - VoteAurora
 
 Hello ${adminName},
 
@@ -769,7 +769,7 @@ View election: ${dashboardLink}
     electionTitle: string,
     unassignedBy: string
   ): Promise<void> {
-    const subject = "Election Unassignment - VoteUPSA";
+    const subject = "Election Unassignment - VoteAurora";
     const body = `
       <p>Hello <strong>${adminName}</strong>,</p>
       <p>You have been unassigned from managing the election "${electionTitle}".</p>
@@ -786,7 +786,7 @@ View election: ${dashboardLink}
     const html = this.getSimpleTemplate("Election Unassignment", body);
 
     const text = `
-Election Unassignment - VoteUPSA
+Election Unassignment - VoteAurora
 
 Hello ${adminName},
 

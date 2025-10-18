@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import UPSA_crest from "../../../../public/UPSA_crest.png";
+import voteAurora_crest from "../../../../public/voteAurora_crest.png";
 
 const VoteSuccessPage = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const VoteSuccessPage = () => {
         {/* University Logo */}
         <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-green-200">
           <Image
-            src={UPSA_crest}
+            src={voteAurora_crest}
             alt="UPSA University Crest"
             width={64}
             height={64}
@@ -117,7 +117,7 @@ const VoteSuccessPage = () => {
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-200">
           <p className="text-xs text-gray-400">
-            VoteUPSA • University of Professional Studies, Accra
+            VoteAurora • University of Professional Studies, Accra
           </p>
           <p className="text-xs text-gray-400 mt-1">
             Secure Electronic Voting System

@@ -335,7 +335,7 @@ export class ElectionNotificationService {
     );
 
     const text = `
-VoteUPSA
+VoteAurora
 Election Closed: ${election.title}
 
 Dear ${recipient.full_name},

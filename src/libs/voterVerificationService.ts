@@ -466,7 +466,7 @@ export class VoterVerificationService {
     <body>
       <div class="container">
         <div class="header">
-          <h1>VoteUPSA</h1>
+          <h1>VoteAurora</h1>
           <div class="subtitle">University of Professional Studies, Accra</div>
         </div>
         <div class="content">
@@ -528,7 +528,7 @@ export class VoterVerificationService {
           <p style="text-align: center; color: #6b7280; margin-top: 32px;">Ready to vote? Return to your browser to continue.</p>
         </div>
         <div class="footer">
-          <p>&copy; ${new Date().getFullYear()} VoteUPSA - University of Professional Studies, Accra</p>
+          <p>&copy; ${new Date().getFullYear()} VoteAurora - University of Professional Studies, Accra</p>
           <p>Secure • Anonymous • Verified</p>
         </div>
       </div>
@@ -537,7 +537,7 @@ export class VoterVerificationService {
     `;
 
     const text = `
-VoteUPSA - Voting Verification Required
+VoteAurora - Voting Verification Required
 ${tokenRecord.election.title}
 
 Hello ${tokenRecord.student_id}! 
@@ -566,10 +566,10 @@ Didn't request this code? Contact the election administrators immediately.
 Ready to Vote? Return to Your Browser
 
 ---
-VoteUPSA - University Electronic Voting System
+VoteAurora - University Electronic Voting System
 Secure • Anonymous • Verified
 
-© ${new Date().getFullYear()} VoteUPSA. Ensuring democratic participation through secure technology.
+© ${new Date().getFullYear()} VoteAurora. Ensuring democratic participation through secure technology.
     `;
 
     return { html, text };

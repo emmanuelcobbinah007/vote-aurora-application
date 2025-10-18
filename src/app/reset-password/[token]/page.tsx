@@ -5,7 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export default function ResetPasswordPage({ params }: { params: { token: string } }) {
+export default function ResetPasswordPage({
+  params,
+}: {
+  params: { token: string };
+}) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +30,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
     setIsLoading(true);
     setMessage("");
     setIsError(false);
-    
+
     // Validation
     if (password.length < 8) {
       setIsError(true);
@@ -53,7 +57,9 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
 
       if (response.ok) {
         setIsSuccess(true);
-        setMessage(data.message || "Your password has been reset successfully.");
+        setMessage(
+          data.message || "Your password has been reset successfully."
+        );
       } else {
         setIsError(true);
         setMessage(data.error || "Failed to reset password. Please try again.");
@@ -72,7 +78,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
       <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
         <div className="flex flex-col items-center">
           <Image
-            src="/UPSA_crest.png"
+            src="/voteAurora_crest.png"
             alt="UPSA Logo"
             width={100}
             height={100}
@@ -91,15 +97,13 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
             <div className="bg-green-50 border-l-4 border-green-500 p-4">
               <div className="flex">
                 <div className="ml-3">
-                  <p className="text-sm text-green-700">
-                    {message}
-                  </p>
+                  <p className="text-sm text-green-700">{message}</p>
                 </div>
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <Link 
-                href="/login" 
+              <Link
+                href="/login"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700"
               >
                 Go to Login
@@ -110,7 +114,10 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="rounded-md shadow-sm space-y-4">
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   New Password
                 </label>
                 <input
@@ -131,7 +138,10 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
                 </p>
               </div>
               <div>
-                <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="confirm-password"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Confirm New Password
                 </label>
                 <input
@@ -153,9 +163,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
               <div className="bg-red-50 border-l-4 border-red-500 p-4">
                 <div className="flex">
                   <div className="ml-3">
-                    <p className="text-sm text-red-700">
-                      {message}
-                    </p>
+                    <p className="text-sm text-red-700">{message}</p>
                   </div>
                 </div>
               </div>
@@ -172,9 +180,25 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
                 {isLoading ? (
                   <>
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                     </span>
                     Resetting...

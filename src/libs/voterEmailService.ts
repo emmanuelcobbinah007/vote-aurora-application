@@ -313,7 +313,7 @@ export class VoterEmailService {
     );
 
     const text = `
-VoteUPSA - ${election.title}
+VoteAurora - ${election.title}
 
 Hello ${token.student_id}!
 
@@ -346,7 +346,7 @@ Important Security Information:
 Need help? Contact the election administrators.
 
 ---
-VoteUPSA - University of Professional Studies, Accra
+VoteAurora - University of Professional Studies, Accra
 Secure • Anonymous • Verified
     `.trim();
 

@@ -6,8 +6,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
 import { Mail, User, Key, Clock, RefreshCw, CheckCircle } from "lucide-react";
-import UPSA_crest from "../../../../public/UPSA_crest.png";
-import loginPageImage from "../../../../public/login_page_image1.jpg";
+import voteAurora_crest from "../../../../public/voteAurora_crest.png";
+import loginPageImage from "../../../../public/login_page_image.png";
 
 interface VoterVerificationFormProps {
   verificationData: {
@@ -207,13 +207,13 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
         <div className="flex-1 h-screen mx-4 my-3 w-[50%]">
           <div className="flex items-center space-x-3 mx-4 mt-3 opacity-0 animate-fade-in-up">
             <Image
-              src={UPSA_crest}
+              src={voteAurora_crest}
               alt="UPSA University Crest"
               width={30}
               height={30}
               className="object-contain mr-1"
             />{" "}
-            <p className="text-lg font-semibold">VoteUPSA</p>
+            <p className="text-lg font-semibold">VoteAurora</p>
           </div>
           <div className="flex flex-col justify-center h-[90%] w-[85%] md:w-[70%] mx-auto">
             <div className="mb-9 opacity-0 animate-fade-in-up delay-200">
@@ -457,22 +457,7 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
           />
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/60 bg-opacity-60 backdrop-blur-sm"></div>
-
-          {/* Content */}
-          <div className="relative text-center text-white z-10">
-            <Image
-              src={UPSA_crest}
-              alt="UPSA University Crest"
-              width={120}
-              height={120}
-              className="object-contain mx-auto mb-6 opacity-90"
-            />
-            <h3 className="text-2xl font-light mb-2">
-              University of Professional Studies, Accra
-            </h3>
-            <p className="text-gray-200">Secure Electronic Voting System</p>
-          </div>
+          <div className="absolute inset-0 bg-black/40 bg-opacity-60 backdrop-blur-sm"></div>
         </div>
       </div>
     </>

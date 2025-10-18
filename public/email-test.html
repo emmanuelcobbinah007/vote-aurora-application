@@ -1,112 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Email Test Tool - VoteUPSA</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f5f7f9;
-    }
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px 30px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      color: #2563eb;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      padding: 12px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #1d4ed8;
-    }
-    .result {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 4px;
-    }
-    .success {
-      background-color: #ecfdf5;
-      color: #065f46;
-    }
-    .error {
-      background-color: #fef2f2;
-      color: #b91c1c;
-    }
-    pre {
-      overflow-x: auto;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      background-color: #f9fafb;
-      border-radius: 4px;
-      padding: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>Email Configuration Test</h1>
-    <p>Test your email configuration by checking the connection and sending a test email.</p>
-    
-    <h2>1. Test Connection</h2>
-    <button id="testConnection">Test Email Connection</button>
-    <div id="connectionResult"></div>
-    
-    <h2>2. Send Test Email</h2>
-    <form id="emailForm">
-      <div>
-        <label for="emailTo">Recipient Email:</label>
-        <input type="email" id="emailTo" name="to" required placeholder="Enter recipient email address">
-      </div>
-      <div>
-        <label for="emailSubject">Subject (optional):</label>
-        <input type="text" id="emailSubject" name="subject" placeholder="Test Email from VoteUPSA">
-      </div>
-      <button type="submit">Send Test Email</button>
-    </form>
-    <div id="emailResult"></div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Test Tool - VoteAurora</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f5f7f9;
+      }
+      .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px 30px;
+        margin-bottom: 20px;
+      }
+      h1 {
+        color: #2563eb;
+      }
+      input,
+      textarea,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #1d4ed8;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      .success {
+        background-color: #ecfdf5;
+        color: #065f46;
+      }
+      .error {
+        background-color: #fef2f2;
+        color: #b91c1c;
+      }
+      pre {
+        overflow-x: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        background-color: #f9fafb;
+        border-radius: 4px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Email Configuration Test</h1>
+      <p>
+        Test your email configuration by checking the connection and sending a
+        test email.
+      </p>
 
-  <script>
-    document.getElementById('testConnection').addEventListener('click', async () => {
-      const resultDiv = document.getElementById('connectionResult');
-      resultDiv.innerHTML = '<p>Testing connection...</p>';
-      
-      try {
-        const response = await fetch('/api/email/test', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          resultDiv.innerHTML = `
+      <h2>1. Test Connection</h2>
+      <button id="testConnection">Test Email Connection</button>
+      <div id="connectionResult"></div>
+
+      <h2>2. Send Test Email</h2>
+      <form id="emailForm">
+        <div>
+          <label for="emailTo">Recipient Email:</label>
+          <input
+            type="email"
+            id="emailTo"
+            name="to"
+            required
+            placeholder="Enter recipient email address"
+          />
+        </div>
+        <div>
+          <label for="emailSubject">Subject (optional):</label>
+          <input
+            type="text"
+            id="emailSubject"
+            name="subject"
+            placeholder="Test Email from VoteAurora"
+          />
+        </div>
+        <button type="submit">Send Test Email</button>
+      </form>
+      <div id="emailResult"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("testConnection")
+        .addEventListener("click", async () => {
+          const resultDiv = document.getElementById("connectionResult");
+          resultDiv.innerHTML = "<p>Testing connection...</p>";
+
+          try {
+            const response = await fetch("/api/email/test", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              resultDiv.innerHTML = `
             <div class="result success">
               <h3>✅ Connection Successful</h3>
               <p>${data.message}</p>
@@ -115,75 +134,77 @@
               <p><strong>From Email:</strong> ${data.from_email}</p>
             </div>
           `;
-        } else {
-          resultDiv.innerHTML = `
+            } else {
+              resultDiv.innerHTML = `
             <div class="result error">
               <h3>❌ Connection Failed</h3>
               <p>${data.error}</p>
-              <p>${data.details || ''}</p>
+              <p>${data.details || ""}</p>
             </div>
           `;
-        }
-      } catch (error) {
-        resultDiv.innerHTML = `
+            }
+          } catch (error) {
+            resultDiv.innerHTML = `
           <div class="result error">
             <h3>❌ Error</h3>
             <p>Failed to test email connection. Check if the server is running.</p>
             <pre>${error.message}</pre>
           </div>
         `;
-      }
-    });
-
-    document.getElementById('emailForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const resultDiv = document.getElementById('emailResult');
-      resultDiv.innerHTML = '<p>Sending email...</p>';
-      
-      const formData = new FormData(e.target);
-      const emailData = {
-        to: formData.get('to'),
-        subject: formData.get('subject') || 'Test Email from VoteUPSA'
-      };
-      
-      try {
-        const response = await fetch('/api/email/test', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(emailData)
+          }
         });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-          resultDiv.innerHTML = `
+
+      document
+        .getElementById("emailForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const resultDiv = document.getElementById("emailResult");
+          resultDiv.innerHTML = "<p>Sending email...</p>";
+
+          const formData = new FormData(e.target);
+          const emailData = {
+            to: formData.get("to"),
+            subject: formData.get("subject") || "Test Email from VoteAurora",
+          };
+
+          try {
+            const response = await fetch("/api/email/test", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(emailData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              resultDiv.innerHTML = `
             <div class="result success">
               <h3>✅ Email Sent Successfully</h3>
               <p>An email has been sent to <strong>${data.to}</strong> with subject "${data.subject}".</p>
               <p>Check the recipient's inbox to verify the email was received.</p>
             </div>
           `;
-        } else {
-          resultDiv.innerHTML = `
+            } else {
+              resultDiv.innerHTML = `
             <div class="result error">
               <h3>❌ Failed to Send Email</h3>
               <p>${data.error}</p>
-              <p>${data.details || ''}</p>
+              <p>${data.details || ""}</p>
             </div>
           `;
-        }
-      } catch (error) {
-        resultDiv.innerHTML = `
+            }
+          } catch (error) {
+            resultDiv.innerHTML = `
           <div class="result error">
             <h3>❌ Error</h3>
             <p>Failed to send test email. Check if the server is running.</p>
             <pre>${error.message}</pre>
           </div>
         `;
-      }
-    });
-  </script>
-</body>
+          }
+        });
+    </script>
+  </body>
 </html>

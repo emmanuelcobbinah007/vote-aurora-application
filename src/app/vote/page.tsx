@@ -3,7 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import UPSA_crest from "../../../public/UPSA_crest.png";
+import voteAurora_crest from "../../../public/voteAurora_crest.png";
 import VoterVerificationForm from "@/components/ui/voter/VoterVerificationForm";
 
 // Loading component
@@ -41,7 +41,7 @@ const VotingLoadingScreen = ({
       }}
     >
       <Image
-        src={UPSA_crest}
+        src={voteAurora_crest}
         alt="UPSA University Crest"
         width={80}
         height={80}
@@ -100,7 +100,7 @@ const VotingLoadingScreen = ({
         animation: "fadeInUp 0.8s ease-out",
       }}
     >
-      {error ? "Voting Access Error" : "VoteUPSA"}
+      {error ? "Voting Access Error" : "VoteAurora"}
     </h1>
 
     {/* Subtitle */}
