@@ -41,7 +41,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
             <Filter className="w-4 h-4" />
             <span>Filter</span>
             {activeFilterCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-[#2ecc71] text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {activeFilterCount}
               </span>
             )}
@@ -49,7 +49,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
 
           {/* Export Dropdown */}
           <div className="relative group">
-            <button className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+            <button className="flex items-center justify-center space-x-2 px-4 py-3 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors text-sm">
               <Download className="w-4 h-4" />
               <span>Export</span>
             </button>
@@ -81,7 +81,7 @@ const SearchAndFilters: React.FC<SearchAndFiltersProps> = ({
           placeholder="Search audit logs..."
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white text-sm md:text-base"
+          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent outline-none bg-white text-sm md:text-base"
         />
       </div>
     </div>

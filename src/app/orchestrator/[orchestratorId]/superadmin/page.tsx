@@ -179,7 +179,7 @@ const SuperAdminManagementPage = () => {
 
         <button
           onClick={handleModalClick}
-          className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+          className="flex items-center justify-center space-x-2 px-4 py-3 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors text-sm md:text-base"
         >
           {superAdmin ? (
             <>
@@ -202,7 +202,7 @@ const SuperAdminManagementPage = () => {
             <div className="flex items-start space-x-4 md:space-x-6">
               {/* Avatar with Crown */}
               <div className="relative">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 bg-[#2ecc71] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-semibold text-lg">
                     {superAdmin.full_name
                       .split(" ")
@@ -260,7 +260,7 @@ const SuperAdminManagementPage = () => {
           </p>
           <button
             onClick={handleModalClick}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 mx-auto"
+            className="px-6 py-3 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors flex items-center space-x-2 mx-auto"
           >
             <Plus className="w-5 h-5" />
             <span>Create SuperAdmin</span>
@@ -269,11 +269,11 @@ const SuperAdminManagementPage = () => {
       )}
 
       {/* Info Card */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-blue-900 mb-2">
+      <div className="bg-[#f0f9f4] border border-[#2ecc71] rounded-lg p-4">
+        <h3 className="text-sm font-medium text-[#065f46] mb-2">
           About System SuperAdmins
         </h3>
-        <p className="text-sm text-blue-700">
+        <p className="text-sm text-[#065f46]">
           The system superadmin has the ultimate authority across the entire
           platform. They can manage all orchestrators, approvers, elections, and
           system-wide settings. This role includes complete administrative

@@ -21,7 +21,7 @@ const QuickActionItem: React.FC<QuickAction> = ({
     href={href}
     className="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
   >
-    <Icon className="w-6 h-6 text-blue-600 mb-2" />
+    <Icon className="w-6 h-6 text-[#2ecc71] mb-2" />
     <span className="text-sm font-medium text-gray-900 text-center">
       {label}
     </span>

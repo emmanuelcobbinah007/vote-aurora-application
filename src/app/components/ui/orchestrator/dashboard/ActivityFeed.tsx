@@ -65,7 +65,7 @@ const ActivityFeedError: React.FC<{ onRetry: () => void }> = ({ onRetry }) => (
     </div>
     <button
       onClick={onRetry}
-      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+      className="px-4 py-2 bg-[#2ecc71] text-white rounded-md hover:bg-[#27ae60] transition-colors text-sm"
     >
       Retry
     </button>
@@ -94,7 +94,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
           </h2>
           <Link
             href={`/orchestrator/${orchestratorId}/audit-log`}
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-1 self-start"
+            className="text-sm text-[#2ecc71] hover:text-[#27ae60] font-medium flex items-center space-x-1 self-start"
           >
             <span>View All</span>
             <ChevronRight className="w-4 h-4" />

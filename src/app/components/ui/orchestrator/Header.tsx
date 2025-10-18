@@ -172,13 +172,13 @@ const Header = () => {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "page":
-        return "text-blue-600 bg-blue-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
       case "action":
-        return "text-green-600 bg-green-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
       case "recent":
-        return "text-purple-600 bg-purple-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
       default:
-        return "text-gray-600 bg-gray-50";
+        return "text-[#2ecc71] bg-[#e6fffa]";
     }
   };
 
@@ -260,7 +260,7 @@ const Header = () => {
               onChange={handleSearchChange}
               onKeyDown={handleKeyDown}
               onFocus={() => searchQuery && setIsSearchOpen(true)}
-              className="w-80 pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white text-sm"
+              className="w-80 pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white text-sm"
             />
             {searchQuery && (
               <button
@@ -296,7 +296,7 @@ const Header = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-2">
-                            <p className="text-sm font-medium text-gray-900 group-hover:text-blue-600">
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-[#2ecc71]">
                               {result.title}
                             </p>
                             <span

@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import UPSA_crest from "../../public/UPSA_crest.png";
+import voteAurora_crest from "../../public/voteAurora_crest.png";
 
 const page = () => {
   const router = useRouter();
@@ -76,10 +76,10 @@ const page = () => {
           boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
         }}
       >
-        {/* UPSA University Crest */}
+        {/* Vote Aurora Crest */}
         <Image
-          src={UPSA_crest}
-          alt="UPSA University Crest"
+          src={voteAurora_crest}
+          alt="Vote Aurora Crest"
           width={80}
           height={80}
           style={{
@@ -95,7 +95,7 @@ const page = () => {
           height: 60,
           marginBottom: 32,
           border: "4px solid #e9ecef",
-          borderTop: "4px solid #0d6efd",
+          borderTop: "4px solid #2ecc71",
           borderRadius: "50%",
           animation: "spin 1s linear infinite",
         }}
@@ -133,7 +133,7 @@ const page = () => {
           animation: "fadeInUp 0.8s ease-out",
         }}
       >
-        VoteUPSA Portal
+        VoteAurora Portal
       </h1>
 
       {/* Subtitle */}
@@ -164,7 +164,7 @@ const page = () => {
           style={{
             width: "100%",
             height: "100%",
-            backgroundColor: "#0d6efd",
+            backgroundColor: "#2ecc71",
             borderRadius: 2,
             animation: "progressBar 2s ease-in-out",
             transformOrigin: "left",

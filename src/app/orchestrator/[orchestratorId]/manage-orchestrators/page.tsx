@@ -8,11 +8,9 @@ import AddOrchestratorModal from "../../../components/ui/orchestrator/modals/Add
 import {
   Plus,
   Search,
-  Filter,
   MoreVertical,
   User,
   Mail,
-  Calendar,
   Shield,
   CheckCircle,
   XCircle,
@@ -167,13 +165,13 @@ const ManageOrchestratorsPage = () => {
             placeholder="Search orchestrators..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white text-sm md:text-base"
+            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent outline-none bg-white text-sm md:text-base"
           />
         </div>
 
         <button
           onClick={handleAddOrchestratorClick}
-          className="flex items-center w-[15%] ml-4 justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+          className="flex items-center w-[15%] ml-4 justify-center space-x-2 px-4 py-3 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors text-sm md:text-base"
         >
           <Plus className="w-4 h-4" />
           <span>Add Orchestrator</span>
@@ -206,7 +204,7 @@ const ManageOrchestratorsPage = () => {
             {!searchTerm && (
               <button
                 onClick={handleAddOrchestratorClick}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors"
               >
                 Add First Orchestrator
               </button>
@@ -228,7 +226,7 @@ const ManageOrchestratorsPage = () => {
                 <div className="flex flex-col space-y-4 md:flex-row md:items-start md:justify-between md:space-y-0">
                   <div className="flex items-start space-x-3 md:space-x-4">
                     {/* Avatar */}
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-[#2ecc71] rounded-full flex items-center justify-center flex-shrink-0">
                       <span className="text-white font-semibold text-sm md:text-base">
                         {orchestrator.name
                           .split(" ")

@@ -13,7 +13,7 @@ import {
   Settings,
   History,
 } from "lucide-react";
-import UPSA_crest from "../../../../../public/UPSA_crest.png";
+import VoteAurora_crest from "../../../../../public/voteAurora_crest.png";
 import { useParams } from "next/navigation";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -89,7 +89,7 @@ const Sidebar = () => {
           <p>Unable to load user data</p>
           <button
             onClick={() => router.push("/login")}
-            className="mt-2 text-blue-600 hover:text-blue-800"
+            className="mt-2 text-[#2ecc71] hover:text-[#27ae60]"
           >
             Return to Login
           </button>
@@ -221,7 +221,7 @@ const Sidebar = () => {
             {isCollapsed ? (
               <div className="flex justify-center w-full">
                 <Image
-                  src={UPSA_crest}
+                  src={VoteAurora_crest}
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
@@ -232,7 +232,7 @@ const Sidebar = () => {
               <>
                 <div className="flex items-center space-x-3">
                   <Image
-                    src={UPSA_crest}
+                    src={VoteAurora_crest}
                     alt="UPSA University Crest"
                     width={32}
                     height={32}

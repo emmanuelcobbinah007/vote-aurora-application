@@ -68,7 +68,7 @@ export const getActivityColor = (
       return "text-green-600 bg-green-50";
     case "VOTE_CAST":
     case "USER_LOGIN":
-      return "text-blue-600 bg-blue-50";
+      return "text-[#2ecc71] bg-[#e6f9f1]";
     case "USER_REGISTERED":
     case "CANDIDATE_REGISTERED":
       return "text-purple-600 bg-purple-50";

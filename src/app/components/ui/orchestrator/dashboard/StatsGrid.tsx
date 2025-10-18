@@ -16,8 +16,8 @@ const StatsGrid: React.FC<StatsGridProps> = ({ stats, orchestratorId }) => {
         title="Orchestrators"
         value={stats.orchestrators}
         icon={Settings}
-        iconColor="text-indigo-600"
-        iconBgColor="bg-indigo-100"
+        iconColor="text-[#2ecc71]"
+        iconBgColor="bg-[#eafaf1]"
       />
 
       <StatCard
@@ -58,9 +58,9 @@ const StatsGrid: React.FC<StatsGridProps> = ({ stats, orchestratorId }) => {
         title="Quick Access"
         value="View Audit Logs"
         icon={Eye}
-        iconColor="text-gray-600"
-        iconBgColor="bg-gray-100"
-        valueColor="text-blue-600 hover:text-blue-700"
+        iconColor="text-[#2ecc71]"
+        iconBgColor="bg-[#eafaf1]"
+        valueColor="text-[#2ecc71] hover:text-[#27ae60] cursor-pointer"
         href={`/orchestrator/${orchestratorId}/audit-log`}
       />
     </div>

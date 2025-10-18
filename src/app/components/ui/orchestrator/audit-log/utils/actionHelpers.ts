@@ -43,29 +43,29 @@ export const getActionIcon = (action: string) => {
 export const getActionColor = (action: string) => {
   switch (action) {
     case "USER_LOGIN":
-      return "text-blue-600 bg-blue-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "VOTE_CAST":
-      return "text-green-600 bg-green-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "ELECTION_CREATED":
-      return "text-purple-600 bg-purple-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "ELECTION_ENDED":
-      return "text-red-600 bg-red-50";
+      return "text-[#2ecc71] bg-[#fef3c7]";
     case "USER_APPROVED":
-      return "text-emerald-600 bg-emerald-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "CANDIDATE_REGISTERED":
-      return "text-orange-600 bg-orange-50";
+      return "text-[#2ecc71] bg-[#fef3c7]";
     case "RESULTS_PUBLISHED":
-      return "text-indigo-600 bg-indigo-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "INVITATION_SENT":
-      return "text-blue-600 bg-blue-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "INVITATION_ACCEPTED":
-      return "text-green-600 bg-green-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "ORCHESTRATOR_ACCOUNT_CREATED":
-      return "text-green-600 bg-green-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "SUPERADMIN_ACCOUNT_CREATED":
-      return "text-purple-600 bg-purple-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     case "ADMIN_ACCOUNT_CREATED":
-      return "text-blue-600 bg-blue-50";
+      return "text-[#2ecc71] bg-[#d1fae5]";
     default:
       return "text-gray-600 bg-gray-50";
   }

@@ -177,7 +177,7 @@ const ApproverManagementPage = () => {
 
         <button
           onClick={handleModalClick}
-          className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base"
+          className="flex items-center justify-center space-x-2 px-4 py-3 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors text-sm md:text-base"
         >
           {approver ? (
             <>
@@ -200,7 +200,7 @@ const ApproverManagementPage = () => {
             <div className="flex items-start space-x-4 md:space-x-6">
               {/* Avatar with Crown */}
               <div className="relative">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 bg-[#2ecc71] rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-white font-semibold text-lg">
                     {approver.full_name
                       .split(" ")
@@ -257,7 +257,7 @@ const ApproverManagementPage = () => {
           </p>
           <button
             onClick={handleModalClick}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 mx-auto"
+            className="px-6 py-3 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors flex items-center space-x-2 mx-auto"
           >
             <Plus className="w-5 h-5" />
             <span>Create Approver</span>
@@ -266,11 +266,11 @@ const ApproverManagementPage = () => {
       )}
 
       {/* Info Card */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h3 className="text-sm font-medium text-blue-900 mb-2">
+      <div className="bg-[#f0f9f4] border border-[#2ecc71] rounded-lg p-4">
+        <h3 className="text-sm font-medium text-[#065f46] mb-2">
           About Election Approvers
         </h3>
-        <p className="text-sm text-blue-700">
+        <p className="text-sm text-[#065f46]">
           The election approver is responsible for validating and authorizing
           elections before they go live. They review submitted elections, verify
           candidate details, and ensure all configurations meet institutional

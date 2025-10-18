@@ -136,7 +136,7 @@ const AuditLogPage = () => {
           {(searchTerm || activeFilterCount > 0) && (
             <button
               onClick={handleClearFilters}
-              className="ml-2 text-blue-600 hover:text-blue-800 font-medium"
+              className="ml-2 text-[#2ecc71] hover:text-[#27ae60] font-medium"
             >
               Clear all filters
             </button>
@@ -174,7 +174,7 @@ const AuditLogPage = () => {
             {(searchTerm || activeFilterCount > 0) && (
               <button
                 onClick={handleClearFilters}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                className="px-4 py-2 bg-[#2ecc71] text-white rounded-lg hover:bg-[#27ae60] transition-colors text-sm"
               >
                 Clear all filters
               </button>
