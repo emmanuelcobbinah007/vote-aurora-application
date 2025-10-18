@@ -1,0 +1,273 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  VOTER
+  ADMIN
+  SUPERADMIN
+  APPROVER
+  ORCHESTRATOR
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ElectionStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  LIVE
+  CLOSED
+  ARCHIVED
+}
+
+model Users {
+  id             String             @id @default(uuid())
+  full_name      String
+  email          String             @unique
+  password_hash  String
+  role           Role
+  status         UserStatus         @default(ACTIVE)
+  failed_login_attempts Int?         @default(0)
+  account_locked_until  DateTime?
+  last_login    DateTime?    
+  last_failed_attempt DateTime?
+  password_changed_at DateTime?
+  created_at     DateTime           @default(now())
+  updated_at     DateTime           @updatedAt
+
+  // Relations
+  createdElections  Elections[]       @relation("CreatedElections")
+  approvedElections Elections[]       @relation("ApprovedElections")
+  auditTrail        AuditTrail[]
+  invitationTokens  InvitationTokens[]
+
+  // New back-relations
+  adminAssignments  AdminAssignments[] @relation("AdminAssigned")
+  assignedElections AdminAssignments[] @relation("AssignedBy")
+}
+
+model Elections {
+  id          String          @id @default(uuid())
+  title       String
+  description String?
+  status      ElectionStatus  @default(DRAFT)
+  is_general  Boolean         @default(true)
+  department  String?         @default("General")
+  start_time  DateTime
+  end_time    DateTime
+  
+  // Voting process tracking
+  voter_list_generated   Boolean @default(false)
+  emails_sent           Boolean @default(false) 
+  total_eligible_voters Int?    // Count of students who can vote
+  
+  created_at  DateTime        @default(now())
+  updated_at  DateTime        @updatedAt
+
+  created_by  String
+  approved_by String?
+
+  // Relations
+  creator   Users @relation("CreatedElections", fields: [created_by], references: [id])
+  approver  Users? @relation("ApprovedElections", fields: [approved_by], references: [id])
+  portfolios Portfolios[]
+  candidates Candidates[]
+  ballots    Ballots[]
+  voterTokens VoterTokens[]
+  studentSessions StudentSessions[]
+  adminAssignments AdminAssignments[]
+  votes      Votes[]
+  results    Analytics[]
+  invitationTokens InvitationTokens[]
+  auditTrail AuditTrail[]
+}
+
+model Portfolios {
+  id          String     @id @default(uuid())
+  election_id String
+  title       String
+  description String?
+  created_at  DateTime   @default(now())
+
+  election   Elections @relation(fields: [election_id], references: [id])
+  candidates Candidates[]
+  ballots    Ballots[]
+votes      Votes[]
+  results    Analytics[]
+}
+
+model Candidates {
+  id          String     @id @default(uuid())
+  election_id String
+  portfolio_id String
+  full_name   String
+  photo_url   String?
+  manifesto   String?
+  created_at  DateTime   @default(now())
+
+  election  Elections  @relation(fields: [election_id], references: [id])
+  portfolio Portfolios @relation(fields: [portfolio_id], references: [id])
+  votes     Votes[]
+  results   Analytics[]
+}
+
+model Ballots {
+  id          String    @id @default(uuid())
+  election_id String
+  portfolio_id String
+  ballot_order Int
+  created_at   DateTime @default(now())
+
+  election  Elections  @relation(fields: [election_id], references: [id])
+  portfolio Portfolios @relation(fields: [portfolio_id], references: [id])
+
+  @@unique([election_id, portfolio_id])
+}
+
+model VoterTokens {
+  id                      String    @id @default(uuid())
+  voter_token            String    @unique
+  student_id             String    // University student ID
+  student_email          String    // University student email
+  election_id            String
+  
+  // Verification fields (missing from current schema)
+  verification_otp       String?   // OTP for identity verification
+  otp_expires_at         DateTime? // OTP expiration time
+  otp_attempts           Int       @default(0) // Track failed OTP attempts
+  otp_resend_count       Int       @default(0) // Track OTP resend requests
+  
+  // Access token fields (partially present)
+  access_token           String?   @unique  // Generated after verification
+  access_token_expires_at DateTime? // Access token expiration
+  verified_at            DateTime? // When student verified identity
+  
+  // Existing fields
+  voted_at               DateTime? // When vote was cast
+  used                   Boolean   @default(false)
+  ip_address             String?   // Security tracking
+  user_agent             String?   // Browser/device info
+  issued_at              DateTime  @default(now())
+  expires_at             DateTime  // Token expiration
+  created_at             DateTime  @default(now())
+  updated_at             DateTime  @updatedAt @default(now()) // Add default value
+
+  election  Elections @relation(fields: [election_id], references: [id])
+
+  @@unique([student_id, election_id]) // One token per student per election
+  @@map("VoterTokens")
+}
+
+model StudentSessions {
+  id                String    @id @default(uuid())
+  student_id        String    // University student ID
+  student_email     String    // University student email  
+  student_name      String    // University student name
+  election_id       String
+  access_token      String    @unique // From URL
+  session_status    String    @default("pending") // pending, verified, voted, expired
+  verification_otp  String?   // Current OTP
+  otp_sent_at       DateTime? // When OTP was sent
+  verified_at       DateTime? // When identity was verified
+  vote_started_at   DateTime? // When voting began
+  vote_completed_at DateTime? // When vote was submitted
+  ip_address        String?   // Security tracking
+  user_agent        String?   // Browser info
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  expires_at        DateTime  // Session expiration
+
+  election  Elections @relation(fields: [election_id], references: [id])
+
+  @@unique([student_id, election_id]) // One session per student per election
+}
+
+model AdminAssignments {
+  id          String    @id @default(uuid())
+  admin_id    String
+  election_id String
+  assigned_by String
+  created_at  DateTime  @default(now())
+
+  admin    Users     @relation("AdminAssigned", fields: [admin_id], references: [id])
+  election Elections @relation(fields: [election_id], references: [id])
+  assigner Users     @relation("AssignedBy", fields: [assigned_by], references: [id])
+}
+
+
+model Votes {
+  id           String     @id @default(uuid())
+  election_id  String
+  portfolio_id String
+  candidate_id String?    // Optional for abstentions
+  
+  // Anonymous voting - no direct student reference
+  // Student identity is verified through VoterTokens but not stored here
+  voter_token_hash String?  // Hashed version of access token for audit (optional)
+  
+  cast_at      DateTime   @default(now())
+
+  election  Elections  @relation(fields: [election_id], references: [id])
+  portfolio Portfolios @relation(fields: [portfolio_id], references: [id])
+  candidate Candidates? @relation(fields: [candidate_id], references: [id])
+}
+
+model Analytics {
+  id           String     @id @default(uuid())
+  election_id  String
+  portfolio_id String
+  candidate_id String?
+  votes_count  Int
+  percentage   Float
+  updated_at   DateTime   @updatedAt
+
+  election  Elections  @relation(fields: [election_id], references: [id])
+  portfolio Portfolios @relation(fields: [portfolio_id], references: [id])
+  candidate Candidates? @relation(fields: [candidate_id], references: [id])
+
+  @@unique([election_id, portfolio_id, candidate_id], name: "election_id_portfolio_id_candidate_id")
+}
+
+model AuditTrail {
+  id          String    @id @default(uuid())
+  user_id     String
+  election_id String?
+  action      String
+  metadata    Json
+  timestamp   DateTime  @default(now())
+
+  user     Users     @relation(fields: [user_id], references: [id])
+  election Elections? @relation(fields: [election_id], references: [id])
+}
+
+model InvitationTokens {
+  id          String      @id @default(uuid())
+  email       String      @unique
+  token       String      @unique
+  role        Role        @default(ORCHESTRATOR)
+  expires_at  DateTime
+  used        Boolean     @default(false)
+  created_at  DateTime    @default(now())
+  created_by  String?
+
+  election_id String?
+  creator     Users?      @relation(fields: [created_by], references: [id])
+  election    Elections?  @relation(fields: [election_id], references: [id])
+}

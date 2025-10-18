@@ -1,0 +1,20 @@
+// This is the University database schema file
+// Contains minimal schema needed for integration
+
+generator university_client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/university-prisma"
+}
+
+datasource university_db {
+  provider = "postgresql"
+  url      = env("UNIVERSITY_DATABASE_URL")
+}
+
+model departments {
+  id          Int     @id @default(autoincrement())
+  name        String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  is_active   Boolean  @default(true)
+}
