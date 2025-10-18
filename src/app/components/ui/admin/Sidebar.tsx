@@ -73,7 +73,7 @@ const Sidebar = () => {
         <div className="text-center text-gray-500">
           <div
             className="animate-spin rounded-full h-8 w-8 border-b-2 mx-auto mb-4"
-            style={{ borderBottomColor: "#cc910d" }}
+            style={{ borderBottomColor: "#2ecc71" }}
           ></div>
           <p>Signing out...</p>
         </div>
@@ -240,7 +240,7 @@ const Sidebar = () => {
                   />
                   <div className="transition-opacity duration-200">
                     <h1 className="text-lg font-semibold text-gray-900 leading-tight">
-                      VoteUPSA
+                      VoteAurora
                     </h1>
                     <p className="text-xs text-gray-500">Election Admin</p>
                   </div>
@@ -284,10 +284,10 @@ const Sidebar = () => {
                       className={`flex items-center cursor-pointer py-3 px-3 rounded-xl transition-all duration-200 group relative ${
                         isActive
                           ? "text-white shadow-sm"
-                          : "text-gray-700 hover:bg-amber-50 hover:text-amber-700"
+                          : "text-gray-700 hover:bg-green-50 hover:text-green-700"
                       }`}
                       style={{
-                        ...(isActive ? { backgroundColor: "#cc910d" } : {}),
+                        ...(isActive ? { backgroundColor: "#2ecc71" } : {}),
                       }}
                     >
                       <IconComponent className="w-5 h-5 flex-shrink-0" />
@@ -314,7 +314,7 @@ const Sidebar = () => {
           >
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: "#cc910d" }}
+              style={{ backgroundColor: "#2ecc71" }}
             >
               <span className="text-white text-sm font-semibold">
                 {session?.user?.name

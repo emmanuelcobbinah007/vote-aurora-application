@@ -18,7 +18,7 @@ const BallotOrderSection: React.FC<BallotOrderSectionProps> = ({
         <h2 className="text-xl font-bold text-gray-900">Ballot Order</h2>
         <span className="text-sm text-gray-500">Read-only for admins</span>
       </div>
-      
+
       <div className="space-y-2">
         {portfolios.map((portfolio, index) => (
           <div
@@ -37,7 +37,7 @@ const BallotOrderSection: React.FC<BallotOrderSectionProps> = ({
           </div>
         ))}
       </div>
-      
+
       {portfolios.length === 0 && (
         <p className="text-gray-500 text-center py-8">
           No portfolios available for this election.

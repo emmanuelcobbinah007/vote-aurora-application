@@ -87,7 +87,7 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
             value={formik.values.full_name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent"
             placeholder="Enter your full name"
           />
           {formik.touched.full_name && formik.errors.full_name && (
@@ -105,7 +105,7 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent"
             placeholder="Enter your email address"
           />
           {formik.touched.email && formik.errors.email && (
@@ -119,7 +119,7 @@ const PreferencesForm = ({ adminId, adminProfile, onSuccess }: PreferencesFormPr
           <Button
             type="submit"
             disabled={isSubmitting || !formik.isValid}
-            className="bg-[#cc910d] text-white hover:bg-amber-700 disabled:opacity-50"
+            className="bg-[#2ecc71] text-white hover:bg-[#1e8e3e] disabled:opacity-50"
           >
             {isSubmitting ? "Updating..." : "Update Profile"}
           </Button>

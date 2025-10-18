@@ -4,7 +4,6 @@ import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useReportsData } from "./hooks";
 import {
-  ReportsHeader,
   ElectionOverview,
   VotingProgress,
   CandidatePerformance,

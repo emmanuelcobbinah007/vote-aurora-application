@@ -263,7 +263,7 @@ const Sidebar = () => {
                       } py-3 rounded-xl transition-all duration-200 group relative ${
                         isActive
                           ? "bg-[#2ecc71] text-white shadow-sm"
-                          : "text-gray-700 hover:bg-green-50 hover:text-[#2ecc71]"
+                          : "text-gray-700 hover:bg-green-50 hover:text-green-700"
                       }`}
                       style={{
                         animationDelay: `${0.3 + index * 0.1}s`,

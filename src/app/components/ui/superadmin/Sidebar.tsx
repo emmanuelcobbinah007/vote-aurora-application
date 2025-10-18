@@ -91,7 +91,7 @@ const Sidebar = () => {
           <p>Unable to load user data</p>
           <button
             onClick={() => router.push("/login")}
-            className="mt-2 text-blue-600 hover:text-blue-800"
+            className="mt-2 text-[#2ecc71] hover:text-[#1e8e3e]"
           >
             Return to Login
           </button>
@@ -306,7 +306,7 @@ const Sidebar = () => {
                       } py-3 rounded-xl transition-all duration-200 group relative ${
                         isActive
                           ? "bg-[#2ecc71] text-white shadow-sm"
-                          : "text-gray-700 hover:bg-gray-100 "
+                          : "text-gray-700 hover:bg-green-50 hover:text-green-700"
                       }`}
                       style={{
                         animationDelay: `${0.3 + index * 0.1}s`,

@@ -12,7 +12,10 @@ interface PasswordFormProps {
 
 const PasswordForm = ({ adminId, onSuccess }: PasswordFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -47,14 +50,16 @@ const PasswordForm = ({ adminId, onSuccess }: PasswordFormProps) => {
           new_password: values.newPassword,
         });
 
-        setMessage({ type: 'success', text: 'Password updated successfully!' });
+        setMessage({ type: "success", text: "Password updated successfully!" });
         resetForm();
         onSuccess?.();
       } catch (error: any) {
         console.error("Error changing password:", error);
-        setMessage({ 
-          type: 'error', 
-          text: error.response?.data?.error || 'Failed to update password. Please try again.' 
+        setMessage({
+          type: "error",
+          text:
+            error.response?.data?.error ||
+            "Failed to update password. Please try again.",
         });
       } finally {
         setIsSubmitting(false);
@@ -71,11 +76,13 @@ const PasswordForm = ({ adminId, onSuccess }: PasswordFormProps) => {
       <h2 className="text-lg font-medium mb-3">Change password</h2>
 
       {message && (
-        <div className={`p-3 rounded-md mb-4 text-sm ${
-          message.type === 'success' 
-            ? 'bg-green-50 text-green-700 border border-green-200' 
-            : 'bg-red-50 text-red-700 border border-red-200'
-        }`}>
+        <div
+          className={`p-3 rounded-md mb-4 text-sm ${
+            message.type === "success"
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : "bg-red-50 text-red-700 border border-red-200"
+          }`}
+        >
           {message.text}
         </div>
       )}
@@ -129,7 +136,7 @@ const PasswordForm = ({ adminId, onSuccess }: PasswordFormProps) => {
         <div className="pt-2">
           <Button
             type="submit"
-            className="bg-[#cc910d] text-white hover:bg-amber-700"
+            className="bg-[#2ecc71] text-white hover:bg-[#1e8e3e]"
           >
             {formik.isSubmitting ? "Saving..." : "Update password"}
           </Button>

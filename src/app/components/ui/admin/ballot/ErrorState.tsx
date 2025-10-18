@@ -18,7 +18,7 @@ const ErrorState: React.FC<ErrorStateProps> = ({ onBack }) => {
         </p>
         <button
           onClick={onBack}
-          className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg transition-colors"
+          className="bg-[#2ecc71] hover:bg-[#1e8e3e] text-white px-4 py-2 rounded-lg transition-colors"
         >
           Back to Dashboard
         </button>

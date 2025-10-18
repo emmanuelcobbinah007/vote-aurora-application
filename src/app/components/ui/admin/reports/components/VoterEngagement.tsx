@@ -59,7 +59,7 @@ const VoterEngagement: React.FC<VoterEngagementProps> = ({
             ))}
           </div>
 
-          <div className="mt-4 p-3 bg-amber-50 rounded-lg">
+          <div className="mt-4 p-3 bg-green-50 rounded-lg">
             <div className="flex items-center space-x-2">
               <Zap className="w-5 h-5 text-green-600" />
               <span className="text-sm font-medium text-green-800">
@@ -88,7 +88,7 @@ const VoterEngagement: React.FC<VoterEngagementProps> = ({
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="h-2 bg-amber-600 rounded-full"
+                    className="h-2 bg-green-600 rounded-full"
                     style={{
                       width: `${demographic.percentage}%`,
                     }}

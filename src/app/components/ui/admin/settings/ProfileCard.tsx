@@ -9,7 +9,13 @@ interface ProfileCardProps {
   lastLogin?: string | null;
 }
 
-const ProfileCard = ({ name, email, role, status, lastLogin }: ProfileCardProps) => {
+const ProfileCard = ({
+  name,
+  email,
+  role,
+  status,
+  lastLogin,
+}: ProfileCardProps) => {
   const formatLastLogin = (lastLogin: string | null) => {
     if (!lastLogin) return "Never";
     return new Date(lastLogin).toLocaleDateString("en-US", {
@@ -27,9 +33,13 @@ const ProfileCard = ({ name, email, role, status, lastLogin }: ProfileCardProps)
       INACTIVE: "bg-gray-100 text-gray-800",
       SUSPENDED: "bg-red-100 text-red-800",
     };
-    
+
     return (
-      <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${statusColors[status] || statusColors.INACTIVE}`}>
+      <span
+        className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+          statusColors[status] || statusColors.INACTIVE
+        }`}
+      >
         {status || "Unknown"}
       </span>
     );
@@ -59,10 +69,10 @@ const ProfileCard = ({ name, email, role, status, lastLogin }: ProfileCardProps)
       )}
 
       <div className="mt-4 space-x-2">
-        <Button className="bg-[#cc910d] text-white hover:bg-amber-700">
+        <Button className="bg-[#2ecc71] text-white hover:bg-[#1e8e3e]">
           Edit profile
         </Button>
-        <Button className="border border-[#cc910d] text-[#cc910d] hover:bg-amber-50 bg-white">
+        <Button className="border border-[#2ecc71] text-[#2ecc71] hover:bg-green-50 bg-white">
           Export data
         </Button>
       </div>
