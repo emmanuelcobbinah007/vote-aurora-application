@@ -30,7 +30,7 @@ export default function ApprovalsFilters({
               placeholder="Search elections..."
               value={searchQuery}
               onChange={(e) => onSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-[#2ecc71]"
             />
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function ApprovalsFilters({
             <select
               value={department}
               onChange={(e) => onDepartmentChange(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-[#2ecc71]"
             >
               <option value="all">All Departments</option>
               {departments.map((dept) => (
@@ -57,7 +57,7 @@ export default function ApprovalsFilters({
               <select
                 value={status}
                 onChange={(e) => onStatusChange(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2ecc71] focus:border-[#2ecc71]"
               >
                 <option value="all">All Status</option>
                 <option value="APPROVED">Approved</option>

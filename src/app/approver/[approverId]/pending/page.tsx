@@ -2,23 +2,9 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
-import {
-  Calendar,
-  Clock,
-  Users,
-  CheckCircle,
-  XCircle,
-  MessageSquare,
-  Filter,
-  Search,
-  Eye,
-  FileText,
-  AlertCircle,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, AlertCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import ApproverHeader from "@/components/ui/approver/ApproverHeader";
 import ApprovalsFilters from "@/components/ui/approver/ApprovalsFilters";
 import ApprovalCard from "@/components/ui/approver/ApprovalCard";
 import ApprovalDialogContent from "@/components/ui/approver/ApprovalDialogContent";
@@ -221,7 +207,7 @@ const PendingApprovalsPage: React.FC = () => {
           <p className="text-gray-600">{error}</p>
           <Button
             onClick={() => fetchPendingElections()}
-            className="mt-4 bg-amber-600 hover:bg-amber-700"
+            className="mt-4 bg-[#2ecc71] hover:bg-[#1e8e3e]"
           >
             Retry
           </Button>

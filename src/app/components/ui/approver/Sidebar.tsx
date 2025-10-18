@@ -1,13 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BarChart3,
   BarChart4,
-  Users,
-  Users2,
   Shield,
   ShieldCheck,
   FileText,
@@ -15,10 +12,8 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
-  UserCog,
-  UserCheck,
 } from "lucide-react";
-import UPSA_crest from "../../../../../public/UPSA_crest.png";
+import voteAurora_crest from "../../../../../public/voteAurora_crest.png";
 import { useParams } from "next/navigation";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -72,7 +67,7 @@ const Sidebar = () => {
     return (
       <div className="w-64 h-screen bg-white border-r border-gray-200 flex items-center justify-center">
         <div className="text-center text-gray-500">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2ecc71] mx-auto mb-4"></div>
           <p>Signing out...</p>
         </div>
       </div>
@@ -87,7 +82,7 @@ const Sidebar = () => {
           <p>Unable to load user data</p>
           <button
             onClick={() => router.push("/login")}
-            className="mt-2 text-blue-600 hover:text-blue-800"
+            className="mt-2 text-[#2ecc71] hover:text-[#1e8e3e]"
           >
             Return to Login
           </button>
@@ -203,7 +198,7 @@ const Sidebar = () => {
             {isCollapsed ? (
               <div className="flex justify-center w-full">
                 <Image
-                  src={UPSA_crest}
+                  src={voteAurora_crest}
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
@@ -214,7 +209,7 @@ const Sidebar = () => {
               <>
                 <div className="flex items-center space-x-3">
                   <Image
-                    src={UPSA_crest}
+                    src={voteAurora_crest}
                     alt="UPSA University Crest"
                     width={32}
                     height={32}
@@ -222,7 +217,7 @@ const Sidebar = () => {
                   />
                   <div className="transition-opacity duration-200">
                     <h1 className="text-lg font-semibold text-gray-900 leading-tight">
-                      VoteUPSA
+                      VoteAurora
                     </h1>
                     <p className="text-xs text-gray-500">Approver</p>
                   </div>
@@ -267,8 +262,8 @@ const Sidebar = () => {
                         isCollapsed ? "justify-center px-2" : "px-3"
                       } py-3 rounded-xl transition-all duration-200 group relative ${
                         isActive
-                          ? "bg-blue-600 text-white shadow-sm"
-                          : "text-gray-700 hover:bg-blue-50 hover:text-blue-700"
+                          ? "bg-[#2ecc71] text-white shadow-sm"
+                          : "text-gray-700 hover:bg-green-50 hover:text-[#2ecc71]"
                       }`}
                       style={{
                         animationDelay: `${0.3 + index * 0.1}s`,
@@ -302,7 +297,7 @@ const Sidebar = () => {
               isCollapsed ? "justify-center" : "space-x-3"
             } p-3 rounded-xl hover:bg-gray-50 transition-colors duration-200 mb-2 group relative`}
           >
-            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-[#2ecc71] rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-white text-sm font-semibold">
                 {session?.user?.name
                   ? session.user.name

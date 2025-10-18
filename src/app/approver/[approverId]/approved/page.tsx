@@ -2,27 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import {
-  Calendar,
-  Clock,
-  Users,
-  CheckCircle,
-  Filter,
-  Search,
-  Eye,
-  BarChart3,
-  FileText,
-  AlertCircle,
-} from "lucide-react";
+import { CheckCircle, BarChart3, FileText, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import ApproverHeader from "@/components/ui/approver/ApproverHeader";
 import { ApprovedElectionsShimmer } from "../../../components/ui/approver/ApproverShimmer";
 import ApprovalsFilters from "@/components/ui/approver/ApprovalsFilters";
 import ApprovalCard from "@/components/ui/approver/ApprovalCard";
 import ApprovalDialogContent from "@/components/ui/approver/ApprovalDialogContent";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import ApprovalModal from "@/components/ui/approver/ApprovalModal";
 
 interface ApprovedElection {
@@ -180,11 +167,11 @@ const ApprovedElectionsPage = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Total Approved</p>
-                  <p className="text-2xl font-bold text-blue-600">
+                  <p className="text-2xl font-bold text-[#2ecc71]">
                     {elections.length}
                   </p>
                 </div>
-                <CheckCircle className="w-8 h-8 text-blue-600" />
+                <CheckCircle className="w-8 h-8 text-[#2ecc71]" />
               </div>
             </CardContent>
           </Card>
@@ -208,11 +195,11 @@ const ApprovedElectionsPage = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Completed</p>
-                  <p className="text-2xl font-bold text-gray-600">
+                  <p className="text-2xl font-bold text-[#2ecc71]">
                     {elections.filter((e) => e.status === "CLOSED").length}
                   </p>
                 </div>
-                <FileText className="w-8 h-8 text-gray-600" />
+                <FileText className="w-8 h-8 text-[#2ecc71]" />
               </div>
             </CardContent>
           </Card>

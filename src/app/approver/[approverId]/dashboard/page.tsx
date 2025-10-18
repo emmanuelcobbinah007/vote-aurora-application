@@ -10,7 +10,6 @@ import {
   Calendar,
   FileText,
 } from "lucide-react";
-import ApproverHeader from "@/components/ui/approver/ApproverHeader";
 import ApproverStatsGrid from "@/components/ui/approver/ApproverStatsGrid";
 import { DashboardShimmer } from "../../../components/ui/approver/ApproverShimmer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -111,7 +110,7 @@ const ApproverDashboard = () => {
       APPROVED: { className: "bg-green-100 text-green-800", label: "Approved" },
       REJECTED: { className: "bg-red-100 text-red-800", label: "Rejected" },
       REVIEW_REQUESTED: {
-        className: "bg-amber-100 text-amber-800",
+        className: "bg-green-100 text-green-800",
         label: "Review Requested",
       },
     };
@@ -138,7 +137,7 @@ const ApproverDashboard = () => {
           <p className="text-gray-600">{error}</p>
           <Button
             onClick={() => window.location.reload()}
-            className="mt-4 bg-amber-600 hover:bg-amber-700"
+            className="mt-4 bg-[#2ecc71] hover:bg-[#1e8e3e]"
           >
             Retry
           </Button>
@@ -170,7 +169,7 @@ const ApproverDashboard = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <FileText className="w-5 h-5 mr-2 text-blue-600" />
+                <FileText className="w-5 h-5 mr-2 text-[#2ecc71]" />
                 Quick Actions
               </CardTitle>
             </CardHeader>
@@ -179,7 +178,7 @@ const ApproverDashboard = () => {
                 onClick={() =>
                   router.push(`/approver/${session?.user?.id}/pending`)
                 }
-                className="w-full justify-start bg-amber-600 hover:bg-amber-700 text-white"
+                className="w-full justify-start bg-[#2ecc71] hover:bg-[#1e8e3e] text-white"
               >
                 <Clock className="w-4 h-4 mr-2" />
                 Review Pending Approvals ({stats.pendingApprovals})
@@ -190,7 +189,7 @@ const ApproverDashboard = () => {
                   router.push(`/approver/${session?.user?.id}/approved`)
                 }
                 variant="outline"
-                className="w-full justify-start border-blue-200 text-blue-600 hover:bg-blue-50"
+                className="w-full justify-start border-green-200 text-gray-700 hover:bg-green-50"
               >
                 <CheckCircle className="w-4 h-4 mr-2" />
                 View Approved Elections ({stats.approvedElections})
@@ -216,7 +215,7 @@ const ApproverDashboard = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                <Calendar className="w-5 h-5 mr-2 text-[#2ecc71]" />
                 Recent Activity
               </CardTitle>
             </CardHeader>

@@ -45,7 +45,7 @@ export default function ApprovalCard<
             variant={item.isGeneral ? "default" : "secondary"}
             className={
               item.isGeneral
-                ? "bg-blue-100 text-blue-800"
+                ? "bg-[#2ecc71]/20 text-[#2ecc71]"
                 : "bg-gray-100 text-gray-800"
             }
           >
@@ -53,7 +53,7 @@ export default function ApprovalCard<
           </Badge>
           <Badge
             variant="outline"
-            className="bg-amber-50 text-amber-700 border-amber-200"
+            className="bg-green-50 text-green-700 border-green-200"
           >
             {approvedPage ? "Approved" : "Pending"}
           </Badge>
@@ -81,7 +81,7 @@ export default function ApprovalCard<
 
         <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100">
           <div className="text-center">
-            <div className="text-lg font-semibold text-blue-600">
+            <div className="text-lg font-semibold text-[#2ecc71]">
               {Array.isArray(item.portfolios)
                 ? item.portfolios.length
                 : item.portfolios}
@@ -103,7 +103,7 @@ export default function ApprovalCard<
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 text-blue-600 border-blue-200 hover:bg-blue-50"
+              className="flex-1 text-[#2ecc71] border-green-200 hover:bg-green-50"
               onClick={() => onView(item)}
             >
               <Eye className="w-4 h-4 mr-2" />

@@ -18,12 +18,12 @@ export default function ApproverStatsGrid({ stats }: { stats: Stats }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 mb-1">Pending Approvals</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold text-[#2ecc71]">
                 {stats.pendingApprovals}
               </p>
             </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <Clock className="w-6 h-6 text-blue-600" />
+            <div className="bg-[#2ecc71]/20 p-3 rounded-full">
+              <Clock className="w-6 h-6 text-[#2ecc71]" />
             </div>
           </div>
         </CardContent>
@@ -34,12 +34,12 @@ export default function ApproverStatsGrid({ stats }: { stats: Stats }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 mb-1">Approved Elections</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold text-[#2ecc71]">
                 {stats.approvedElections}
               </p>
             </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <CheckCircle className="w-6 h-6 text-blue-600" />
+            <div className="bg-[#2ecc71]/20 p-3 rounded-full">
+              <CheckCircle className="w-6 h-6 text-[#2ecc71]" />
             </div>
           </div>
         </CardContent>
@@ -50,12 +50,12 @@ export default function ApproverStatsGrid({ stats }: { stats: Stats }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 mb-1">Live Elections</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold text-[#2ecc71]">
                 {stats.liveElections}
               </p>
             </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <BarChart3 className="w-6 h-6 text-blue-600" />
+            <div className="bg-[#2ecc71]/20 p-3 rounded-full">
+              <BarChart3 className="w-6 h-6 text-[#2ecc71]" />
             </div>
           </div>
         </CardContent>
@@ -66,12 +66,12 @@ export default function ApproverStatsGrid({ stats }: { stats: Stats }) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 mb-1">Total Votes Overseen</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold text-[#2ecc71]">
                 {stats.totalVotesOverseen.toLocaleString()}
               </p>
             </div>
-            <div className="bg-blue-100 p-3 rounded-full">
-              <TrendingUp className="w-6 h-6 text-blue-600" />
+            <div className="bg-[#2ecc71]/20 p-3 rounded-full">
+              <TrendingUp className="w-6 h-6 text-[#2ecc71]" />
             </div>
           </div>
         </CardContent>

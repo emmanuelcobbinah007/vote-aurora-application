@@ -88,8 +88,8 @@ const ApprovalDialogContent: React.FC<ApprovalDialogContentProps> = React.memo(
                   <Badge
                     className={
                       election.isGeneral
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-blue-50 text-blue-800"
+                        ? "bg-[#2ecc71]/20 text-[#2ecc71]"
+                        : "bg-green-50 text-green-800"
                     }
                   >
                     {election.isGeneral
@@ -124,24 +124,24 @@ const ApprovalDialogContent: React.FC<ApprovalDialogContentProps> = React.memo(
             <div>
               <h3 className="font-semibold text-gray-900 mb-2">Statistics</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="text-center p-3 bg-blue-50 rounded-lg">
-                  <div className="text-lg font-semibold text-blue-600">
+                <div className="text-center p-3 bg-[#2ecc71]/20 rounded-lg">
+                  <div className="text-lg font-semibold text-[#2ecc71]">
                     {Array.isArray(election.portfolios)
                       ? election.portfolios.length
                       : election.portfolios}
                   </div>
                   <div className="text-xs text-gray-500">Portfolios</div>
                 </div>
-                <div className="text-center p-3 bg-blue-50/60 rounded-lg">
-                  <div className="text-lg font-semibold text-blue-600">
+                <div className="text-center p-3 bg-[#2ecc71]/15 rounded-lg">
+                  <div className="text-lg font-semibold text-[#2ecc71]">
                     {Array.isArray(election.candidates)
                       ? election.candidates.length
                       : election.candidates}
                   </div>
                   <div className="text-xs text-gray-500">Candidates</div>
                 </div>
-                <div className="text-center p-3 bg-blue-50/40 rounded-lg">
-                  <div className="text-lg font-semibold text-blue-600">
+                <div className="text-center p-3 bg-[#2ecc71]/10 rounded-lg">
+                  <div className="text-lg font-semibold text-[#2ecc71]">
                     {election.expectedVoters}
                   </div>
                   <div className="text-xs text-gray-500">Estimated Voters</div>
@@ -265,7 +265,7 @@ const ApprovalDialogContent: React.FC<ApprovalDialogContentProps> = React.memo(
         <div className="flex gap-3 pt-4 border-t border-gray-200">
           <Button
             onClick={handleApproveClick}
-            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+            className="bg-[#2ecc71] hover:bg-[#1e8e3e] text-white flex-1"
             disabled={!!isSubmitting}
           >
             {isSubmitting ? "Processing..." : "Approve"}
