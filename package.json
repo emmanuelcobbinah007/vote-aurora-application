@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "node build.js",
+    "build": "prisma generate --schema=prisma/schema.prisma && prisma generate --schema=prisma/university.prisma && next build",
     "start": "next start",
     "lint": "eslint",
     "seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
@@ -26,7 +26,7 @@
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
-    "dotenv": "^16.4.5",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
     "framer-motion": "^12.23.22",
