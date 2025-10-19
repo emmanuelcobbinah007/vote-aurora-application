@@ -94,15 +94,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.DepartmentsScalarFieldEnum = {
   id: 'id',
-  name: 'name'
-};
-
-exports.Prisma.StudentsScalarFieldEnum = {
-  id: 'id',
-  student_id: 'student_id',
   name: 'name',
-  email: 'email',
-  department_id: 'department_id'
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_active: 'is_active'
 };
 
 exports.Prisma.SortOrder = {
@@ -115,28 +110,22 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 
 exports.Prisma.ModelName = {
-  departments: 'departments',
-  students: 'students'
+  departments: 'departments'
 };
 /**
  * Create the Client
  */
 const config = {
   "generator": {
-    "name": "client",
+    "name": "university_client",
     "provider": {
       "fromEnvVar": null,
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\user\\OneDrive\\Desktop\\myStuff\\work\\uni-evoting-system\\src\\generated\\university-prisma",
+      "value": "C:\\Users\\user\\OneDrive\\Desktop\\myStuff\\work\\vote-aurora-application\\university-evoting-system\\src\\generated\\university-prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -150,36 +139,36 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\user\\OneDrive\\Desktop\\myStuff\\work\\uni-evoting-system\\prisma\\university.prisma",
+    "sourceFilePath": "C:\\Users\\user\\OneDrive\\Desktop\\myStuff\\work\\vote-aurora-application\\university-evoting-system\\prisma\\university.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
   "clientVersion": "6.17.0",
   "engineVersion": "c0aafc03b8ef6cdced8654b9a817999e02457d6a",
   "datasourceNames": [
-    "db"
+    "university_db"
   ],
   "activeProvider": "postgresql",
   "postinstall": false,
   "inlineDatasources": {
-    "db": {
+    "university_db": {
       "url": {
         "fromEnvVar": "UNIVERSITY_DATABASE_URL",
         "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/university-prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"UNIVERSITY_DATABASE_URL\")\n}\n\nmodel departments {\n  id       Int        @id @default(autoincrement())\n  name     String     @db.VarChar(100)\n  students students[]\n}\n\nmodel students {\n  id            Int          @id @default(autoincrement())\n  student_id    String       @unique @db.VarChar(50)\n  name          String       @db.VarChar(100)\n  email         String       @unique @db.VarChar(100)\n  department_id Int?\n  departments   departments? @relation(fields: [department_id], references: [id], onDelete: NoAction, onUpdate: NoAction)\n}\n",
-  "inlineSchemaHash": "f966ad24d91df1222916c52f2d5159c2402703406e7936dcd17145e818944000",
+  "inlineSchema": "// This is the University database schema file\n// Contains minimal schema needed for integration\n\ngenerator university_client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/university-prisma\"\n}\n\ndatasource university_db {\n  provider = \"postgresql\"\n  url      = env(\"UNIVERSITY_DATABASE_URL\")\n}\n\nmodel departments {\n  id         Int      @id @default(autoincrement())\n  name       String\n  created_at DateTime @default(now())\n  updated_at DateTime @updatedAt\n  is_active  Boolean  @default(true)\n}\n",
+  "inlineSchemaHash": "2b41018c031dfb4b5f0e6adf8270fd2943fbf2c7b1f0400182af9952d23d4d89",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"departments\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"students\",\"relationName\":\"departmentsTostudents\"}],\"dbName\":null},\"students\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"student_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"department_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"departments\",\"kind\":\"object\",\"type\":\"departments\",\"relationName\":\"departmentsTostudents\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"departments\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"is_active\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

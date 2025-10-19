@@ -122,15 +122,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.DepartmentsScalarFieldEnum = {
   id: 'id',
-  name: 'name'
-};
-
-exports.Prisma.StudentsScalarFieldEnum = {
-  id: 'id',
-  student_id: 'student_id',
   name: 'name',
-  email: 'email',
-  department_id: 'department_id'
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_active: 'is_active'
 };
 
 exports.Prisma.SortOrder = {
@@ -143,15 +138,9 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 
 exports.Prisma.ModelName = {
-  departments: 'departments',
-  students: 'students'
+  departments: 'departments'
 };
 
 /**

@@ -1,24 +1,20 @@
-generator client {
+// This is the University database schema file
+// Contains minimal schema needed for integration
+
+generator university_client {
   provider = "prisma-client-js"
   output   = "../src/generated/university-prisma"
 }
 
-datasource db {
+datasource university_db {
   provider = "postgresql"
   url      = env("UNIVERSITY_DATABASE_URL")
 }
 
 model departments {
-  id       Int        @id @default(autoincrement())
-  name     String     @db.VarChar(100)
-  students students[]
-}
-
-model students {
-  id            Int          @id @default(autoincrement())
-  student_id    String       @unique @db.VarChar(50)
-  name          String       @db.VarChar(100)
-  email         String       @unique @db.VarChar(100)
-  department_id Int?
-  departments   departments? @relation(fields: [department_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  is_active  Boolean  @default(true)
 }
