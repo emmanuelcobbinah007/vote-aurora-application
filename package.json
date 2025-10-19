@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "DATABASE_URL=\"$DATABASE_URL\" UNIVERSITY_DATABASE_URL=\"$UNIVERSITY_DATABASE_URL\" prisma generate --schema=prisma/schema.prisma && echo 'First schema generated' && DATABASE_URL=\"$DATABASE_URL\" UNIVERSITY_DATABASE_URL=\"$UNIVERSITY_DATABASE_URL\" prisma generate --schema=prisma/university.prisma && echo 'Second schema generated' && next build",
+    "build": "node build.js",
     "start": "next start",
     "lint": "eslint",
     "seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
@@ -26,7 +26,7 @@
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
-    "class-variance-authority": "^0.7.1",
+    "dotenv": "^16.4.5",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
     "framer-motion": "^12.23.22",
