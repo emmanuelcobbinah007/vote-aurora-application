@@ -4,12 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npx prisma generate --schema=prisma/schema.prisma && npx prisma generate --schema=prisma/university.prisma && next build",
+    "build": "prisma generate --schema=prisma/schema.prisma && echo 'First schema generated' && prisma generate --schema=prisma/university.prisma && echo 'Second schema generated' && next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
-  },
-  "prisma": {
     "seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
   },
   "dependencies": {
