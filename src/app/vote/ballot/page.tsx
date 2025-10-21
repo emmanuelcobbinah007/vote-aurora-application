@@ -4,7 +4,6 @@ import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { AlertTriangle, X } from "lucide-react";
-import voteAurora_crest from "../../../../public/voteAurora_crest.png";
 import {
   BallotData,
   VoteSelection,
@@ -378,7 +377,7 @@ const BallotContent = () => {
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Image
-                    src={voteAurora_crest}
+                    src="../../../../public/voteAurora_crest.png"
                     alt="UPSA Crest"
                     width={24}
                     height={24}

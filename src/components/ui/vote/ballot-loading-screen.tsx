@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import voteAurora_crest from "../../../../public/voteAurora_crest.png";
 
 interface BallotLoadingScreenProps {
   status: string;
@@ -14,7 +13,7 @@ export const BallotLoadingScreen: React.FC<BallotLoadingScreenProps> = ({
   <div className="flex flex-col items-center justify-center min-h-screen bg-white p-6">
     <div className="w-32 h-32 bg-gray-50 rounded-full flex items-center justify-center mb-8 border-4 border-gray-200 shadow-lg">
       <Image
-        src={voteAurora_crest}
+        src="../../../../public/voteAurora_crest.png"
         alt="UPSA University Crest"
         width={80}
         height={80}

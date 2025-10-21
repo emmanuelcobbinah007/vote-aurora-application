@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import voteAurora_crest from "../../../../public/voteAurora_crest.png";
 
 const VoteSuccessPage = () => {
   const router = useRouter();
@@ -34,7 +33,7 @@ const VoteSuccessPage = () => {
         {/* University Logo */}
         <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-green-200">
           <Image
-            src={voteAurora_crest}
+            src="../../../../public/voteAurora_crest.png"
             alt="UPSA University Crest"
             width={64}
             height={64}

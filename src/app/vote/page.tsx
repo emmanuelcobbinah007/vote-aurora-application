@@ -3,7 +3,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import voteAurora_crest from "../../../public/voteAurora_crest.png";
 import VoterVerificationForm from "@/components/ui/voter/VoterVerificationForm";
 
 // Loading component
@@ -41,7 +40,7 @@ const VotingLoadingScreen = ({
       }}
     >
       <Image
-        src={voteAurora_crest}
+        src="../../../public/voteAurora_crest.png"
         alt="UPSA University Crest"
         width={80}
         height={80}

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import voteAurora_crest from "../../../../../public/voteLogo.png";
 import { useParams, usePathname } from "next/navigation";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -239,11 +238,7 @@ const Sidebar = () => {
             {isCollapsed ? (
               <div className="flex justify-center w-full">
                 <img
-                  src={
-                    typeof voteAurora_crest === "string"
-                      ? voteAurora_crest
-                      : voteAurora_crest.src
-                  }
+                  src="../../../../../public/voteLogo.png"
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
@@ -254,11 +249,7 @@ const Sidebar = () => {
               <>
                 <div className="flex items-center space-x-3">
                   <img
-                    src={
-                      typeof voteAurora_crest === "string"
-                        ? voteAurora_crest
-                        : voteAurora_crest.src
-                    }
+                    src="../../../../../public/voteLogo.png"
                     alt="UPSA University Crest"
                     width={32}
                     height={32}

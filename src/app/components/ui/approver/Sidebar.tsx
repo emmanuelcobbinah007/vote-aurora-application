@@ -13,7 +13,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import voteAurora_crest from "../../../../../public/voteAurora_crest.png";
 import { useParams } from "next/navigation";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -198,7 +197,7 @@ const Sidebar = () => {
             {isCollapsed ? (
               <div className="flex justify-center w-full">
                 <Image
-                  src={voteAurora_crest}
+                  src="../../../../../public/voteAurora_crest.png"
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
@@ -209,7 +208,7 @@ const Sidebar = () => {
               <>
                 <div className="flex items-center space-x-3">
                   <Image
-                    src={voteAurora_crest}
+                    src="../../../../../public/voteAurora_crest.png"
                     alt="UPSA University Crest"
                     width={32}
                     height={32}

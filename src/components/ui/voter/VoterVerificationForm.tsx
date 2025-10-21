@@ -6,7 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
 import { Mail, User, Key, Clock, RefreshCw, CheckCircle } from "lucide-react";
-import voteAurora_crest from "../../../../public/voteAurora_crest.png";
 import loginPageImage from "../../../../public/login_page_image.png";
 
 interface VoterVerificationFormProps {
@@ -207,7 +206,7 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
         <div className="flex-1 h-screen mx-4 my-3 w-[50%]">
           <div className="flex items-center space-x-3 mx-4 mt-3 opacity-0 animate-fade-in-up">
             <Image
-              src={voteAurora_crest}
+              src="../../../../public/voteAurora_crest.png"
               alt="UPSA University Crest"
               width={30}
               height={30}

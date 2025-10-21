@@ -3,7 +3,6 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import voteAurora_crest from "../../../../public/voteAurora_crest.png";
 
 interface Candidate {
   id: string;
@@ -58,7 +57,7 @@ const BallotLoadingScreen = ({
   <div className="flex flex-col items-center justify-center min-h-screen bg-white p-6">
     <div className="w-32 h-32 bg-gray-50 rounded-full flex items-center justify-center mb-8 border-4 border-gray-200 shadow-lg">
       <Image
-        src={voteAurora_crest}
+        src="../../../../public/voteAurora_crest.png"
         alt="UPSA University Crest"
         width={80}
         height={80}
@@ -488,7 +487,7 @@ const BallotContent = () => {
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
                   <Image
-                    src={voteAurora_crest}
+                    src="../../../../public/voteAurora_crest.png"
                     alt="UPSA Crest"
                     width={32}
                     height={32}

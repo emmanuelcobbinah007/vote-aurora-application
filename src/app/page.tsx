@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import voteAurora_crest from "../../public/voteAurora_crest.png";
 
 const HomePage = () => {
   const router = useRouter();
@@ -78,7 +77,7 @@ const HomePage = () => {
       >
         {/* Vote Aurora Crest */}
         <Image
-          src={voteAurora_crest}
+          src="../../public/voteAurora_crest.png"
           alt="Vote Aurora Crest"
           width={80}
           height={80}
