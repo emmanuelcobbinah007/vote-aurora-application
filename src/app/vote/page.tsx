@@ -44,6 +44,7 @@ const VotingLoadingScreen = ({
         alt="UPSA University Crest"
         width={80}
         height={80}
+        priority
         style={{ objectFit: "contain" }}
       />
     </div>

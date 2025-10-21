@@ -205,10 +205,11 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
         <div className="flex-1 h-screen mx-4 my-3 w-[50%]">
           <div className="flex items-center space-x-3 mx-4 mt-3 opacity-0 animate-fade-in-up">
             <Image
-              src="../../../../public/voteAurora_crest.png"
+              src="/voteAurora_crest.png"
               alt="UPSA University Crest"
               width={30}
               height={30}
+              priority
               className="object-contain mr-1"
             />{" "}
             <p className="text-lg font-semibold">VoteAurora</p>
@@ -451,6 +452,7 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
             src="/login_page_image.png"
             alt="University Campus"
             fill
+            priority
             className="object-cover"
           />
 

@@ -205,6 +205,7 @@ const LoginPage = () => {
               alt="UPSA University Crest"
               width={160}
               height={55}
+              priority
               className="object-contain mr-1"
             />
           </div>

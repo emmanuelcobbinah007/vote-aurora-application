@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -237,22 +238,24 @@ const Sidebar = () => {
           <div className="flex items-center justify-between">
             {isCollapsed ? (
               <div className="flex justify-center w-full">
-                <img
-                  src="../../../../../public/voteLogo.png"
+                <Image
+                  src="/voteLogo.png"
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
+                  priority
                   className="object-contain"
                 />
               </div>
             ) : (
               <>
                 <div className="flex items-center space-x-3">
-                  <img
-                    src="../../../../../public/voteLogo.png"
+                  <Image
+                    src="/voteLogo.png"
                     alt="UPSA University Crest"
                     width={32}
                     height={32}
+                    priority
                     className="object-contain flex-shrink-0"
                   />
                   <div className="transition-opacity duration-200">

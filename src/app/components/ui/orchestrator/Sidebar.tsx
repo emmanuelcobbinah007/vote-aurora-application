@@ -227,6 +227,7 @@ const Sidebar = () => {
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
+                  priority
                   className="object-contain"
                 />
               </div>
@@ -238,6 +239,7 @@ const Sidebar = () => {
                     alt="UPSA University Crest"
                     width={32}
                     height={32}
+                    priority
                     className="object-contain flex-shrink-0"
                   />
                   <div className="transition-opacity duration-200">
