@@ -11,28 +11,28 @@ export type AssignmentId = string & { readonly __brand: unique symbol };
 class AdminApiIdFactory {
   static createAdminId(id: string): AdminId {
     if (!id || id.trim().length === 0) {
-      throw new Error('AdminId cannot be empty');
+      throw new Error("AdminId cannot be empty");
     }
     return id.trim() as AdminId;
   }
 
   static createElectionId(id: string): ElectionId {
     if (!id || id.trim().length === 0) {
-      throw new Error('ElectionId cannot be empty');
+      throw new Error("ElectionId cannot be empty");
     }
     return id.trim() as ElectionId;
   }
 
   static createCandidateId(id: string): CandidateId {
     if (!id || id.trim().length === 0) {
-      throw new Error('CandidateId cannot be empty');
+      throw new Error("CandidateId cannot be empty");
     }
     return id.trim() as CandidateId;
   }
 
   static createPortfolioId(id: string): PortfolioId {
     if (!id || id.trim().length === 0) {
-      throw new Error('PortfolioId cannot be empty');
+      throw new Error("PortfolioId cannot be empty");
     }
     return id.trim() as PortfolioId;
   }
@@ -44,7 +44,7 @@ type AdminEmail = string & { readonly __brand: unique symbol };
 class AdminEmailFactory {
   static create(email: string): AdminEmail {
     if (!email || !this.isValidEmail(email)) {
-      throw new Error('Invalid email format');
+      throw new Error("Invalid email format");
     }
     return email.trim().toLowerCase() as AdminEmail;
   }
@@ -184,26 +184,40 @@ export interface CreateAssignmentData {
 
 export const adminApi = {
   // Candidate Management with domain types
-  async getCandidates(adminId: AdminId, electionId: ElectionId): Promise<Candidate[]> {
-    const response = await apiClient.get(`/admin/${adminId}/election/${electionId}/candidate`);
+  async getCandidates(
+    adminId: AdminId,
+    electionId: ElectionId
+  ): Promise<Candidate[]> {
+    const response = await apiClient.get(
+      `/admin/${adminId}/election/${electionId}/candidate`
+    );
     return response.data.candidates;
   },
 
-  async getCandidate(adminId: AdminId, electionId: ElectionId, candidateId: CandidateId): Promise<Candidate> {
-    const response = await apiClient.get(`/admin/${adminId}/election/${electionId}/candidate/${candidateId}`);
+  async getCandidate(
+    adminId: AdminId,
+    electionId: ElectionId,
+    candidateId: CandidateId
+  ): Promise<Candidate> {
+    const response = await apiClient.get(
+      `/admin/${adminId}/election/${electionId}/candidate/${candidateId}`
+    );
     return response.data;
   },
 
   async createCandidate(
     adminId: AdminId,
-    electionId: ElectionId, 
-    portfolioId: PortfolioId, 
+    electionId: ElectionId,
+    portfolioId: PortfolioId,
     candidateData: CandidateFormData
   ): Promise<Candidate> {
-    const response = await apiClient.post(`/admin/${adminId}/election/${electionId}/candidate`, {
-      portfolio_id: portfolioId,
-      ...candidateData,
-    });
+    const response = await apiClient.post(
+      `/admin/${adminId}/election/${electionId}/candidate`,
+      {
+        portfolio_id: portfolioId,
+        ...candidateData,
+      }
+    );
     return response.data.candidate;
   },
 
@@ -249,8 +263,13 @@ export const adminApi = {
   },
 
   // Create a new admin assignment
-  async createAdminAssignment(assignmentData: CreateAssignmentData): Promise<any> {
-    const response = await apiClient.post("/superadmin/admin-assignments", assignmentData);
+  async createAdminAssignment(
+    assignmentData: CreateAssignmentData
+  ): Promise<any> {
+    const response = await apiClient.post(
+      "/superadmin/admin-assignments",
+      assignmentData
+    );
     return response.data.data;
   },
 
@@ -261,13 +280,17 @@ export const adminApi = {
 
   // Get admins for a specific election
   async getElectionAdmins(electionId: ElectionId): Promise<ElectionAdmins> {
-    const response = await apiClient.get(`/superadmin/elections/${electionId}/admins`);
+    const response = await apiClient.get(
+      `/superadmin/elections/${electionId}/admins`
+    );
     return response.data.data;
   },
 
   // Get available admins for a specific election (not yet assigned)
   async getAvailableAdmins(electionId: ElectionId): Promise<Admin[]> {
-    const response = await apiClient.get(`/superadmin/elections/${electionId}/available-admins`);
+    const response = await apiClient.get(
+      `/superadmin/elections/${electionId}/available-admins`
+    );
     return response.data.data.available_admins;
   },
 
@@ -283,12 +306,21 @@ export const adminApi = {
     return response.data.data;
   },
 
-  async updateAdminProfile(adminId: AdminId, profileData: UpdateAdminProfileData): Promise<AdminProfile> {
-    const response = await apiClient.put(`/admin/${adminId}/profile`, profileData);
+  async updateAdminProfile(
+    adminId: AdminId,
+    profileData: UpdateAdminProfileData
+  ): Promise<AdminProfile> {
+    const response = await apiClient.put(
+      `/admin/${adminId}/profile`,
+      profileData
+    );
     return response.data.data;
   },
 
-  async changeAdminPassword(adminId: AdminId, passwordData: ChangePasswordData): Promise<void> {
+  async changeAdminPassword(
+    adminId: AdminId,
+    passwordData: ChangePasswordData
+  ): Promise<void> {
     await apiClient.put(`/admin/${adminId}/profile`, passwordData);
   },
 
@@ -311,7 +343,10 @@ export const adminApi = {
   },
 
   // Bulk operations with domain types
-  async bulkInviteAdmins(emails: AdminEmail[], full_names: string[]): Promise<BulkInviteResult> {
+  async bulkInviteAdmins(
+    emails: AdminEmail[],
+    full_names: string[]
+  ): Promise<BulkInviteResult> {
     const response = await apiClient.post("/superadmin/admins/bulk", {
       operation: "bulk_invite",
       emails,

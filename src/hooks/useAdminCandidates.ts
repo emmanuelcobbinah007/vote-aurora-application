@@ -157,7 +157,9 @@ export function useUpdateAdminCandidate(context: AdminContext) {
         adminApi.createCandidateId(request.candidateId),
         {
           ...request.candidateData,
-          portfolio_id: request.candidateData.portfolio_id ? adminApi.createPortfolioId(request.candidateData.portfolio_id) : undefined
+          portfolio_id: request.candidateData.portfolio_id
+            ? adminApi.createPortfolioId(request.candidateData.portfolio_id)
+            : undefined,
         }
       ),
     successMessage: "Candidate updated successfully!",

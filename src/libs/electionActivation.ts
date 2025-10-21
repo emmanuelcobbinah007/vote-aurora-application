@@ -127,7 +127,9 @@ export class ElectionActivationService {
       );
 
       // Since university database doesn't have students table, use mock data
-      console.log("University database doesn't have students table, using mock data...");
+      console.log(
+        "University database doesn't have students table, using mock data..."
+      );
 
       const mockStudents: EligibleStudent[] = [
         {
@@ -170,7 +172,7 @@ export class ElectionActivationService {
       } else {
         // For department elections, return subset based on department
         const departmentStudents = mockStudents.filter(
-          student => student.department_id === 1 // Default to department 1 for simplicity
+          (student) => student.department_id === 1 // Default to department 1 for simplicity
         );
         console.log(
           `📊 Using ${departmentStudents.length} mock students for department election`
@@ -190,7 +192,9 @@ export class ElectionActivationService {
         },
       ];
 
-      console.log(`Using fallback mock data: ${fallbackStudents.length} students`);
+      console.log(
+        `Using fallback mock data: ${fallbackStudents.length} students`
+      );
       return fallbackStudents;
     }
   }

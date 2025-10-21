@@ -144,7 +144,7 @@ export async function isAdminAuthorized(
 ): Promise<boolean> {
   try {
     const { prisma } = await import("@/libs/prisma");
-    
+
     // Check if there's an admin assignment for this admin and election
     const assignment = await prisma.adminAssignments.findFirst({
       where: {
@@ -152,7 +152,7 @@ export async function isAdminAuthorized(
         election_id: electionId,
       },
     });
-    
+
     return !!assignment;
   } catch (error) {
     console.error("Error checking admin authorization:", error);

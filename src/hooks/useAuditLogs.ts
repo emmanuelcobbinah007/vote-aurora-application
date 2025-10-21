@@ -28,22 +28,26 @@ export interface RecentAuditLogsQuery {
 // Helper functions to create domain types
 const createElectionId = (value: string): ElectionId => value as ElectionId;
 export const createActorId = (value: string): ActorId => value as ActorId;
-export const createAuditLogLimit = (value: number): AuditLogLimit => value as AuditLogLimit;
-
+export const createAuditLogLimit = (value: number): AuditLogLimit =>
+  value as AuditLogLimit;
 
 const fetchAuditLogs = async (): Promise<AuditLog[]> => {
-  const response = await apiClient.get('/audit-logs');
+  const response = await apiClient.get("/audit-logs");
   return response.data;
 };
 
 const fetchAuditLogsByElection = async (
   query: AuditLogsByElectionQuery
 ): Promise<AuditLog[]> => {
-  const response = await apiClient.get(`/audit-logs?electionId=${query.electionId}`);
+  const response = await apiClient.get(
+    `/audit-logs?electionId=${query.electionId}`
+  );
   return response.data;
 };
 
-const fetchAuditLogsByActor = async (query: AuditLogsByActorQuery): Promise<AuditLog[]> => {
+const fetchAuditLogsByActor = async (
+  query: AuditLogsByActorQuery
+): Promise<AuditLog[]> => {
   const response = await apiClient.get(`/audit-logs?actorId=${query.actorId}`);
   return response.data;
 };
@@ -51,7 +55,9 @@ const fetchAuditLogsByActor = async (query: AuditLogsByActorQuery): Promise<Audi
 const fetchRecentAuditLogs = async (
   query: RecentAuditLogsQuery
 ): Promise<AuditLog[]> => {
-  const response = await apiClient.get(`/audit-logs/recent?limit=${query.limit}`);
+  const response = await apiClient.get(
+    `/audit-logs/recent?limit=${query.limit}`
+  );
   return response.data;
 };
 
