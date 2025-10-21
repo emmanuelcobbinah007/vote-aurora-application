@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import loginPageImage from "../../../public/login_page_image.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import Link from "next/link";
@@ -440,7 +439,7 @@ const LoginPage = () => {
         <div className="flex-1 relative hidden md:flex items-center justify-center overflow-hidden opacity-0 animate-fade-in delay-100">
           {/* Background Image */}
           <Image
-            src={loginPageImage}
+            src="../../../public/login_page_image.png"
             alt="University Campus"
             fill
             className="object-cover"

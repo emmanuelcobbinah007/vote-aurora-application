@@ -5,8 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Image from "next/image";
-import { Mail, User, Key, Clock, RefreshCw, CheckCircle } from "lucide-react";
-import loginPageImage from "../../../../public/login_page_image.png";
+import { Mail, Clock } from "lucide-react";
 
 interface VoterVerificationFormProps {
   verificationData: {
@@ -449,7 +448,7 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
         <div className="flex-1 relative hidden md:flex items-center justify-center overflow-hidden opacity-0 animate-fade-in delay-100">
           {/* Background Image */}
           <Image
-            src={loginPageImage}
+            src="../../../../public/login_page_image.png"
             alt="University Campus"
             fill
             className="object-cover"
