@@ -48,7 +48,7 @@ const ElectionDetailsRoute = () => {
             Election Not Found
           </h2>
           <p className="text-gray-600 mb-4">
-            The election you're looking for doesn't exist.
+            The election you&apos;re looking for doesn&apos;t exist.
           </p>
           <button
             onClick={handleBack}

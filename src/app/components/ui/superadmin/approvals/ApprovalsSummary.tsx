@@ -52,7 +52,7 @@ const ApprovalsSummary: React.FC<ApprovalsSummaryProps> = ({
               <div className="flex items-center space-x-2">
                 {searchTerm && (
                   <div className="flex items-center space-x-1 px-2 py-1 bg-blue-100 text-blue-800 rounded-lg text-xs">
-                    <span>Search: "{searchTerm}"</span>
+                    <span>Search: &ldquo;{searchTerm}&rdquo;</span>
                   </div>
                 )}
                 {activeFilterCount > 0 && (

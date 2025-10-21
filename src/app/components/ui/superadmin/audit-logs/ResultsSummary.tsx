@@ -21,7 +21,9 @@ const ResultsSummary: React.FC<ResultsSummaryProps> = ({
         <span className="text-sm font-medium">
           {resultCount} result{resultCount !== 1 ? "s" : ""} found
         </span>
-        {searchTerm && <span className="text-sm">for "{searchTerm}"</span>}
+        {searchTerm && (
+          <span className="text-sm">for &ldquo;{searchTerm}&rdquo;</span>
+        )}
       </div>
       <button
         onClick={onClearAll}

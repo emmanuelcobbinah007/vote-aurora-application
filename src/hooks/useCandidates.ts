@@ -4,6 +4,7 @@ import { candidateApi } from "@/services/candidateApi";
 import {
   Candidate,
   CandidateFormData,
+  Portfolio,
 } from "@/app/components/ui/superadmin/elections/details/ElectionDetailsTypes";
 
 // Query Keys
@@ -24,9 +25,9 @@ export const useCandidates = (electionId: string) => {
     queryFn: () => candidateApi.getCandidates(electionId),
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
-    retry: (failureCount, error: any) => {
+    retry: (failureCount, error: unknown) => {
       // Don't retry if it's a 404 (election not found)
-      if (error?.response?.status === 404) return false;
+      if ((error as any)?.response?.status === 404) return false;
       return failureCount < 3;
     },
   });
@@ -93,7 +94,7 @@ export const useCreateCandidate = (electionId: string) => {
       return { previousCandidates, optimisticCandidate };
     },
 
-    onError: (err: any, variables, context) => {
+    onError: (err: Error, variables, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousCandidates) {
         queryClient.setQueryData(
@@ -104,8 +105,8 @@ export const useCreateCandidate = (electionId: string) => {
       // Rollback portfolio count
       queryClient.setQueryData(
         ["portfolios", "election", electionId],
-        (old: any) =>
-          old?.map((portfolio: any) =>
+        (old: Portfolio[] | undefined) =>
+          old?.map((portfolio: Portfolio) =>
             portfolio.id === variables.portfolioId
               ? {
                   ...portfolio,
@@ -189,7 +190,7 @@ export const useUpdateCandidate = (electionId: string) => {
       return { previousCandidates };
     },
 
-    onError: (err: any, variables, context) => {
+    onError: (err: Error, variables, context) => {
       if (context?.previousCandidates) {
         queryClient.setQueryData(
           candidateKeys.byElection(electionId),
@@ -271,7 +272,7 @@ export const useDeleteCandidate = (electionId: string) => {
       return { previousCandidates, candidateToDelete };
     },
 
-    onError: (err: any, candidateId, context) => {
+    onError: (err: Error, candidateId, context) => {
       if (context?.previousCandidates) {
         queryClient.setQueryData(
           candidateKeys.byElection(electionId),
@@ -282,8 +283,8 @@ export const useDeleteCandidate = (electionId: string) => {
       if (context?.candidateToDelete) {
         queryClient.setQueryData(
           ["portfolios", "election", electionId],
-          (old: any) =>
-            old?.map((portfolio: any) =>
+          (old: Portfolio[] | undefined) =>
+            old?.map((portfolio: Portfolio) =>
               portfolio.id === context.candidateToDelete?.portfolio_id
                 ? {
                     ...portfolio,

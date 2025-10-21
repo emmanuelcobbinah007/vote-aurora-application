@@ -41,7 +41,7 @@ export default function InviteSuperAdminRegistrationForm({
             Complete Your Registration
           </h1>
           <p className="text-blue-100 text-sm">
-            You've been invited as a Super Admin
+            You&apos;ve been invited as a Super Admin
           </p>
         </div>
 

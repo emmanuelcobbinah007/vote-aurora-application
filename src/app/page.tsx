@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import voteAurora_crest from "../../public/voteAurora_crest.png";
 
-const page = () => {
+const HomePage = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -199,4 +199,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default HomePage;

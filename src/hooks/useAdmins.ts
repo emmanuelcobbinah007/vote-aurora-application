@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/services/apiClient";
 import { ElectionAdmin, AdminStats } from "@/data";
 
@@ -24,8 +24,6 @@ export interface AdminQuery {
   readonly adminId: AdminId;
 }
 
-export interface AdminStatsQuery extends AdminQuery {}
-
 export interface AdminsByRoleQuery {
   readonly role: AdminRole;
 }
@@ -34,25 +32,28 @@ export interface AdminsByElectionQuery {
   readonly electionId: ElectionId;
 }
 
-
 // Helper functions to create domain types
 export const createAdminId = (value: string): AdminId => ({ value });
 export const createElectionId = (value: string): ElectionId => ({ value });
-export const createAdminRole = (value: ElectionAdmin["role"]): AdminRole => ({ value });
+export const createAdminRole = (value: ElectionAdmin["role"]): AdminRole => ({
+  value,
+});
 
 // API functions using real endpoints
 const fetchAdmins = async (): Promise<ElectionAdmin[]> => {
-  const response = await apiClient.get('/admins');
+  const response = await apiClient.get("/admins");
   return response.data;
 };
 
-const fetchAdminById = async (query: AdminQuery): Promise<ElectionAdmin | null> => {
+const fetchAdminById = async (
+  query: AdminQuery
+): Promise<ElectionAdmin | null> => {
   const response = await apiClient.get(`/admins/${query.adminId.value}`);
   return response.data;
 };
 
 const fetchAdminWithStats = async (
-  query: AdminStatsQuery
+  query: AdminQuery
 ): Promise<(ElectionAdmin & { stats: AdminStats }) | null> => {
   const response = await apiClient.get(`/admins/${query.adminId.value}/stats`);
   return response.data;
@@ -66,14 +67,16 @@ const fetchAdminsByRole = async (
 };
 
 const fetchActiveAdmins = async (): Promise<ElectionAdmin[]> => {
-  const response = await apiClient.get('/admins?status=ACTIVE');
+  const response = await apiClient.get("/admins?status=ACTIVE");
   return response.data;
 };
 
 const fetchAdminsByElection = async (
   query: AdminsByElectionQuery
 ): Promise<ElectionAdmin[]> => {
-  const response = await apiClient.get(`/elections/${query.electionId.value}/admins`);
+  const response = await apiClient.get(
+    `/elections/${query.electionId.value}/admins`
+  );
   return response.data;
 };
 
@@ -84,9 +87,12 @@ export const ADMIN_QUERY_KEYS = {
   list: (filters: AdminFilter) =>
     [...ADMIN_QUERY_KEYS.lists(), { filters }] as const,
   details: () => [...ADMIN_QUERY_KEYS.all, "detail"] as const,
-  detail: (adminId: AdminId) => [...ADMIN_QUERY_KEYS.details(), adminId.value] as const,
-  stats: (adminId: AdminId) => [...ADMIN_QUERY_KEYS.detail(adminId), "stats"] as const,
-  byRole: (role: AdminRole) => [...ADMIN_QUERY_KEYS.lists(), { role: role.value }] as const,
+  detail: (adminId: AdminId) =>
+    [...ADMIN_QUERY_KEYS.details(), adminId.value] as const,
+  stats: (adminId: AdminId) =>
+    [...ADMIN_QUERY_KEYS.detail(adminId), "stats"] as const,
+  byRole: (role: AdminRole) =>
+    [...ADMIN_QUERY_KEYS.lists(), { role: role.value }] as const,
   byElection: (electionId: ElectionId) =>
     [...ADMIN_QUERY_KEYS.lists(), { electionId: electionId.value }] as const,
 };
@@ -109,7 +115,7 @@ export const useAdmin = (query: AdminQuery) => {
   });
 };
 
-export const useAdminWithStats = (query: AdminStatsQuery) => {
+export const useAdminWithStats = (query: AdminQuery) => {
   return useQuery({
     queryKey: ADMIN_QUERY_KEYS.stats(query.adminId),
     queryFn: () => fetchAdminWithStats(query),

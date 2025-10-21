@@ -64,7 +64,7 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({
           <div className="flex justify-between items-start">
             <div>
               <p className="text-gray-600 mt-2">
-                Welcome back! Here's an overview of VoteAurora.
+                Welcome back! Here&apos;s an overview of VoteAurora.
               </p>
             </div>
             <div className="flex gap-3">

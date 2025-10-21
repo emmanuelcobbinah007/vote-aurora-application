@@ -291,4 +291,6 @@ const ApprovalDialogContent: React.FC<ApprovalDialogContentProps> = React.memo(
   }
 );
 
+ApprovalDialogContent.displayName = "ApprovalDialogContent";
+
 export default ApprovalDialogContent;

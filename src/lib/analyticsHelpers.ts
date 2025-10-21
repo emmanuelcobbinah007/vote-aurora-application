@@ -80,7 +80,7 @@ export function formatDurationFromDates(
     const s = new Date(start);
     const e = new Date(end);
     if (isNaN(s.getTime()) || isNaN(e.getTime())) return null;
-    let diff = Math.abs(e.getTime() - s.getTime());
+    const diff = Math.abs(e.getTime() - s.getTime());
     const minutes = Math.floor(diff / (1000 * 60));
     const days = Math.floor(minutes / (60 * 24));
     const hours = Math.floor((minutes % (60 * 24)) / 60);

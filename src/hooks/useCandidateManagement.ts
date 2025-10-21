@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { Candidate } from "@/services/adminApi";
 
 interface CandidateFormData {
@@ -13,13 +14,31 @@ interface Election {
   portfolios?: Array<{ id: string; title: string }>;
 }
 
+interface CreateCandidateVariables {
+  portfolioId: string;
+  candidateData: CandidateFormData;
+}
+
+interface UpdateCandidateVariables {
+  candidateId: string;
+  candidateData: CandidateFormData & { portfolio_id?: string };
+}
+
 export function useCandidateManagement(
   candidates: Candidate[],
   election: Election | undefined,
-  refetchCandidates: () => Promise<any>,
-  createCandidateMutation: any,
-  updateCandidateMutation: any,
-  deleteCandidateMutation: any,
+  refetchCandidates: UseQueryResult["refetch"],
+  createCandidateMutation: UseMutationResult<
+    Candidate,
+    Error,
+    CreateCandidateVariables
+  >,
+  updateCandidateMutation: UseMutationResult<
+    Candidate,
+    Error,
+    UpdateCandidateVariables
+  >,
+  deleteCandidateMutation: UseMutationResult<void, Error, string>,
   isElectionLocked: boolean = false
 ) {
   const [selectedPortfolio, setSelectedPortfolio] = useState<string | null>(

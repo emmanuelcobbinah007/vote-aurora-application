@@ -1,26 +1,24 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import {
-  BarChart3,
-  BarChart4,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Vote,
-  PieChart,
-  Settings,
-  UserPlus,
-  CheckCircle,
-  History,
-} from "lucide-react";
 import voteAurora_crest from "../../../../../public/voteLogo.png";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useSidebar } from "../../../contexts/SidebarContext";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import {
+  BarChart3,
+  BarChart4,
+  ChevronLeft,
+  ChevronRight,
+  Settings,
+  Vote,
+  UserPlus,
+  PieChart,
+  CheckCircle,
+  History,
+  LogOut,
+} from "lucide-react";
 
 const Sidebar = () => {
   const { isCollapsed, toggleSidebar } = useSidebar();
@@ -240,8 +238,12 @@ const Sidebar = () => {
           <div className="flex items-center justify-between">
             {isCollapsed ? (
               <div className="flex justify-center w-full">
-                <Image
-                  src={voteAurora_crest}
+                <img
+                  src={
+                    typeof voteAurora_crest === "string"
+                      ? voteAurora_crest
+                      : voteAurora_crest.src
+                  }
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
@@ -251,8 +253,12 @@ const Sidebar = () => {
             ) : (
               <>
                 <div className="flex items-center space-x-3">
-                  <Image
-                    src={voteAurora_crest}
+                  <img
+                    src={
+                      typeof voteAurora_crest === "string"
+                        ? voteAurora_crest
+                        : voteAurora_crest.src
+                    }
                     alt="UPSA University Crest"
                     width={32}
                     height={32}

@@ -108,8 +108,8 @@ const ElectionSystemDemo: React.FC = () => {
                 </li>
               </ul>
               <p className="mt-2 font-medium">
-                Click on "View Details" for any election to see the full
-                management interface.
+                Click on &ldquo;View Details&rdquo; for any election to see the
+                full management interface.
               </p>
             </div>
           </div>

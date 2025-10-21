@@ -41,7 +41,7 @@ export default function InviteOrchestratorRegistrationForm({
             Complete Your Registration
           </h1>
           <p className="text-blue-100 text-sm">
-            You've been invited as an Orchestrator
+            You&apos;ve been invited as an Orchestrator
           </p>
         </div>
 

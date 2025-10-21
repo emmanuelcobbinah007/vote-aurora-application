@@ -577,7 +577,8 @@ const CreateElectionModal: React.FC<CreateElectionModalProps> = ({
                     />
                     {isRestrictedMode && !isFieldDisabled("end_time") && (
                       <p className="text-xs text-green-600 mt-1">
-                        You can extend the election end time while it's live
+                        You can extend the election end time while it&apos;s
+                        live
                       </p>
                     )}
                   </div>

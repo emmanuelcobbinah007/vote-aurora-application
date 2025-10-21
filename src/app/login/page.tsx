@@ -22,7 +22,7 @@ const validationSchema = Yup.object({
   password: Yup.string().required("Password is required"),
 });
 
-const page = () => {
+const LoginPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
@@ -457,4 +457,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default LoginPage;

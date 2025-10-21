@@ -59,52 +59,18 @@ const invalidateAdminCandidateQueries = (
   }
 };
 
-const handleMutationError = (error: any, defaultMessage: string) => {
+const handleMutationError = (error: Error, defaultMessage: string) => {
   toast.error(error.message || defaultMessage);
 };
 
-const handleQueryRetry = (failureCount: number, error: any): boolean => {
-  if (error?.response?.status === 403) {
+const handleQueryRetry = (failureCount: number, error: Error): boolean => {
+  if ((error as any)?.response?.status === 403) {
     toast.error(
       "You don't have access to manage candidates for this election."
     );
     return false;
   }
   return failureCount < 2;
-};
-
-interface MutationConfig<TVariables> {
-  mutationFn: (variables: TVariables) => Promise<any>;
-  successMessage: string;
-  errorMessage: string;
-  shouldInvalidateDetail?: boolean;
-}
-
-const createAdminCandidateMutation = <TVariables>(
-  context: AdminContext,
-  config: MutationConfig<TVariables>
-) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: config.mutationFn,
-    onSuccess: (data, variables: any) => {
-      const candidateId = config.shouldInvalidateDetail
-        ? variables.candidateId
-        : undefined;
-      invalidateAdminCandidateQueries(queryClient, context, candidateId);
-      toast.success(config.successMessage);
-    },
-    onError: (error: any) => {
-      handleMutationError(error, config.errorMessage);
-      if (
-        config.errorMessage.includes("create") ||
-        config.errorMessage.includes("update")
-      ) {
-        throw error;
-      }
-    },
-  });
 };
 
 export function useAdminCandidates(context: AdminContext) {
@@ -135,7 +101,9 @@ export function useAdminCandidate(context: CandidateContext) {
 }
 
 export function useCreateAdminCandidate(context: AdminContext) {
-  return createAdminCandidateMutation(context, {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: (request: CreateCandidateRequest) =>
       adminApi.createCandidate(
         adminApi.createAdminId(context.adminId),
@@ -143,13 +111,23 @@ export function useCreateAdminCandidate(context: AdminContext) {
         adminApi.createPortfolioId(request.portfolioId),
         request.candidateData
       ),
-    successMessage: "Candidate created successfully!",
-    errorMessage: "Failed to create candidate. Please try again.",
+    onSuccess: () => {
+      invalidateAdminCandidateQueries(queryClient, context);
+      toast.success("Candidate created successfully!");
+    },
+    onError: (error: Error) => {
+      handleMutationError(
+        error,
+        "Failed to create candidate. Please try again."
+      );
+    },
   });
 }
 
 export function useUpdateAdminCandidate(context: AdminContext) {
-  return createAdminCandidateMutation(context, {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: (request: UpdateCandidateRequest) =>
       adminApi.updateCandidate(
         adminApi.createAdminId(context.adminId),
@@ -162,21 +140,42 @@ export function useUpdateAdminCandidate(context: AdminContext) {
             : undefined,
         }
       ),
-    successMessage: "Candidate updated successfully!",
-    errorMessage: "Failed to update candidate. Please try again.",
-    shouldInvalidateDetail: true,
+    onSuccess: (_, variables) => {
+      invalidateAdminCandidateQueries(
+        queryClient,
+        context,
+        variables.candidateId
+      );
+      toast.success("Candidate updated successfully!");
+    },
+    onError: (error: Error) => {
+      handleMutationError(
+        error,
+        "Failed to update candidate. Please try again."
+      );
+    },
   });
 }
 
 export function useDeleteAdminCandidate(context: AdminContext) {
-  return createAdminCandidateMutation(context, {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationFn: (candidateId: string) =>
       adminApi.deleteCandidate(
         adminApi.createAdminId(context.adminId),
         adminApi.createElectionId(context.electionId),
         adminApi.createCandidateId(candidateId)
       ),
-    successMessage: "Candidate deleted successfully!",
-    errorMessage: "Failed to delete candidate. Please try again.",
+    onSuccess: () => {
+      invalidateAdminCandidateQueries(queryClient, context);
+      toast.success("Candidate deleted successfully!");
+    },
+    onError: (error: Error) => {
+      handleMutationError(
+        error,
+        "Failed to delete candidate. Please try again."
+      );
+    },
   });
 }

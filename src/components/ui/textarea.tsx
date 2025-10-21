@@ -1,9 +1,11 @@
-"use client";
-
 import * as React from "react";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  // Extends base textarea attributes - intentionally empty for future customization
+  _extendsBaseTextareaAttributes?: never;
+}
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className = "", ...props }, ref) => {

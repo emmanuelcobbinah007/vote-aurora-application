@@ -493,7 +493,7 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
                 {portfolios.length - portfoliosWithCandidates !== 1
                   ? "s have"
                   : " has"}{" "}
-                no candidates yet. Voters won't be able to vote for these
+                no candidates yet. Voters won&apos;t be able to vote for these
                 positions until candidates are added.
               </p>
             </div>
@@ -520,8 +520,8 @@ const BallotSetupManager: React.FC<BallotSetupManagerProps> = ({
               </p>
               <p>• Save changes to apply the new ballot structure</p>
               <p>
-                • Portfolios without candidates will show as "No Candidates"
-                warnings
+                • Portfolios without candidates will show as &ldquo;No
+                Candidates&rdquo; warnings
               </p>
             </div>
           </div>
