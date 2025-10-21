@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-const ElectionClosedPage = () => {
+const ElectionClosedContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const adminId = searchParams.get("adminId");
@@ -52,6 +52,14 @@ const ElectionClosedPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const ElectionClosedPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ElectionClosedContent />
+    </Suspense>
   );
 };
 
