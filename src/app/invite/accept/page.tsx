@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CheckCircle, X } from "lucide-react";
 import InviteOrchestratorRegistrationForm from "@/app/components/ui/registration-forms/InviteOrchestratorRegistrationForm";
@@ -20,7 +20,7 @@ interface InvitationData {
   };
 }
 
-const AcceptInvitePage = () => {
+const AcceptInvitePageContent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");
@@ -253,6 +253,14 @@ const AcceptInvitePage = () => {
       />
     );
   }
+};
+
+const AcceptInvitePage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AcceptInvitePageContent />
+    </Suspense>
+  );
 };
 
 export default AcceptInvitePage;
