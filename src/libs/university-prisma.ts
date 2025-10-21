@@ -8,11 +8,6 @@ export const universityPrisma =
   globalForUniversityPrisma.universityPrisma ||
   new PrismaClient({
     log: ["query", "error", "warn"],
-    datasources: {
-      university_db: {
-        url: process.env.UNIVERSITY_DATABASE_URL,
-      },
-    },
   });
 
 if (process.env.NODE_ENV !== "production")
