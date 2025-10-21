@@ -77,10 +77,11 @@ const HomePage = () => {
       >
         {/* Vote Aurora Crest */}
         <Image
-          src="../../public/voteAurora_crest.png"
+          src="/voteAurora_crest.png"
           alt="Vote Aurora Crest"
           width={80}
           height={80}
+          priority
           style={{
             objectFit: "contain",
           }}
