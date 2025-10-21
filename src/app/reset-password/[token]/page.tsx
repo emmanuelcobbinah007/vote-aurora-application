@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 export default function ResetPasswordPage({
   params,
 }: {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,10 +20,14 @@ export default function ResetPasswordPage({
   const router = useRouter();
 
   useEffect(() => {
-    if (params.token) {
-      setToken(params.token);
-    }
-  }, [params.token]);
+    const getParams = async () => {
+      const resolvedParams = await params;
+      if (resolvedParams.token) {
+        setToken(resolvedParams.token);
+      }
+    };
+    getParams();
+  }, [params]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

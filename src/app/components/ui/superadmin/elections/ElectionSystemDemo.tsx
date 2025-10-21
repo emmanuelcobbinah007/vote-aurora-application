@@ -18,6 +18,7 @@ const mockElectionWithDetails: ElectionWithDetails = {
   updated_at: "2024-02-15T14:30:00.000Z",
   created_by: "user-1",
   approved_by: undefined,
+  is_general: false,
   portfolios: [],
   candidates: [],
   ballots: [],
@@ -65,7 +66,6 @@ const ElectionSystemDemo: React.FC = () => {
       <ElectionDetailsPage
         election={selectedElection}
         onBack={handleBackToList}
-        onEditElection={handleEditElection}
       />
     );
   }

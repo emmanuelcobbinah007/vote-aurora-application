@@ -4,10 +4,10 @@ import { isAdminAuthorized } from "@/libs/auth-utils";
 
 export async function GET(
   request: Request,
-  { params }: { params: { adminId: string; electionId: string } }
+  { params }: { params: Promise<{ adminId: string; electionId: string }> }
 ) {
   try {
-    const { adminId, electionId } = params;
+    const { adminId, electionId } = await params;
 
     // Check if admin is authorized to access this election
     const isAuthorized = await isAdminAuthorized(adminId, electionId);

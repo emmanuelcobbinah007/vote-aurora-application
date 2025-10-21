@@ -446,7 +446,7 @@ const ElectionAnalytics: React.FC<ElectionAnalyticsProps> = ({
                         cy="50%"
                         labelLine={false}
                         label={({ name, percentage }) =>
-                          `${name}: ${percentage.toFixed(1)}%`
+                          `${name}: ${(percentage as number).toFixed(1)}%`
                         }
                         outerRadius={80}
                         fill="#92400E"

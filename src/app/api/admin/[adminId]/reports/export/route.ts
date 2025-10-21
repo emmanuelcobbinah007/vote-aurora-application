@@ -38,13 +38,14 @@ async function fetchAdminElection(adminId: string) {
 // Helper function to generate CSV report content
 function generateCSVReport(election: any): string {
   let csvContent = "Portfolio,Candidate,Votes,Percentage\n";
-  
+
   const totalVotes = election._count.ballots;
-  
+
   election.portfolios.forEach((portfolio: any) => {
     portfolio.candidates.forEach((candidate: any) => {
       const votes = candidate._count.votes;
-      const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(2) : '0.00';
+      const percentage =
+        totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(2) : "0.00";
       csvContent += `"${portfolio.title}","${candidate.full_name}",${votes},${percentage}%\n`;
     });
   });
@@ -66,9 +67,13 @@ function generateJSONReport(election: any): object {
       candidates: portfolio.candidates.map((candidate: any) => ({
         name: candidate.full_name,
         votes: candidate._count.votes,
-        percentage: election._count.ballots > 0 
-          ? ((candidate._count.votes / election._count.ballots) * 100).toFixed(2)
-          : '0.00',
+        percentage:
+          election._count.ballots > 0
+            ? (
+                (candidate._count.votes / election._count.ballots) *
+                100
+              ).toFixed(2)
+            : "0.00",
       })),
     })),
     generated_at: new Date().toISOString(),
@@ -79,8 +84,8 @@ function generateJSONReport(election: any): object {
 function createCSVResponse(csvContent: string, electionId: string): Response {
   return new Response(csvContent, {
     headers: {
-      'Content-Type': 'text/csv',
-      'Content-Disposition': `attachment; filename="election-report-${electionId}.csv"`,
+      "Content-Type": "text/csv",
+      "Content-Disposition": `attachment; filename="election-report-${electionId}.csv"`,
     },
   });
 }
@@ -89,20 +94,20 @@ function createCSVResponse(csvContent: string, electionId: string): Response {
 function createJSONResponse(reportData: object, electionId: string): Response {
   return new Response(JSON.stringify(reportData, null, 2), {
     headers: {
-      'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="election-report-${electionId}.json"`,
+      "Content-Type": "application/json",
+      "Content-Disposition": `attachment; filename="election-report-${electionId}.json"`,
     },
   });
 }
 
 export async function GET(
   request: Request,
-  { params }: { params: { adminId: string } }
+  { params }: { params: Promise<{ adminId: string }> }
 ) {
   try {
-    const { adminId } = params;
+    const { adminId } = await params;
     const { searchParams } = new URL(request.url);
-    const format = searchParams.get('format') || 'csv';
+    const format = searchParams.get("format") || "csv";
 
     // Fetch admin's assigned election
     const assignment = await fetchAdminElection(adminId);
@@ -117,7 +122,7 @@ export async function GET(
     const { election } = assignment;
 
     // Generate and return CSV format
-    if (format === 'csv') {
+    if (format === "csv") {
       const csvContent = generateCSVReport(election);
       return createCSVResponse(csvContent, election.id);
     }
@@ -125,7 +130,6 @@ export async function GET(
     // Generate and return JSON format
     const reportData = generateJSONReport(election);
     return createJSONResponse(reportData, election.id);
-
   } catch (error: any) {
     console.error("Error exporting reports:", error);
     return NextResponse.json(

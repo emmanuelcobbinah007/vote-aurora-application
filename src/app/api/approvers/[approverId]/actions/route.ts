@@ -13,10 +13,10 @@ interface ActionRequest {
 // POST /api/approvers/[approverId]/actions
 export async function POST(
   request: NextRequest,
-  { params }: { params: { approverId: string } }
+  { params }: { params: Promise<{ approverId: string }> }
 ) {
   try {
-    const { approverId } = params;
+    const { approverId } = await params;
     const body: ActionRequest = await request.json();
     const { electionId, action, comments, requestReview } = body;
 
@@ -288,10 +288,10 @@ export async function POST(
 // GET /api/approvers/[approverId]/actions - Get action history
 export async function GET(
   request: NextRequest,
-  { params }: { params: { approverId: string } }
+  { params }: { params: Promise<{ approverId: string }> }
 ) {
   try {
-    const { approverId } = params;
+    const { approverId } = await params;
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "20");

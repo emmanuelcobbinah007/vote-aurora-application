@@ -271,11 +271,11 @@ function generateStatusSpecificAnalytics(context: AnalyticsContext) {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { superadminId: string; electionId: string } }
+  { params }: { params: Promise<{ superadminId: string; electionId: string }> }
 ) {
   try {
     // `params` can be a Promise in some Next.js runtimes — await it before use
-    const { electionId } = (await params) as { electionId: string };
+    const { superadminId, electionId } = await params;
 
     const election = await fetchElectionById(electionId);
 

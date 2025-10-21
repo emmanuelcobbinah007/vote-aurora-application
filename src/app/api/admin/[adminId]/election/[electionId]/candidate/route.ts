@@ -21,11 +21,18 @@ interface CreationValidationStrategy {
   validate(context: CandidateCreationContext): Promise<void>;
 }
 
-class AdminCreationAccessValidationStrategy implements CreationValidationStrategy {
+class AdminCreationAccessValidationStrategy
+  implements CreationValidationStrategy
+{
   async validate(context: CandidateCreationContext): Promise<void> {
-    const isAuthorized = await isAdminAuthorized(context.adminId, context.electionId);
+    const isAuthorized = await isAdminAuthorized(
+      context.adminId,
+      context.electionId
+    );
     if (!isAuthorized) {
-      throw new Error("Unauthorized. Admin does not have access to this election.");
+      throw new Error(
+        "Unauthorized. Admin does not have access to this election."
+      );
     }
   }
 }
@@ -39,7 +46,9 @@ class RequiredFieldsValidationStrategy implements CreationValidationStrategy {
   }
 }
 
-class PortfolioExistenceValidationStrategy implements CreationValidationStrategy {
+class PortfolioExistenceValidationStrategy
+  implements CreationValidationStrategy
+{
   async validate(context: CandidateCreationContext): Promise<void> {
     const portfolio = await prisma.portfolios.findFirst({
       where: {
@@ -49,7 +58,9 @@ class PortfolioExistenceValidationStrategy implements CreationValidationStrategy
     });
 
     if (!portfolio) {
-      throw new Error("Portfolio not found or does not belong to this election");
+      throw new Error(
+        "Portfolio not found or does not belong to this election"
+      );
     }
   }
 }
@@ -57,7 +68,7 @@ class PortfolioExistenceValidationStrategy implements CreationValidationStrategy
 class DuplicateNameValidationStrategy implements CreationValidationStrategy {
   async validate(context: CandidateCreationContext): Promise<void> {
     const { portfolio_id, full_name } = context.candidateData;
-    
+
     const existingCandidate = await prisma.candidates.findFirst({
       where: {
         portfolio_id,
@@ -66,7 +77,9 @@ class DuplicateNameValidationStrategy implements CreationValidationStrategy {
     });
 
     if (existingCandidate) {
-      throw new Error(`A candidate with the name "${full_name}" already exists for this portfolio`);
+      throw new Error(
+        `A candidate with the name "${full_name}" already exists for this portfolio`
+      );
     }
   }
 }
@@ -74,8 +87,9 @@ class DuplicateNameValidationStrategy implements CreationValidationStrategy {
 // Repository for candidate creation operations
 class CandidateCreationRepository {
   static async createCandidate(context: CandidateCreationContext) {
-    const { portfolio_id, full_name, photo_url, manifesto } = context.candidateData;
-    
+    const { portfolio_id, full_name, photo_url, manifesto } =
+      context.candidateData;
+
     return await prisma.candidates.create({
       data: {
         portfolio_id,
@@ -107,9 +121,13 @@ class CandidateCreationRepository {
 
 // Audit trail service for creation
 class CandidateCreationAuditService {
-  static async createCreationAuditTrail(context: CandidateCreationContext, newCandidate: any): Promise<void> {
-    const { full_name, portfolio_id, photo_url, manifesto } = context.candidateData;
-    
+  static async createCreationAuditTrail(
+    context: CandidateCreationContext,
+    newCandidate: any
+  ): Promise<void> {
+    const { full_name, portfolio_id, photo_url, manifesto } =
+      context.candidateData;
+
     const portfolio = await CandidateCreationRepository.getPortfolioForAudit(
       portfolio_id,
       context.electionId
@@ -183,7 +201,10 @@ class CreateCandidateCommand implements CandidateCreationCommand {
   }
 
   private async createAuditTrail(newCandidate: any): Promise<void> {
-    await CandidateCreationAuditService.createCreationAuditTrail(this.context, newCandidate);
+    await CandidateCreationAuditService.createCreationAuditTrail(
+      this.context,
+      newCandidate
+    );
   }
 }
 
@@ -208,23 +229,23 @@ class CandidateCreationController {
 // Error handler for creation operations
 function createCreationErrorResponse(error: any): NextResponse {
   console.error("Candidate creation error:", error);
-  
+
   if (error.message.includes("Unauthorized")) {
     return NextResponse.json({ error: error.message }, { status: 403 });
   }
-  
+
   if (error.message.includes("required")) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
-  
+
   if (error.message.includes("not found")) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
-  
+
   if (error.message.includes("already exists")) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
-  
+
   return NextResponse.json(
     { error: "Failed to create candidate" },
     { status: 500 }
@@ -254,9 +275,7 @@ class CandidateListingRepository {
 
 // Command for listing candidates
 class ListCandidatesCommand {
-  constructor(
-    private context: { adminId: string; electionId: string }
-  ) {}
+  constructor(private context: { adminId: string; electionId: string }) {}
 
   async execute(): Promise<any> {
     await this.validateAccess();
@@ -264,37 +283,42 @@ class ListCandidatesCommand {
   }
 
   private async validateAccess(): Promise<void> {
-    const isAuthorized = await isAdminAuthorized(this.context.adminId, this.context.electionId);
+    const isAuthorized = await isAdminAuthorized(
+      this.context.adminId,
+      this.context.electionId
+    );
     if (!isAuthorized) {
-      throw new Error("Unauthorized. Admin does not have access to this election.");
+      throw new Error(
+        "Unauthorized. Admin does not have access to this election."
+      );
     }
   }
 
   private async fetchCandidates(): Promise<any[]> {
-    return await CandidateListingRepository.findCandidatesByElection(this.context.electionId);
+    return await CandidateListingRepository.findCandidatesByElection(
+      this.context.electionId
+    );
   }
 }
 
 // Get all candidates for a specific election that the admin manages
 export async function GET(
   request: Request,
-  { params }: { params: { adminId: string; electionId: string } }
+  { params }: { params: Promise<{ adminId: string; electionId: string }> }
 ) {
   try {
-    const command = new ListCandidatesCommand(params);
+    const resolvedParams = await params;
+    const command = new ListCandidatesCommand(resolvedParams);
     const candidates = await command.execute();
 
     return NextResponse.json({ candidates });
   } catch (error: any) {
     console.error("Error fetching candidates:", error);
-    
+
     if (error.message.includes("Unauthorized")) {
-      return NextResponse.json(
-        { error: error.message },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: error.message }, { status: 403 });
     }
-    
+
     return NextResponse.json(
       { error: "Failed to fetch candidates" },
       { status: 500 }
@@ -305,12 +329,13 @@ export async function GET(
 // Create a new candidate
 export async function POST(
   request: Request,
-  { params }: { params: { adminId: string; electionId: string } }
+  { params }: { params: Promise<{ adminId: string; electionId: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     const body = await request.json();
     const { portfolio_id, full_name, photo_url, manifesto } = body;
-    
+
     const candidateData: CandidateCreationData = {
       portfolio_id,
       full_name,
@@ -318,10 +343,13 @@ export async function POST(
       manifesto,
     };
 
-    const context = CandidateCreationContextFactory.createContext(params, candidateData);
+    const context = CandidateCreationContextFactory.createContext(
+      resolvedParams,
+      candidateData
+    );
     const controller = new CandidateCreationController();
     const command = new CreateCandidateCommand(context);
-    
+
     const newCandidate = await controller.executeCommand(command);
 
     return NextResponse.json({

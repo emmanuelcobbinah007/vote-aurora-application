@@ -3,23 +3,20 @@ import prisma from "@/libs/prisma";
 import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     electionId: string;
-  };
+  }>;
 }
 
 // GET: Fetch analytics data for a specific election
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   const authResult = await validateSuperAdmin(request);
   if (!authResult.success) {
     return createAuthErrorResponse(authResult);
   }
 
   try {
-    const { electionId } = params;
+    const { electionId } = await params;
 
     // Verify election exists
     const election = await prisma.elections.findUnique({
@@ -45,14 +42,16 @@ export async function GET(
     }
 
     // Get basic vote counts
-    const [totalVotes, totalVoters, portfoliosCount, candidatesCount] = await Promise.all([
-      prisma.votes.count({ where: { election_id: electionId } }),
-      prisma.voterTokens.count({ where: { election_id: electionId } }),
-      prisma.portfolios.count({ where: { election_id: electionId } }),
-      prisma.candidates.count({ where: { election_id: electionId } }),
-    ]);
+    const [totalVotes, totalVoters, portfoliosCount, candidatesCount] =
+      await Promise.all([
+        prisma.votes.count({ where: { election_id: electionId } }),
+        prisma.voterTokens.count({ where: { election_id: electionId } }),
+        prisma.portfolios.count({ where: { election_id: electionId } }),
+        prisma.candidates.count({ where: { election_id: electionId } }),
+      ]);
 
-    const turnoutPercentage = totalVoters > 0 ? (totalVotes / totalVoters) * 100 : 0;
+    const turnoutPercentage =
+      totalVoters > 0 ? (totalVotes / totalVoters) * 100 : 0;
 
     // Get portfolio distribution
     const portfolioVotes = await prisma.votes.groupBy({
@@ -76,7 +75,7 @@ export async function GET(
       const portfolio = portfolios.find((p) => p.id === pv.portfolio_id);
       const votes = pv._count.portfolio_id;
       const percentage = totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
-      
+
       return {
         name: portfolio?.title || "Unknown Portfolio",
         votes,
@@ -86,10 +85,13 @@ export async function GET(
 
     // Get hourly voting trends (for the last 24 hours or election duration)
     const startTime = new Date(election.start_time);
-    const endTime = election.status === "LIVE" ? new Date() : new Date(election.end_time);
-    
+    const endTime =
+      election.status === "LIVE" ? new Date() : new Date(election.end_time);
+
     // Generate hourly data
-    const hourlyVotes = await prisma.$queryRaw<Array<{ hour: string; votes: number }>>`
+    const hourlyVotes = await prisma.$queryRaw<
+      Array<{ hour: string; votes: number }>
+    >`
       SELECT 
         TO_CHAR(cast_at, 'HH24:MI') as hour,
         COUNT(*)::int as votes
@@ -125,7 +127,7 @@ export async function GET(
       const candidate = candidates.find((c) => c.id === cv.candidate_id);
       const votes = cv._count.candidate_id;
       const percentage = totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
-      
+
       return {
         name: candidate?.full_name || "Unknown Candidate",
         portfolio: candidate?.portfolio.title || "Unknown Portfolio",
@@ -143,10 +145,26 @@ export async function GET(
 
     // Voter demographics (simplified - would need additional user data)
     const voterDemographics = [
-      { category: "Year 1", count: Math.floor(totalVotes * 0.28), percentage: 28.0 },
-      { category: "Year 2", count: Math.floor(totalVotes * 0.25), percentage: 25.0 },
-      { category: "Year 3", count: Math.floor(totalVotes * 0.24), percentage: 24.0 },
-      { category: "Year 4", count: Math.floor(totalVotes * 0.23), percentage: 23.0 },
+      {
+        category: "Year 1",
+        count: Math.floor(totalVotes * 0.28),
+        percentage: 28.0,
+      },
+      {
+        category: "Year 2",
+        count: Math.floor(totalVotes * 0.25),
+        percentage: 25.0,
+      },
+      {
+        category: "Year 3",
+        count: Math.floor(totalVotes * 0.24),
+        percentage: 24.0,
+      },
+      {
+        category: "Year 4",
+        count: Math.floor(totalVotes * 0.23),
+        percentage: 23.0,
+      },
     ];
 
     const analyticsData = {

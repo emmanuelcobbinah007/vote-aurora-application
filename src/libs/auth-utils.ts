@@ -68,13 +68,16 @@ export async function validateSession(
       };
     }
 
+    // Token is validated above, so we can safely assert its type
+    const validToken = token as NonNullable<typeof token>;
+
     return {
       success: true,
       user: {
-        id: token.sub,
-        email: token.email as string,
-        role: token.role as string,
-        fullName: (token.name as string) || (token.email as string),
+        id: validToken.sub!,
+        email: validToken.email!,
+        role: validToken.role!,
+        fullName: validToken.name || validToken.email!,
       },
     };
   } catch (error) {

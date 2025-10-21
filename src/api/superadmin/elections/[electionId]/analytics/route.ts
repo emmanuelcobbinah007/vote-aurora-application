@@ -30,7 +30,8 @@ async function calculateTurnoutStats(electionId: string, totalVotes: number) {
     where: { election_id: electionId },
   });
 
-  const turnoutPercentage = totalVoters > 0 ? (totalVotes / totalVoters) * 100 : 0;
+  const turnoutPercentage =
+    totalVoters > 0 ? (totalVotes / totalVoters) * 100 : 0;
 
   return {
     totalVoters,
@@ -60,7 +61,8 @@ function calculateCandidatePerformance(portfolios: any[], totalVotes: number) {
       name: candidate.full_name,
       portfolio: portfolio.title,
       votes: candidate._count.votes,
-      percentage: totalVotes > 0 ? (candidate._count.votes / totalVotes) * 100 : 0,
+      percentage:
+        totalVotes > 0 ? (candidate._count.votes / totalVotes) * 100 : 0,
     }))
   );
 }
@@ -69,35 +71,27 @@ function calculateCandidatePerformance(portfolios: any[], totalVotes: number) {
 async function generateVoterDemographics(electionId: string) {
   const voterTokens = await prisma.voterTokens.findMany({
     where: { election_id: electionId },
-    include: {
-      user: {
-        select: {
-          role: true,
-          created_at: true,
-        },
-      },
-    },
   });
 
   const totalVoters = voterTokens.length;
-  const usedTokens = voterTokens.filter(token => token.used).length;
+  const usedTokens = voterTokens.filter((token) => token.used).length;
   const unusedTokens = totalVoters - usedTokens;
 
   return [
-    { 
-      category: "Voted", 
-      count: usedTokens, 
-      percentage: totalVoters > 0 ? (usedTokens / totalVoters) * 100 : 0 
+    {
+      category: "Voted",
+      count: usedTokens,
+      percentage: totalVoters > 0 ? (usedTokens / totalVoters) * 100 : 0,
     },
-    { 
-      category: "Not Voted", 
-      count: unusedTokens, 
-      percentage: totalVoters > 0 ? (unusedTokens / totalVoters) * 100 : 0 
+    {
+      category: "Not Voted",
+      count: unusedTokens,
+      percentage: totalVoters > 0 ? (unusedTokens / totalVoters) * 100 : 0,
     },
-    { 
-      category: "Total Eligible", 
-      count: totalVoters, 
-      percentage: 100 
+    {
+      category: "Total Eligible",
+      count: totalVoters,
+      percentage: 100,
     },
   ];
 }
@@ -137,17 +131,17 @@ interface AnalyticsParams {
 }
 
 function buildAnalyticsResponse(params: AnalyticsParams) {
-  const { 
-    election, 
-    totalVotes, 
-    totalVoters, 
-    turnoutPercentage, 
-    portfolioDistribution, 
+  const {
+    election,
+    totalVotes,
+    totalVoters,
+    turnoutPercentage,
+    portfolioDistribution,
     candidatePerformance,
     hourlyVotingTrends,
-    voterDemographics
+    voterDemographics,
   } = params;
-  
+
   return {
     election: {
       id: election.id,
@@ -182,10 +176,19 @@ async function processElectionAnalytics(electionId: string) {
   }
 
   const totalVotes = election._count.votes;
-  const { totalVoters, turnoutPercentage } = await calculateTurnoutStats(electionId, totalVotes);
-  const portfolioDistribution = calculatePortfolioDistribution(election.portfolios, totalVotes);
-  const candidatePerformance = calculateCandidatePerformance(election.portfolios, totalVotes);
-  
+  const { totalVoters, turnoutPercentage } = await calculateTurnoutStats(
+    electionId,
+    totalVotes
+  );
+  const portfolioDistribution = calculatePortfolioDistribution(
+    election.portfolios,
+    totalVotes
+  );
+  const candidatePerformance = calculateCandidatePerformance(
+    election.portfolios,
+    totalVotes
+  );
+
   // Fetch real analytics data
   const hourlyVotingTrends = await generateHourlyVotingTrends(electionId);
   const voterDemographics = await generateVoterDemographics(electionId);

@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 type Props = Readonly<{
   children: React.ReactNode;
-  params: { superadminId: string };
+  params: Promise<{ superadminId: string }>;
 }>;
 
 const SuperadminLayout = async ({ children, params }: Props) => {

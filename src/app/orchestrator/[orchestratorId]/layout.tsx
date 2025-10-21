@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 type Props = Readonly<{
   children: React.ReactNode;
-  params: { orchestratorId: string };
+  params: Promise<{ orchestratorId: string }>;
 }>;
 
 const OrchestratorLayout = async ({ children, params }: Props) => {
@@ -18,11 +18,12 @@ const OrchestratorLayout = async ({ children, params }: Props) => {
     redirect("/login");
   }
 
+  const resolvedParams = await params;
   const userRole = session.user?.role as string | undefined;
   const userId = session.user?.id as string | undefined;
 
   const isOrchestratorAccess =
-    userRole === "ORCHESTRATOR" && userId === params.orchestratorId;
+    userRole === "ORCHESTRATOR" && userId === resolvedParams.orchestratorId;
   const isSuperAdmin = userRole === "SUPERADMIN";
 
   if (!isOrchestratorAccess && !isSuperAdmin) {

@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     adminId: string;
     electionId: string;
-  };
+  }>;
 }
 
 // GET: Fetch analytics data for a specific election (admin access)
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { adminId, electionId } = params;
+    const { adminId, electionId } = await params;
 
     // Validate that the admin is assigned to this election
     const adminAssignment = await prisma.adminAssignments.findFirst({

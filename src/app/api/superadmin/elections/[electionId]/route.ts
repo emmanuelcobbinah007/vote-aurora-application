@@ -38,12 +38,12 @@ function formatValidationError(err: any) {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { electionId: string } }
+  { params }: { params: Promise<{ electionId: string }> }
 ) {
   const auth = await validateSuperAdmin(req);
   if (!auth.success) return createAuthErrorResponse(auth);
 
-  const electionId = params.electionId;
+  const { electionId } = await params;
   try {
     const e = await prisma.elections.findUnique({
       where: { id: electionId },
@@ -306,12 +306,12 @@ class ElectionUpdateService {
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { electionId: string } }
+  { params }: { params: Promise<{ electionId: string }> }
 ) {
   const auth = await validateSuperAdmin(req);
   if (!auth.success) return createAuthErrorResponse(auth);
 
-  const electionId = params.electionId;
+  const { electionId } = await params;
 
   let body: any;
   try {
@@ -380,12 +380,12 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { electionId: string } }
+  { params }: { params: Promise<{ electionId: string }> }
 ) {
   const auth = await validateSuperAdmin(req);
   if (!auth.success) return createAuthErrorResponse(auth);
 
-  const electionId = params.electionId;
+  const { electionId } = await params;
 
   try {
     // First, check if the election exists and get its status

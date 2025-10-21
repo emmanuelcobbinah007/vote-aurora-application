@@ -154,11 +154,12 @@ export async function POST(request: NextRequest) {
     // Send invitation email
     const emailService = new EmailService();
     const invitationLink = `${process.env.NEXT_PUBLIC_APP_URL}/invite/accept?token=${token}`;
-    
+
     try {
-      await emailService.sendAdminInvitationEmail(
+      await emailService.sendInvitationEmail(
         email,
         invitationLink,
+        "Admin",
         authResult.user!.fullName
       );
     } catch (emailError) {
@@ -167,7 +168,7 @@ export async function POST(request: NextRequest) {
       await prisma.invitationTokens.delete({
         where: { id: invitation.id },
       });
-      
+
       return NextResponse.json(
         {
           success: false,

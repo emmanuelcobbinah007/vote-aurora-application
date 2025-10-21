@@ -3,23 +3,20 @@ import prisma from "@/libs/prisma";
 import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     electionId: string;
-  };
+  }>;
 }
 
 // GET: Get all admins assigned to a specific election
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   const authResult = await validateSuperAdmin(request);
   if (!authResult.success) {
     return createAuthErrorResponse(authResult);
   }
 
   try {
-    const { electionId } = params;
+    const { electionId } = await params;
 
     // Verify election exists
     const election = await prisma.elections.findUnique({

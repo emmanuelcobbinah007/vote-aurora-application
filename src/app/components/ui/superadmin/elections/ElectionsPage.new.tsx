@@ -13,26 +13,51 @@ interface ElectionsPageProps {
   onViewDetails?: (election: Election) => void;
 }
 
+// Adapter function to convert data types to UI types
+const adaptElectionForUI = (dataElection: any): Election => {
+  // The API already returns the correct structure, so we just need to ensure type compatibility
+  return {
+    ...dataElection,
+    description: dataElection.description || null, // Convert undefined to null
+    department: dataElection.department || null, // Convert undefined to null
+    approved_by: dataElection.approved_by || null,
+    // API already provides creator, portfolios, and _count, so use them as-is
+    creator: dataElection.creator || {
+      full_name: "Unknown User",
+      email: "unknown@uni.edu",
+    },
+    portfolios: dataElection.portfolios || [],
+    _count: dataElection._count || { votes: 0, candidates: 0, portfolios: 0 },
+  };
+};
+
 const ElectionsPage: React.FC<ElectionsPageProps> = ({ onViewDetails }) => {
   // Use TanStack Query for data fetching - following orchestrator pattern
-  const {
-    data: elections = [],
-    isLoading,
-    error,
-  } = useElections();
-  
+  const { data: electionsResponse, isLoading, error } = useElections();
+
   const createElectionMutation = useCreateElection();
 
+  // Extract elections array from response
+  const elections = electionsResponse?.elections.map(adaptElectionForUI) || [];
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
   const [filteredElections, setFilteredElections] = useState<Election[]>([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedElection, setSelectedElection] = useState<Election | null>(
     null
-  );
-
-  // Update filtered elections when elections data changes
+  ); // Update filtered elections when elections data changes
   React.useEffect(() => {
     setFilteredElections(elections);
   }, [elections]);
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+  };
+
+  const handleStatusFilter = (status: string) => {
+    setStatusFilter(status);
+  };
 
   const handleCreateElection = async (electionData: Partial<Election>) => {
     try {
@@ -43,6 +68,7 @@ const ElectionsPage: React.FC<ElectionsPageProps> = ({ onViewDetails }) => {
         start_time: electionData.start_time || new Date().toISOString(),
         end_time: electionData.end_time || new Date().toISOString(),
         created_by: "current-user-id", // Would be from auth context
+        is_general: electionData.is_general || false,
       });
       setIsCreateModalOpen(false);
     } catch (error) {
@@ -73,7 +99,7 @@ const ElectionsPage: React.FC<ElectionsPageProps> = ({ onViewDetails }) => {
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
           <h3 className="text-red-800 font-medium">Error loading elections</h3>
           <p className="text-red-600 text-sm mt-1">
-            {error instanceof Error ? error.message : 'Something went wrong'}
+            {error instanceof Error ? error.message : "Something went wrong"}
           </p>
         </div>
       </div>
@@ -94,12 +120,25 @@ const ElectionsPage: React.FC<ElectionsPageProps> = ({ onViewDetails }) => {
       </div>
 
       {/* Stats */}
-      <ElectionsStats elections={elections} />
+      <ElectionsStats
+        totalElections={filteredElections.length}
+        liveElections={
+          filteredElections.filter((e: Election) => e.status === "LIVE").length
+        }
+        draftElections={
+          filteredElections.filter((e: Election) => e.status === "DRAFT").length
+        }
+        closedElections={
+          filteredElections.filter((e: Election) => e.status === "CLOSED")
+            .length
+        }
+      />
 
       {/* Filters */}
       <ElectionsFilters
-        elections={elections}
-        onFilter={setFilteredElections}
+        onSearch={handleSearch}
+        onStatusFilter={handleStatusFilter}
+        onCreateClick={() => setIsCreateModalOpen(true)}
       />
 
       {/* Table */}
@@ -112,9 +151,10 @@ const ElectionsPage: React.FC<ElectionsPageProps> = ({ onViewDetails }) => {
       {/* Create Modal */}
       {isCreateModalOpen && (
         <CreateElectionModal
+          isOpen={isCreateModalOpen}
           onClose={() => setIsCreateModalOpen(false)}
-          onSubmit={handleCreateElection}
-          isSubmitting={createElectionMutation.isPending}
+          onSave={handleCreateElection}
+          selectedElection={null}
         />
       )}
     </div>

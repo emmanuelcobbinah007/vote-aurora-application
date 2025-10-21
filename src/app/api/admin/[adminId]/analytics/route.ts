@@ -11,7 +11,7 @@ import {
 } from "@/lib/analyticsHelpers";
 
 interface RouteParams {
-  params: { adminId: string };
+  params: Promise<{ adminId: string }>;
 }
 
 // Domain types to avoid primitive obsession
@@ -322,7 +322,7 @@ function generateStatusSpecificAnalytics(context: AnalyticsContext) {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { adminId } = params;
+    const { adminId } = await params;
 
     // Get admin assignment with election data
     const adminAssignment = await fetchAdminElectionData(adminId);

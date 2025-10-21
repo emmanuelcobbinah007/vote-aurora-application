@@ -253,9 +253,10 @@ const ApprovedElectionsPage = () => {
                       election={selectedElection}
                       comments={""}
                       setComments={() => {}}
+                      requestReview={false}
+                      setRequestReview={() => {}}
                       onApprove={() => {}}
                       onReject={() => {}}
-                      onRequestReview={() => {}}
                       isSubmitting={false}
                     />
                   </ApprovalModal>

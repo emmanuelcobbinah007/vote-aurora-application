@@ -23,7 +23,10 @@ class CandidateRepository {
     };
   }
 
-  static async findCandidateWithDetails(candidateId: string, electionId: string) {
+  static async findCandidateWithDetails(
+    candidateId: string,
+    electionId: string
+  ) {
     return await prisma.candidates.findUnique({
       ...this.createBaseQuery(candidateId, electionId),
       include: {
@@ -35,7 +38,10 @@ class CandidateRepository {
     });
   }
 
-  static async findCandidateForDeletion(candidateId: string, electionId: string) {
+  static async findCandidateForDeletion(
+    candidateId: string,
+    electionId: string
+  ) {
     return await prisma.candidates.findUnique({
       ...this.createBaseQuery(candidateId, electionId),
       include: this.getPortfolioInclude(false),
@@ -52,7 +58,11 @@ class CandidateRepository {
 
 // Shared context factory to eliminate duplication
 class CandidateContextFactory {
-  static createReadContext(params: { adminId: string; electionId: string; candidateId: string }): CandidateContext {
+  static createReadContext(params: {
+    adminId: string;
+    electionId: string;
+    candidateId: string;
+  }): CandidateContext {
     const { adminId, electionId, candidateId } = params;
     return { adminId, electionId, candidateId };
   }
@@ -113,9 +123,14 @@ interface ValidationStrategy {
 
 class AdminAccessValidationStrategy implements ValidationStrategy {
   async validate(context: CandidateContext): Promise<void> {
-    const isAuthorized = await isAdminAuthorized(context.adminId, context.electionId);
+    const isAuthorized = await isAdminAuthorized(
+      context.adminId,
+      context.electionId
+    );
     if (!isAuthorized) {
-      throw new Error("Unauthorized. Admin does not have access to this election.");
+      throw new Error(
+        "Unauthorized. Admin does not have access to this election."
+      );
     }
   }
 }
@@ -128,7 +143,9 @@ class CandidateExistenceValidationStrategy implements ValidationStrategy {
     );
 
     if (!candidate) {
-      throw new Error("Candidate not found or does not belong to this election");
+      throw new Error(
+        "Candidate not found or does not belong to this election"
+      );
     }
   }
 }
@@ -143,7 +160,9 @@ class PortfolioValidationStrategy implements ValidationStrategy {
     await this.validateNoDuplicateName(context);
   }
 
-  private async validatePortfolioExists(context: CandidateContext): Promise<void> {
+  private async validatePortfolioExists(
+    context: CandidateContext
+  ): Promise<void> {
     const portfolio = await prisma.portfolios.findFirst({
       where: {
         id: context.updateData!.portfolio_id,
@@ -152,13 +171,19 @@ class PortfolioValidationStrategy implements ValidationStrategy {
     });
 
     if (!portfolio) {
-      throw new Error("Portfolio not found or does not belong to this election");
+      throw new Error(
+        "Portfolio not found or does not belong to this election"
+      );
     }
   }
 
-  private async validateNoDuplicateName(context: CandidateContext): Promise<void> {
-    const existingCandidate = await this.getExistingCandidate(context.candidateId);
-    
+  private async validateNoDuplicateName(
+    context: CandidateContext
+  ): Promise<void> {
+    const existingCandidate = await this.getExistingCandidate(
+      context.candidateId
+    );
+
     if (!this.isPortfolioChanging(context, existingCandidate)) {
       return; // No portfolio change, no validation needed
     }
@@ -171,15 +196,27 @@ class PortfolioValidationStrategy implements ValidationStrategy {
     return await CandidateRepository.findBasicCandidate(candidateId);
   }
 
-  private isPortfolioChanging(context: CandidateContext, existingCandidate: any): boolean {
-    return existingCandidate && context.updateData!.portfolio_id !== existingCandidate.portfolio_id;
+  private isPortfolioChanging(
+    context: CandidateContext,
+    existingCandidate: any
+  ): boolean {
+    return (
+      existingCandidate &&
+      context.updateData!.portfolio_id !== existingCandidate.portfolio_id
+    );
   }
 
-  private getCandidateName(context: CandidateContext, existingCandidate: any): string {
+  private getCandidateName(
+    context: CandidateContext,
+    existingCandidate: any
+  ): string {
     return context.updateData!.full_name || existingCandidate.full_name;
   }
 
-  private async checkForDuplicateName(context: CandidateContext, candidateName: string): Promise<void> {
+  private async checkForDuplicateName(
+    context: CandidateContext,
+    candidateName: string
+  ): Promise<void> {
     const duplicateNameCheck = await prisma.candidates.findFirst({
       where: {
         portfolio_id: context.updateData!.portfolio_id,
@@ -189,7 +226,9 @@ class PortfolioValidationStrategy implements ValidationStrategy {
     });
 
     if (duplicateNameCheck) {
-      throw new Error("A candidate with this name already exists in the selected portfolio");
+      throw new Error(
+        "A candidate with this name already exists in the selected portfolio"
+      );
     }
   }
 }
@@ -202,9 +241,10 @@ class AuditTrailService {
     candidate: any,
     additionalDetails?: string
   ): Promise<void> {
-    const description = action === "UPDATE" 
-      ? `Admin ${context.adminId} updated candidate "${candidate.full_name}"`
-      : `Admin ${context.adminId} deleted candidate "${candidate.full_name}" from portfolio "${candidate.portfolio.title}"`;
+    const description =
+      action === "UPDATE"
+        ? `Admin ${context.adminId} updated candidate "${candidate.full_name}"`
+        : `Admin ${context.adminId} deleted candidate "${candidate.full_name}" from portfolio "${candidate.portfolio.title}"`;
 
     const metadata: any = {
       entity_type: "CANDIDATE",
@@ -216,8 +256,10 @@ class AuditTrailService {
     if (action === "UPDATE" && context.updateData) {
       metadata.updated_fields = JSON.stringify({
         full_name: context.updateData.full_name ? "Updated" : "Unchanged",
-        photo_url: context.updateData.photo_url !== undefined ? "Updated" : "Unchanged",
-        manifesto: context.updateData.manifesto !== undefined ? "Updated" : "Unchanged",
+        photo_url:
+          context.updateData.photo_url !== undefined ? "Updated" : "Unchanged",
+        manifesto:
+          context.updateData.manifesto !== undefined ? "Updated" : "Unchanged",
         portfolio_id: context.updateData.portfolio_id ? "Updated" : "Unchanged",
       });
     }
@@ -294,14 +336,15 @@ class UpdateCandidateCommand implements CandidateCommand {
   }
 
   private buildUpdateData() {
-    const { full_name, photo_url, manifesto, portfolio_id } = this.context.updateData!;
-    
+    const { full_name, photo_url, manifesto, portfolio_id } =
+      this.context.updateData!;
+
     const data: any = {};
     if (full_name) data.full_name = full_name;
     if (photo_url !== undefined) data.photo_url = photo_url;
     if (manifesto !== undefined) data.manifesto = manifesto;
     if (portfolio_id) data.portfolio_id = portfolio_id;
-    
+
     return data;
   }
 
@@ -325,10 +368,11 @@ class DeleteCandidateCommand implements CandidateCommand {
     await validator.validateAll(this.context);
 
     // Get candidate details before deletion for audit trail
-    const existingCandidate = await CandidateRepository.findCandidateForDeletion(
-      this.context.candidateId,
-      this.context.electionId
-    );
+    const existingCandidate =
+      await CandidateRepository.findCandidateForDeletion(
+        this.context.candidateId,
+        this.context.electionId
+      );
 
     await prisma.candidates.delete({
       where: {
@@ -380,11 +424,11 @@ class CandidateHttpHandlerFactory {
   ): Promise<NextResponse> {
     try {
       const result = await handler();
-      
+
       if (successResponseBuilder) {
         return NextResponse.json(successResponseBuilder(result));
       }
-      
+
       return NextResponse.json(result);
     } catch (error: any) {
       return createErrorResponse(error);
@@ -410,23 +454,20 @@ class CandidateHttpHandlerFactory {
 // Error handler utility
 function createErrorResponse(error: any): NextResponse {
   console.error("Candidate operation error:", error);
-  
+
   if (error.message.includes("Unauthorized")) {
     return NextResponse.json({ error: error.message }, { status: 403 });
   }
-  
+
   if (error.message.includes("not found")) {
     return NextResponse.json({ error: error.message }, { status: 404 });
   }
-  
+
   if (error.message.includes("already exists")) {
     return NextResponse.json({ error: error.message }, { status: 400 });
   }
-  
-  return NextResponse.json(
-    { error: "Internal server error" },
-    { status: 500 }
-  );
+
+  return NextResponse.json({ error: "Internal server error" }, { status: 500 });
 }
 
 // Get a specific candidate
@@ -434,11 +475,21 @@ export async function GET(
   request: Request,
   {
     params,
-  }: { params: { adminId: string; electionId: string; candidateId: string } }
+  }: {
+    params: Promise<{
+      adminId: string;
+      electionId: string;
+      candidateId: string;
+    }>;
+  }
 ) {
-  return CandidateHttpHandlerFactory.handleRequest(() =>
-    CandidateHttpHandlerFactory.executeReadCommand(params, GetCandidateCommand)
-  );
+  return CandidateHttpHandlerFactory.handleRequest(async () => {
+    const resolvedParams = await params;
+    return CandidateHttpHandlerFactory.executeReadCommand(
+      resolvedParams,
+      GetCandidateCommand
+    );
+  });
 }
 
 // Update a candidate
@@ -446,15 +497,30 @@ export async function PUT(
   request: Request,
   {
     params,
-  }: { params: { adminId: string; electionId: string; candidateId: string } }
+  }: {
+    params: Promise<{
+      adminId: string;
+      electionId: string;
+      candidateId: string;
+    }>;
+  }
 ) {
   return CandidateHttpHandlerFactory.handleRequest(
     async () => {
+      const resolvedParams = await params;
       const body = await request.json();
       const { full_name, photo_url, manifesto, portfolio_id } = body;
-      const updateData: CandidateUpdateData = { full_name, photo_url, manifesto, portfolio_id };
-      
-      const context = CandidateContextFactory.createUpdateContext(params, updateData);
+      const updateData: CandidateUpdateData = {
+        full_name,
+        photo_url,
+        manifesto,
+        portfolio_id,
+      };
+
+      const context = CandidateContextFactory.createUpdateContext(
+        resolvedParams,
+        updateData
+      );
       const controller = CandidateHttpHandlerFactory.createController();
       const command = new UpdateCandidateCommand(context);
       return await controller.executeCommand(command);
@@ -471,9 +537,19 @@ export async function DELETE(
   request: Request,
   {
     params,
-  }: { params: { adminId: string; electionId: string; candidateId: string } }
+  }: {
+    params: Promise<{
+      adminId: string;
+      electionId: string;
+      candidateId: string;
+    }>;
+  }
 ) {
-  return CandidateHttpHandlerFactory.handleRequest(() =>
-    CandidateHttpHandlerFactory.executeReadCommand(params, DeleteCandidateCommand)
-  );
+  return CandidateHttpHandlerFactory.handleRequest(async () => {
+    const resolvedParams = await params;
+    return CandidateHttpHandlerFactory.executeReadCommand(
+      resolvedParams,
+      DeleteCandidateCommand
+    );
+  });
 }

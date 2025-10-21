@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "@/app/components/ui/admin/Sidebar";
 import Header from "@/app/components/ui/admin/Header";
 import { SidebarProvider } from "@/app/contexts/SidebarContext";
-import { fetchAdminAssignmentWithElection } from "@/app/api/admin/[adminId]/assigned-election/route";
+import { fetchAdminAssignmentWithElection } from "@/libs/adminUtils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../libs/auth";
 import { redirect } from "next/navigation";

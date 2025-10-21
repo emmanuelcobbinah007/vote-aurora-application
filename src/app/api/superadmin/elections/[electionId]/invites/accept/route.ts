@@ -11,7 +11,7 @@ interface AcceptElectionInviteRequest {
 }
 export async function POST(
   req: NextRequest,
-  { params }: { params: { electionId: string } }
+  { params }: { params: Promise<{ electionId: string }> }
 ) {
   console.log("🔥 Election-scoped accept endpoint called");
   try {

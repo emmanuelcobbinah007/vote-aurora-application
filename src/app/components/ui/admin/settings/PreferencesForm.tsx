@@ -56,7 +56,7 @@ const PreferencesForm = ({
         setIsSubmitting(true);
         setMessage(null);
 
-        await adminApi.updateAdminProfile(adminId, {
+        await adminApi.updateAdminProfile(adminId as any, {
           full_name: values.full_name,
           email: values.email,
         });

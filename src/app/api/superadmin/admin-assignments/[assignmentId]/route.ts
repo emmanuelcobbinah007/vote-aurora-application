@@ -4,9 +4,9 @@ import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
 import EmailService from "@/libs/email";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     assignmentId: string;
-  };
+  }>;
 }
 
 // DELETE: Remove an admin assignment
@@ -17,7 +17,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   }
 
   try {
-    const { assignmentId } = params;
+    const { assignmentId } = await params;
 
     // Check if assignment exists
     const assignment = await prisma.adminAssignments.findUnique({

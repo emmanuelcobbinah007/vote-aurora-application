@@ -3,9 +3,9 @@ import prisma from "@/libs/prisma";
 import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     electionId: string;
-  };
+  }>;
 }
 
 // Individual Election Analytics API - Purpose-built for single election insights
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   }
 
   try {
-    const { electionId } = params;
+    const { electionId } = await params;
 
     // 1. Get election details with relationships
     const election = await prisma.elections.findUnique({

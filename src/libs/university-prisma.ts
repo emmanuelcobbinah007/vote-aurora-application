@@ -9,7 +9,7 @@ export const universityPrisma =
   new PrismaClient({
     log: ["query", "error", "warn"],
     datasources: {
-      db: {
+      university_db: {
         url: process.env.UNIVERSITY_DATABASE_URL,
       },
     },

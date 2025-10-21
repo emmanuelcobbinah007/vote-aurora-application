@@ -1,44 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
-
-// Helper function to fetch admin assignment with all related election data
-export async function fetchAdminAssignmentWithElection(adminId: string) {
-  return await prisma.adminAssignments.findFirst({
-    where: {
-      admin_id: adminId,
-    },
-    include: {
-      election: {
-        include: {
-          portfolios: {
-            orderBy: {
-              created_at: "asc",
-            },
-          },
-          candidates: {
-            orderBy: {
-              created_at: "asc",
-            },
-          },
-          creator: {
-            select: {
-              id: true,
-              full_name: true,
-              email: true,
-            },
-          },
-          approver: {
-            select: {
-              id: true,
-              full_name: true,
-              email: true,
-            },
-          },
-        },
-      },
-    },
-  });
-}
+import { fetchAdminAssignmentWithElection } from "@/libs/adminUtils";
 
 // Helper function to transform portfolios data
 function transformPortfolios(portfolios: any[]) {
@@ -90,10 +52,10 @@ function buildElectionDetailsResponse(adminAssignment: any) {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { adminId: string } }
+  { params }: { params: Promise<{ adminId: string }> }
 ) {
   try {
-    const { adminId } = params;
+    const { adminId } = await params;
 
     // Fetch admin assignment with election data
     const adminAssignment = await fetchAdminAssignmentWithElection(adminId);

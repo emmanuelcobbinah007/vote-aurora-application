@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { Prisma } from "@prisma/client";
-import { Role } from "@prisma/client";
 import crypto from "crypto";
 import { emailService } from "@/libs/email";
 import { validateSuperAdmin } from "../../../../../../libs/auth-utils";
@@ -17,7 +16,7 @@ interface InviteRequest {
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { electionId: string } }
+  { params }: { params: Promise<{ electionId: string }> }
 ) {
   // this is to make sure that the user is authenticated as a superadmin
   const auth = await validateSuperAdmin(req);
@@ -122,7 +121,7 @@ export async function POST(
           expires_at: expiresAt,
           created_by: auth.user!.id,
           election_id: electionId,
-        } as Prisma.InvitationTokensUncheckedCreateInput,
+        },
       });
 
       console.log(

@@ -67,7 +67,7 @@ export default function AdminManagementPage() {
 
   const bulkInviteMutation = useMutation({
     mutationFn: ({ emails, full_names }: { emails: string[]; full_names: string[] }) =>
-      adminApi.bulkInviteAdmins(emails, full_names),
+      adminApi.bulkInviteAdmins(emails.map(email => adminApi.createAdminEmail(email)), full_names),
     onSuccess: (result) => {
       queryClient.invalidateQueries({ queryKey: ["admins"] });
       queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] });
@@ -271,7 +271,7 @@ export default function AdminManagementPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => bulkActivateMutation.mutate(selectedAdmins)}
+                      onClick={() => bulkActivateMutation.mutate(selectedAdmins.map(id => adminApi.createAdminId(id)))}
                       disabled={bulkActivateMutation.isPending}
                       className="flex items-center gap-1"
                     >
@@ -281,7 +281,7 @@ export default function AdminManagementPage() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => bulkSuspendMutation.mutate(selectedAdmins)}
+                      onClick={() => bulkSuspendMutation.mutate(selectedAdmins.map(id => adminApi.createAdminId(id)))}
                       disabled={bulkSuspendMutation.isPending}
                       className="flex items-center gap-1"
                     >
@@ -291,7 +291,7 @@ export default function AdminManagementPage() {
                     <Button
                       size="sm"
                       variant="destructive"
-                      onClick={() => bulkDeleteMutation.mutate(selectedAdmins)}
+                      onClick={() => bulkDeleteMutation.mutate(selectedAdmins.map(id => adminApi.createAdminId(id)))}
                       disabled={bulkDeleteMutation.isPending}
                       className="flex items-center gap-1"
                     >

@@ -21,7 +21,9 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
     email: "",
     full_name: "",
   });
-  const [errors, setErrors] = useState<{ email?: string; full_name?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; full_name?: string }>(
+    {}
+  );
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,7 +38,7 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
 
     // Validate form
     const newErrors: { email?: string; full_name?: string } = {};
-    
+
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!validateEmail(formData.email)) {
@@ -57,13 +59,11 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
       setFormData({ email: "", full_name: "" });
     } catch (error) {
       console.error("Error sending invitation:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   const handleClose = () => {
-    setEmail("");
+    setFormData({ email: "", full_name: "" });
     setErrors({});
     onClose();
   };
@@ -105,8 +105,10 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 placeholder="admin@upsa.edu.gh"
                 className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#cc910d] focus:border-transparent ${
                   errors.email ? "border-red-500" : "border-gray-300"
@@ -137,10 +139,10 @@ export const InviteAdminModal: React.FC<InviteAdminModalProps> = ({
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isLoading}
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-[#cc910d] text-white rounded-lg hover:bg-[#b8820c] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? (
+              {isLoading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                   Sending...

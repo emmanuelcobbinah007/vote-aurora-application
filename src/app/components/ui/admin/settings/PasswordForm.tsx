@@ -45,7 +45,7 @@ const PasswordForm = ({ adminId, onSuccess }: PasswordFormProps) => {
         setIsSubmitting(true);
         setMessage(null);
 
-        await adminApi.changeAdminPassword(adminId, {
+        await adminApi.changeAdminPassword(adminId as any, {
           current_password: values.currentPassword,
           new_password: values.newPassword,
         });

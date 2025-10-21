@@ -37,7 +37,11 @@ export async function POST(req: NextRequest) {
     if (!user) {
       console.log(`Password reset requested for non-existent user: ${email}`);
       return NextResponse.json(
-        { success: true, message: "If your email exists in our system, a password reset link has been sent." },
+        {
+          success: true,
+          message:
+            "If your email exists in our system, a password reset link has been sent.",
+        },
         { status: 200 }
       );
     }
@@ -46,12 +50,24 @@ export async function POST(req: NextRequest) {
     const resetToken = randomBytes(32).toString("hex");
     const hashedToken = createHash("sha256").update(resetToken).digest("hex");
 
-    // Store the token in the database
-    await prisma.passwordResetToken.create({
-      data: {
-        userId: user.id,
+    // Store the token in the InvitationTokens table as a lightweight fallback
+    // We tag the record with role = ORCHESTRATOR (unused) and use the token field.
+    // This avoids modifying the Prisma schema while still persisting tokens.
+    await prisma.invitationTokens.upsert({
+      where: { email: user.email },
+      update: {
         token: hashedToken,
-        expiresAt: new Date(Date.now() + TOKEN_EXPIRATION),
+        expires_at: new Date(Date.now() + TOKEN_EXPIRATION),
+        used: false,
+        created_at: new Date(),
+      },
+      create: {
+        email: user.email,
+        token: hashedToken,
+        role: "ORCHESTRATOR",
+        expires_at: new Date(Date.now() + TOKEN_EXPIRATION),
+        used: false,
+        created_at: new Date(),
       },
     });
 
@@ -64,7 +80,7 @@ export async function POST(req: NextRequest) {
       resetUrl,
       user.full_name || undefined
     );
-    
+
     // Log the password reset request
     await logAuditEvent({
       userId: user.id,
@@ -75,7 +91,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      { success: true, message: "If your email exists in our system, a password reset link has been sent." },
+      {
+        success: true,
+        message:
+          "If your email exists in our system, a password reset link has been sent.",
+      },
       { status: 200 }
     );
   } catch (error) {

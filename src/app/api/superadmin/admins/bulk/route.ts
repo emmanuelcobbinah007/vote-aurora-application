@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
-import { sendEmail } from "@/libs/email";
+import { emailService } from "@/libs/email";
 import crypto from "crypto";
 
 // POST: Handle bulk admin operations
@@ -116,16 +116,7 @@ async function handleBulkInvite(emails: string[], full_names: string[], createdB
       // Send invitation email
       const inviteUrl = `${process.env.NEXTAUTH_URL}/invite/accept?token=${token}`;
       
-      await sendEmail({
-        to: email,
-        subject: "Admin Invitation - University E-Voting System",
-        template: "admin-invitation",
-        templateData: {
-          full_name,
-          inviteUrl,
-          expiryDate: expires_at.toLocaleDateString(),
-        },
-      });
+      await emailService.sendInvitationEmail(email, inviteUrl, "Admin", "Super Admin");
 
       results.push({
         email,

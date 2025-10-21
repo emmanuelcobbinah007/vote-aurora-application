@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 
 interface RouteParams {
-  params: { adminId: string };
+  params: Promise<{ adminId: string }>;
 }
 
 // Domain types to replace string-heavy arguments
@@ -561,7 +561,8 @@ class ReportsDataService {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const rawAdminId = params.adminId;
+    const resolvedParams = await params;
+    const rawAdminId = resolvedParams.adminId;
 
     // Convert raw string to domain type with validation
     const adminId = DomainIdFactory.createAdminId(rawAdminId);

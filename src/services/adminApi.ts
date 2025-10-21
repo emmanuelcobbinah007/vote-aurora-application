@@ -1,11 +1,11 @@
 import { apiClient } from "./apiClient";
 
 // Domain types to replace string-heavy function arguments
-type AdminId = string & { readonly __brand: unique symbol };
-type ElectionId = string & { readonly __brand: unique symbol };
-type CandidateId = string & { readonly __brand: unique symbol };
-type PortfolioId = string & { readonly __brand: unique symbol };
-type AssignmentId = string & { readonly __brand: unique symbol };
+export type AdminId = string & { readonly __brand: unique symbol };
+export type ElectionId = string & { readonly __brand: unique symbol };
+export type CandidateId = string & { readonly __brand: unique symbol };
+export type PortfolioId = string & { readonly __brand: unique symbol };
+export type AssignmentId = string & { readonly __brand: unique symbol };
 
 // Domain type factory for validation
 class AdminApiIdFactory {

@@ -36,10 +36,10 @@ interface Election {
 // GET /api/approvers/[approverId]/pending
 export async function GET(
   request: NextRequest,
-  { params }: { params: { approverId: string } }
+  { params }: { params: Promise<{ approverId: string }> }
 ) {
   try {
-    const { approverId } = params;
+    const { approverId } = await params;
     const { searchParams } = new URL(request.url);
 
     // Extract query parameters

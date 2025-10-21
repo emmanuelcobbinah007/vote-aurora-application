@@ -142,7 +142,6 @@ const ElectionAnalyticsPage: React.FC<ElectionAnalyticsPageProps> = ({
         <AnalyticsContainer
           analyticsData={analyticsData}
           isIndividualElection={true}
-          superadminId={params.superadminId}
         />
       </div>
     </div>

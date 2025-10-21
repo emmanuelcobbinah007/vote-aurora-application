@@ -20,7 +20,7 @@ const SettingsPage = () => {
     refetch,
   } = useQuery({
     queryKey: ["admin-profile", adminId],
-    queryFn: () => adminApi.getAdminProfile(adminId),
+    queryFn: () => adminApi.getAdminProfile(adminId as any),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -43,8 +43,18 @@ const SettingsPage = () => {
       <SettingsLayout>
         <div className="col-span-3 text-center py-12">
           <div className="text-red-500 mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            <svg
+              className="mx-auto h-12 w-12"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -66,8 +76,8 @@ const SettingsPage = () => {
 
   return (
     <SettingsLayout>
-      <ProfileCard 
-        name={adminProfile.full_name} 
+      <ProfileCard
+        name={adminProfile.full_name}
         email={adminProfile.email}
         role={adminProfile.role}
         status={adminProfile.status}
@@ -75,7 +85,11 @@ const SettingsPage = () => {
       />
       <div className="md:col-span-2 space-y-4">
         <PasswordForm adminId={adminId} onSuccess={() => refetch()} />
-        <PreferencesForm adminId={adminId} adminProfile={adminProfile} onSuccess={() => refetch()} />
+        <PreferencesForm
+          adminId={adminId}
+          adminProfile={adminProfile}
+          onSuccess={() => refetch()}
+        />
       </div>
     </SettingsLayout>
   );

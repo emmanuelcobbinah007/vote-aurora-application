@@ -4,7 +4,7 @@ import { validateSession } from "@/libs/auth-utils";
 import { hashPassword } from "@/libs/auth-utils";
 
 interface RouteParams {
-  params: { adminId: string };
+  params: Promise<{ adminId: string }>;
 }
 
 // Domain types for profile operations
@@ -58,7 +58,7 @@ class ProfileAccessValidationStrategy implements ProfileValidationStrategy {
 class PasswordChangeValidationStrategy implements ProfileValidationStrategy {
   async validate(context: ProfileUpdateContext): Promise<void> {
     const { current_password, new_password } = context.updateData;
-    
+
     if (!new_password) {
       return; // No password change requested
     }
@@ -71,7 +71,10 @@ class PasswordChangeValidationStrategy implements ProfileValidationStrategy {
     this.validateNewPassword(new_password);
   }
 
-  private async validateCurrentPassword(adminId: string, currentPassword: string): Promise<void> {
+  private async validateCurrentPassword(
+    adminId: string,
+    currentPassword: string
+  ): Promise<void> {
     const currentUser = await prisma.users.findUnique({
       where: { id: adminId },
       select: { password_hash: true },
@@ -168,10 +171,10 @@ class ProfileDataService {
   static async prepareUpdateData(updateData: ProfileUpdateData) {
     const { full_name, email, new_password } = updateData;
     const data: any = {};
-    
+
     if (full_name) data.full_name = full_name;
     if (email) data.email = email;
-    
+
     if (new_password) {
       data.password_hash = await hashPassword(new_password);
     }
@@ -183,9 +186,7 @@ class ProfileDataService {
 // Validation factory
 class ProfileValidationFactory {
   static createGetProfileValidationStrategies(): ProfileValidationStrategy[] {
-    return [
-      new ProfileAccessValidationStrategy(),
-    ];
+    return [new ProfileAccessValidationStrategy()];
   }
 
   static createUpdateProfileValidationStrategies(): ProfileValidationStrategy[] {
@@ -200,7 +201,9 @@ class ProfileValidationFactory {
 class ProfileValidator {
   constructor(private strategies: ProfileValidationStrategy[]) {}
 
-  async validateAll(context: ProfileContext | ProfileUpdateContext): Promise<void> {
+  async validateAll(
+    context: ProfileContext | ProfileUpdateContext
+  ): Promise<void> {
     for (const strategy of this.strategies) {
       await strategy.validate(context);
     }
@@ -262,7 +265,10 @@ class UpdateProfileCommand implements ProfileCommand {
   }
 
   private async performUpdate(updateData: any): Promise<any> {
-    return await ProfileRepository.updateAdminProfile(this.context.adminId, updateData);
+    return await ProfileRepository.updateAdminProfile(
+      this.context.adminId,
+      updateData
+    );
   }
 
   private formatResponse(admin: any) {
@@ -276,7 +282,10 @@ class UpdateProfileCommand implements ProfileCommand {
 
 // Context factory
 class ProfileContextFactory {
-  static createGetContext(request: NextRequest, adminId: string): ProfileContext {
+  static createGetContext(
+    request: NextRequest,
+    adminId: string
+  ): ProfileContext {
     return { adminId, request };
   }
 
@@ -311,16 +320,20 @@ class ErrorPredicates {
   }
 
   static isValidationError(error: any): boolean {
-    return error.message.includes("required") || 
-           error.message.includes("incorrect") || 
-           error.message.includes("at least");
+    return (
+      error.message.includes("required") ||
+      error.message.includes("incorrect") ||
+      error.message.includes("at least")
+    );
   }
 
   static isUniqueConstraintError(error: any): boolean {
-    return error && 
-           typeof error === 'object' && 
-           'code' in error && 
-           error.code === "P2002";
+    return (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "P2002"
+    );
   }
 }
 
@@ -328,27 +341,30 @@ class ErrorPredicates {
 class ProfileErrorResponseFactory {
   static createErrorResponse(error: any): NextResponse {
     console.error("Profile operation error:", error);
-    
+
     if (ErrorPredicates.isUnauthorizedError(error)) {
       return NextResponse.json({ error: error.message }, { status: 401 });
     }
-    
+
     if (ErrorPredicates.isForbiddenError(error)) {
       return NextResponse.json({ error: error.message }, { status: 403 });
     }
-    
+
     if (ErrorPredicates.isNotFoundError(error)) {
       return NextResponse.json({ error: error.message }, { status: 404 });
     }
-    
+
     if (ErrorPredicates.isValidationError(error)) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    
+
     if (ErrorPredicates.isUniqueConstraintError(error)) {
-      return NextResponse.json({ error: "Email already exists" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email already exists" },
+        { status: 400 }
+      );
     }
-    
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -358,11 +374,15 @@ class ProfileErrorResponseFactory {
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const context = ProfileContextFactory.createGetContext(request, params.adminId);
+    const resolvedParams = await params;
+    const context = ProfileContextFactory.createGetContext(
+      request,
+      resolvedParams.adminId
+    );
     const controller = new ProfileController();
     const command = new GetProfileCommand(context);
     const result = await controller.executeCommand(command);
-    
+
     return NextResponse.json(result);
   } catch (error: any) {
     return ProfileErrorResponseFactory.createErrorResponse(error);
@@ -371,6 +391,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
+    const resolvedParams = await params;
     const body = await request.json();
     const updateData: ProfileUpdateData = {
       full_name: body.full_name,
@@ -379,11 +400,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       new_password: body.new_password,
     };
 
-    const context = ProfileContextFactory.createUpdateContext(request, params.adminId, updateData);
+    const context = ProfileContextFactory.createUpdateContext(
+      request,
+      resolvedParams.adminId,
+      updateData
+    );
     const controller = new ProfileController();
     const command = new UpdateProfileCommand(context);
     const result = await controller.executeCommand(command);
-    
+
     return NextResponse.json(result);
   } catch (error: any) {
     return ProfileErrorResponseFactory.createErrorResponse(error);

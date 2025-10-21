@@ -143,13 +143,13 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
     doc.text(`Status: ${election.status.replace(/_/g, " ")}`, 20, yPosition);
     yPosition += 8;
     doc.text(
-      `Start Date: ${new Date(election.start_date).toLocaleDateString()}`,
+      `Start Date: ${new Date(election.start_time).toLocaleDateString()}`,
       20,
       yPosition
     );
     yPosition += 8;
     doc.text(
-      `End Date: ${new Date(election.end_date).toLocaleDateString()}`,
+      `End Date: ${new Date(election.end_time).toLocaleDateString()}`,
       20,
       yPosition
     );
@@ -290,7 +290,7 @@ const AuditResultsManager: React.FC<AuditResultsManagerProps> = ({
     }
 
     // Footer
-    const totalPages = doc.getNumberOfPages();
+    const totalPages = doc.internal.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
       doc.setFontSize(8);

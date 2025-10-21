@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchAdminAssignmentWithElection } from "../assigned-election/route";
+import { fetchAdminAssignmentWithElection } from "@/libs/adminUtils";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { adminId: string } }
+  { params }: { params: Promise<{ adminId: string }> }
 ) {
-  const { adminId } = params;
+  const { adminId } = await params;
   try {
     const adminAssignment = await fetchAdminAssignmentWithElection(adminId);
 

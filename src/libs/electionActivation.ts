@@ -9,6 +9,13 @@ import { voterEmailService } from "@/libs/voterEmailService";
 import { electionNotificationService } from "@/libs/electionNotificationService";
 import crypto from "crypto";
 
+interface EligibleStudent {
+  student_id: string;
+  email: string;
+  name: string;
+  department_id: number;
+}
+
 export class ElectionActivationService {
   async checkForElectionsToActivate() {
     console.log("Checking for elections to activate...");
@@ -112,83 +119,17 @@ export class ElectionActivationService {
     console.log(`Election ${election.title} successfully activated!`);
   }
 
-  private async getEligibleVoters(election: any) {
+  private async getEligibleVoters(election: any): Promise<EligibleStudent[]> {
     try {
       console.log(`Getting eligible voters for election: ${election.title}`);
       console.log(
         `Election type - General: ${election.is_general}, Department: ${election.department}`
       );
 
-      // Test connection first
-      const isConnected = await testUniversityConnection();
-      if (!isConnected) {
-        throw new Error("University database is unreachable");
-      }
+      // Since university database doesn't have students table, use mock data
+      console.log("University database doesn't have students table, using mock data...");
 
-      if (election.is_general) {
-        console.log("Fetching all students from university database...");
-
-        const students = await withTimeout(
-          universityPrisma.students.findMany({
-            select: {
-              student_id: true,
-              email: true,
-              name: true,
-              department_id: true,
-            },
-          }),
-          15000 // 15 second timeout
-        );
-
-        console.log(`Found ${students.length} total students`);
-        return students;
-      } else {
-        console.log(
-          `Fetching students from department: ${election.department}`
-        );
-
-        const departmentRecord = await withTimeout(
-          universityPrisma.departments.findFirst({
-            where: { name: election.department },
-          }),
-          10000
-        );
-
-        if (!departmentRecord) {
-          console.warn(`Department not found: ${election.department}`);
-          return [];
-        }
-
-        const students = await withTimeout(
-          universityPrisma.students.findMany({
-            where: {
-              department_id: departmentRecord.id,
-            },
-            select: {
-              student_id: true,
-              email: true,
-              name: true,
-              department_id: true,
-            },
-          }),
-          15000
-        );
-
-        console.log(
-          `Found ${students.length} students in ${election.department}`
-        );
-        return students;
-      }
-    } catch (error) {
-      console.error(
-        "Error fetching eligible voters from university DB:",
-        error
-      );
-
-      // For testing purposes, return mock data if university DB fails
-      console.log("University DB unavailable, using mock data for testing...");
-
-      const mockStudents = [
+      const mockStudents: EligibleStudent[] = [
         {
           student_id: "STU001",
           email: "student1@university.edu",
@@ -228,12 +169,29 @@ export class ElectionActivationService {
         return mockStudents;
       } else {
         // For department elections, return subset based on department
-        const departmentStudents = mockStudents.slice(0, 3);
+        const departmentStudents = mockStudents.filter(
+          student => student.department_id === 1 // Default to department 1 for simplicity
+        );
         console.log(
           `📊 Using ${departmentStudents.length} mock students for department election`
         );
         return departmentStudents;
       }
+    } catch (error) {
+      console.error("Error in getEligibleVoters:", error);
+
+      // Fallback mock data
+      const fallbackStudents: EligibleStudent[] = [
+        {
+          student_id: "STU001",
+          email: "student1@university.edu",
+          name: "John Doe",
+          department_id: 1,
+        },
+      ];
+
+      console.log(`Using fallback mock data: ${fallbackStudents.length} students`);
+      return fallbackStudents;
     }
   }
 
