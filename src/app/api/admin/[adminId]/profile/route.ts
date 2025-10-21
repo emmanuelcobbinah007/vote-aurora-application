@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 import { validateSession } from "@/libs/auth-utils";
 import { hashPassword } from "@/libs/auth-utils";
+import bcrypt from "bcrypt";
 
 interface RouteParams {
   params: Promise<{ adminId: string }>;
@@ -84,7 +85,6 @@ class PasswordChangeValidationStrategy implements ProfileValidationStrategy {
       throw new Error("User not found");
     }
 
-    const bcrypt = require("bcrypt");
     const isCurrentPasswordValid = await bcrypt.compare(
       currentPassword,
       currentUser.password_hash

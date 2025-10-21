@@ -78,7 +78,7 @@ export async function POST(
     }
 
     let newStatus: string;
-    let updateData: any = {
+    const updateData: any = {
       updated_at: new Date(),
     };
 

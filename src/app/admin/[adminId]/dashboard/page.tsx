@@ -48,8 +48,8 @@ const AdminDashboard = () => {
             No Election Assigned
           </h2>
           <p className="text-gray-600 mb-4">
-            You haven't been assigned to manage any election yet. Please contact
-            your supervisor.
+            You haven&apos;t been assigned to manage any election yet. Please
+            contact your supervisor.
           </p>
           <button
             onClick={handleBack}

@@ -1,17 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import {
-  Search,
-  Bell,
-  X,
-  Clock,
-  Vote,
-  Users,
-  Shield,
-  Crown,
-  FileText,
-} from "lucide-react";
+import { Search, X, Vote, Users, Shield, Crown, FileText } from "lucide-react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -324,7 +314,7 @@ const Header = () => {
                 <div className="text-center text-gray-500">
                   <Search className="h-8 w-8 mx-auto mb-2 text-gray-300" />
                   <p className="text-sm">
-                    No results found for "{searchQuery}"
+                    No results found for &ldquo;{searchQuery}&rdquo;
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
                     Try searching for pages, actions, or features

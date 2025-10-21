@@ -39,26 +39,10 @@ export const useAnalyticsData = (
   adminId: string,
   electionId?: string
 ): UseAnalyticsDataReturn => {
-  if (!electionId) {
-    const query = useQuery({
-      queryKey: ["admin-analytics", adminId],
-      queryFn: () => fetchAnalyticsData(adminId),
-      staleTime: 2 * 60 * 1000, // 2 minutes for live election updates
-      gcTime: 5 * 60 * 1000, // 5 minutes garbage collection
-      retry: 2,
-      retryDelay: 1000,
-    });
-
-    return {
-      data: query.data || null,
-      isLoading: query.isLoading,
-      error: query.error,
-      refetch: query.refetch,
-    };
-  }
-
   const query = useQuery({
-    queryKey: ["admin-analytics", adminId, electionId],
+    queryKey: electionId
+      ? ["admin-analytics", adminId, electionId]
+      : ["admin-analytics", adminId],
     queryFn: () => fetchAnalyticsData(adminId, electionId),
     staleTime: 2 * 60 * 1000, // 2 minutes for live election updates
     gcTime: 5 * 60 * 1000, // 5 minutes garbage collection
