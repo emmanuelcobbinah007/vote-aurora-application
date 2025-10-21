@@ -448,7 +448,7 @@ const VoterVerificationForm: React.FC<VoterVerificationFormProps> = ({
         <div className="flex-1 relative hidden md:flex items-center justify-center overflow-hidden opacity-0 animate-fade-in delay-100">
           {/* Background Image */}
           <Image
-            src="../../../../public/login_page_image.png"
+            src="/login_page_image.png"
             alt="University Campus"
             fill
             className="object-cover"

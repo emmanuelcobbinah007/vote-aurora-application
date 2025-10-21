@@ -197,7 +197,7 @@ const Sidebar = () => {
             {isCollapsed ? (
               <div className="flex justify-center w-full">
                 <Image
-                  src="../../../../../public/voteAurora_crest.png"
+                  src="/voteAurora_crest.png"
                   alt="UPSA University Crest"
                   width={32}
                   height={32}
@@ -208,7 +208,7 @@ const Sidebar = () => {
               <>
                 <div className="flex items-center space-x-3">
                   <Image
-                    src="../../../../../public/voteAurora_crest.png"
+                    src="/voteAurora_crest.png"
                     alt="UPSA University Crest"
                     width={32}
                     height={32}

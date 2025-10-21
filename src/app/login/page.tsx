@@ -201,12 +201,12 @@ const LoginPage = () => {
         <div className="flex-1 h-screen mx-4 my-3 w-[50%]">
           <div className="flex items-center space-x-3 mx-4 mt-3 opacity-0 animate-fade-in-up">
             <Image
-              src="../../../public/VoteAurora.png"
+              src="/VoteAurora.png"
               alt="UPSA University Crest"
               width={160}
               height={55}
               className="object-contain mr-1"
-            />{" "}
+            />
           </div>
           <div className="flex flex-col justify-center h-[90%] w-[85%] md:w-[70%] mx-auto">
             <div className="mb-9 opacity-0 animate-fade-in-up delay-200">
@@ -439,7 +439,7 @@ const LoginPage = () => {
         <div className="flex-1 relative hidden md:flex items-center justify-center overflow-hidden opacity-0 animate-fade-in delay-100">
           {/* Background Image */}
           <Image
-            src="../../../public/login_page_image.png"
+            src="/login_page_image.png"
             alt="University Campus"
             fill
             className="object-cover"

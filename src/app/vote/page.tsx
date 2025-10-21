@@ -40,7 +40,7 @@ const VotingLoadingScreen = ({
       }}
     >
       <Image
-        src="../../../public/voteAurora_crest.png"
+        src="/voteAurora_crest.png"
         alt="UPSA University Crest"
         width={80}
         height={80}
