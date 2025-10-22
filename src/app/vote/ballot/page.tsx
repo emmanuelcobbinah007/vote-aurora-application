@@ -377,7 +377,7 @@ const BallotContent = () => {
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Image
-                    src="../../../../public/voteAurora_crest.png"
+                    src="/voteAurora_crest.png"
                     alt="UPSA Crest"
                     width={24}
                     height={24}
