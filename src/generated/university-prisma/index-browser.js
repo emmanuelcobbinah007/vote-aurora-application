@@ -128,6 +128,17 @@ exports.Prisma.DepartmentsScalarFieldEnum = {
   is_active: 'is_active'
 };
 
+exports.Prisma.StudentsScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  email: 'email',
+  name: 'name',
+  department_id: 'department_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -140,7 +151,8 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  departments: 'departments'
+  departments: 'departments',
+  students: 'students'
 };
 
 /**

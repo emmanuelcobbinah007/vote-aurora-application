@@ -126,76 +126,130 @@ export class ElectionActivationService {
         `Election type - General: ${election.is_general}, Department: ${election.department}`
       );
 
-      // Since university database doesn't have students table, use mock data
-      console.log(
-        "University database doesn't have students table, using mock data..."
-      );
+      // Try to fetch students from university database
+      console.log("Fetching students from university database...");
 
-      const mockStudents: EligibleStudent[] = [
-        {
-          student_id: "STU001",
-          email: "student1@university.edu",
-          name: "John Doe",
-          department_id: 1,
-        },
-        {
-          student_id: "STU002",
-          email: "student2@university.edu",
-          name: "Jane Smith",
-          department_id: 1,
-        },
-        {
-          student_id: "STU003",
-          email: "student3@university.edu",
-          name: "Bob Johnson",
-          department_id: 2,
-        },
-        {
-          student_id: "STU004",
-          email: "student4@university.edu",
-          name: "Alice Wilson",
-          department_id: 1,
-        },
-        {
-          student_id: "STU005",
-          email: "student5@university.edu",
-          name: "Charlie Brown",
-          department_id: 3,
-        },
-      ];
+      let studentsQuery = `
+        SELECT s.student_id, s.email, s.name, s.department_id
+        FROM students s
+        WHERE s.is_active = true
+      `;
 
-      if (election.is_general) {
-        console.log(
-          `📊 Using ${mockStudents.length} mock students for general election`
-        );
-        return mockStudents;
-      } else {
-        // For department elections, return subset based on department
-        const departmentStudents = mockStudents.filter(
-          (student) => student.department_id === 1 // Default to department 1 for simplicity
-        );
-        console.log(
-          `📊 Using ${departmentStudents.length} mock students for department election`
-        );
-        return departmentStudents;
+      const queryParams: any[] = [];
+
+      // For department-specific elections, filter by department
+      if (!election.is_general && election.department) {
+        // Try to match department by name first
+        const departmentMatch = (await universityPrisma.$queryRaw`
+          SELECT id FROM departments 
+          WHERE name = ${election.department} AND is_active = true
+          LIMIT 1
+        `) as any[];
+
+        if (departmentMatch.length > 0) {
+          studentsQuery += ` AND s.department_id = $1`;
+          queryParams.push(departmentMatch[0].id);
+          console.log(
+            `Filtering students for department: ${election.department} (ID: ${departmentMatch[0].id})`
+          );
+        } else {
+          console.warn(
+            `Department "${election.department}" not found in university database, falling back to general election`
+          );
+        }
       }
-    } catch (error) {
-      console.error("Error in getEligibleVoters:", error);
 
-      // Fallback mock data
-      const fallbackStudents: EligibleStudent[] = [
-        {
-          student_id: "STU001",
-          email: "student1@university.edu",
-          name: "John Doe",
-          department_id: 1,
-        },
-      ];
+      studentsQuery += ` ORDER BY s.name ASC`;
+
+      const students = (await universityPrisma.$queryRawUnsafe(
+        studentsQuery,
+        ...queryParams
+      )) as any[];
 
       console.log(
-        `Using fallback mock data: ${fallbackStudents.length} students`
+        `✅ Found ${students.length} students in university database`
       );
-      return fallbackStudents;
+
+      if (students.length === 0) {
+        console.warn(
+          "No students found in university database, using mock data as fallback"
+        );
+        return this.getMockStudents(election);
+      }
+
+      // Transform to expected format
+      const eligibleStudents: EligibleStudent[] = students.map(
+        (student: any) => ({
+          student_id: student.student_id,
+          email: student.email,
+          name: student.name,
+          department_id: student.department_id,
+        })
+      );
+
+      console.log(
+        `📊 Returning ${eligibleStudents.length} eligible students from university database`
+      );
+      return eligibleStudents;
+    } catch (error) {
+      console.error("Error fetching students from university database:", error);
+      console.log("Falling back to mock data due to database error");
+
+      // Fallback to mock data
+      return this.getMockStudents(election);
+    }
+  }
+
+  private getMockStudents(election: any): EligibleStudent[] {
+    console.log("Using mock student data for election activation");
+
+    const mockStudents: EligibleStudent[] = [
+      {
+        student_id: "STU001",
+        email: "student1@university.edu",
+        name: "John Doe",
+        department_id: 1,
+      },
+      {
+        student_id: "STU002",
+        email: "student2@university.edu",
+        name: "Jane Smith",
+        department_id: 1,
+      },
+      {
+        student_id: "STU003",
+        email: "student3@university.edu",
+        name: "Bob Johnson",
+        department_id: 2,
+      },
+      {
+        student_id: "STU004",
+        email: "student4@university.edu",
+        name: "Alice Wilson",
+        department_id: 1,
+      },
+      {
+        student_id: "STU005",
+        email: "student5@university.edu",
+        name: "Charlie Brown",
+        department_id: 3,
+      },
+    ];
+
+    if (election.is_general) {
+      console.log(
+        `📊 Using ${mockStudents.length} mock students for general election`
+      );
+      return mockStudents;
+    } else {
+      // For department elections, return subset based on department
+      const departmentStudents = mockStudents.filter(
+        (student) => student.department_id === 1 // Default to department 1 for simplicity
+      );
+      console.log(
+        `📊 Using ${departmentStudents.length} mock students for department election`
+      );
+      return departmentStudents;
     }
   }
 

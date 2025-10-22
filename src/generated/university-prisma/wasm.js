@@ -100,6 +100,17 @@ exports.Prisma.DepartmentsScalarFieldEnum = {
   is_active: 'is_active'
 };
 
+exports.Prisma.StudentsScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  email: 'email',
+  name: 'name',
+  department_id: 'department_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -112,7 +123,8 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  departments: 'departments'
+  departments: 'departments',
+  students: 'students'
 };
 /**
  * Create the Client
@@ -153,7 +165,6 @@ const config = {
     "university_db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "university_db": {
       "url": {
@@ -162,13 +173,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is the University database schema file\n// Contains minimal schema needed for integration\n\ngenerator university_client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/university-prisma\"\n}\n\ndatasource university_db {\n  provider = \"postgresql\"\n  url      = env(\"UNIVERSITY_DATABASE_URL\")\n}\n\nmodel departments {\n  id         Int      @id @default(autoincrement())\n  name       String\n  created_at DateTime @default(now())\n  updated_at DateTime @updatedAt\n  is_active  Boolean  @default(true)\n}\n",
-  "inlineSchemaHash": "2b41018c031dfb4b5f0e6adf8270fd2943fbf2c7b1f0400182af9952d23d4d89",
+  "inlineSchema": "// This is the University database schema file\n// Contains minimal schema needed for integration\n\ngenerator university_client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/university-prisma\"\n}\n\ndatasource university_db {\n  provider = \"postgresql\"\n  url      = env(\"UNIVERSITY_DATABASE_URL\")\n}\n\nmodel departments {\n  id         Int      @id @default(autoincrement())\n  name       String\n  created_at DateTime @default(now())\n  updated_at DateTime @default(now()) @updatedAt\n  is_active  Boolean  @default(true)\n\n  students students[]\n}\n\nmodel students {\n  id            Int      @id @default(autoincrement())\n  student_id    String   @unique // University student ID\n  email         String   @unique\n  name          String\n  department_id Int\n  is_active     Boolean  @default(true)\n  created_at    DateTime @default(now())\n  updated_at    DateTime @default(now()) @updatedAt\n\n  department departments @relation(fields: [department_id], references: [id])\n\n  @@map(\"students\")\n}\n",
+  "inlineSchemaHash": "5d982c5c043fa4b2915999fb921d82499f474bdb12eaaafd785bd6313d3b50bf",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"departments\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"is_active\",\"kind\":\"scalar\",\"type\":\"Boolean\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"departments\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"is_active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"students\",\"kind\":\"object\",\"type\":\"students\",\"relationName\":\"departmentsTostudents\"}],\"dbName\":null},\"students\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"student_id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"department_id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"is_active\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"department\",\"kind\":\"object\",\"type\":\"departments\",\"relationName\":\"departmentsTostudents\"}],\"dbName\":\"students\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

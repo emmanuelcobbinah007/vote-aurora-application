@@ -4,15 +4,25 @@ import { mockDepartments } from "@/data/departments";
 
 export async function GET(request: NextRequest) {
   try {
-    // First, try to connect to the university database with timeout
-    const departments = await universityPrisma.departments.findMany({
-      orderBy: {
-        name: "asc",
-      },
-    });
+    console.log(
+      "🔍 Attempting to fetch departments from university database..."
+    );
+
+    // First, try to connect to the university database with raw query to avoid schema issues
+    const departments = await universityPrisma.$queryRaw`
+      SELECT id, name FROM departments 
+      WHERE is_active = true 
+      ORDER BY name ASC
+    `;
+
+    console.log(
+      `✅ Successfully fetched ${
+        Array.isArray(departments) ? departments.length : "unknown"
+      } departments from university database`
+    );
 
     // Transform the data to match expected frontend format
-    const transformedDepartments = departments.map(
+    const transformedDepartments = (departments as any[]).map(
       (dept: { id: number; name: string }) => ({
         id: dept.id.toString(),
         name: dept.name,
@@ -27,10 +37,13 @@ export async function GET(request: NextRequest) {
       source: "university_database",
     });
   } catch (error) {
-    console.error(
-      "University database unavailable, falling back to mock data:",
-      error
-    );
+    console.error("❌ University database query failed:", error);
+    console.error("Error details:", {
+      name: error instanceof Error ? error.name : "Unknown",
+      message: error instanceof Error ? error.message : "Unknown",
+      code: (error as any)?.code,
+      meta: (error as any)?.meta,
+    });
 
     // If university database is unavailable, return mock departments as fallback
     const fallbackDepartments = mockDepartments.map((dept) => ({

@@ -1,4 +1,4 @@
-const { PrismaClient } = require('.prisma/university');
+const { PrismaClient } = require('./src/generated/university-prisma');
 
 async function testUniversityDatabase() {
   console.log('🔍 Testing University Database Connection...');
