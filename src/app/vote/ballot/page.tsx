@@ -170,7 +170,7 @@ const BallotContent = () => {
   };
 
   const handleNext = () => {
-    if (currentStep < (ballotData?.election.positions.length ?? 0) - 1) {
+    if (currentStep < (ballotData?.election.positions.length ?? 0)) {
       setCurrentStep((prev) => prev + 1);
     } else {
       setShowReview(true);
