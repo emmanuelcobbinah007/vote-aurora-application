@@ -201,13 +201,14 @@ const LoginPage = () => {
         <div className="flex-1 h-screen mx-4 my-3 w-[50%]">
           <div className="flex items-center space-x-3 mx-4 mt-3 opacity-0 animate-fade-in-up">
             <Image
-              src="/VoteAurora.png"
+              src="/wisconsin_logo.png"
               alt="UPSA University Crest"
-              width={160}
-              height={55}
+              width={60}
+              height={60}
               priority
               className="object-contain mr-1"
             />
+            <span className="font-semibold text-xl">VoteWisconsin</span>
           </div>
           <div className="flex flex-col justify-center h-[90%] w-[85%] md:w-[70%] mx-auto">
             <div className="mb-9 opacity-0 animate-fade-in-up delay-200">
@@ -294,7 +295,7 @@ const LoginPage = () => {
                   }}
                   onBlur={formik.handleBlur}
                   value={formik.values.email}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white ${
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#3498db] focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white ${
                     formik.touched.email && formik.errors.email
                       ? "border-red-300 focus:ring-red-500"
                       : "border-gray-300"
@@ -326,7 +327,7 @@ const LoginPage = () => {
                     }}
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#2ecc71] focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white ${
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#3498db] focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white ${
                       formik.touched.password && formik.errors.password
                         ? "border-red-300 focus:ring-red-500"
                         : "border-gray-300"
@@ -388,7 +389,7 @@ const LoginPage = () => {
               <div className="text-right opacity-0 animate-fade-in-up delay-500">
                 <Link
                   href="/forgot-password"
-                  className="text-sm text-[#2ecc71] hover:text-[#27ae60] transition-colors duration-200"
+                  className="text-sm text-[#3498db] hover:text-[#2980b9] transition-colors duration-200"
                 >
                   Forgot your password?
                 </Link>
@@ -398,10 +399,10 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isLoading || !formik.isValid}
-                className={`w-full py-3 px-4 rounded-xl font-medium focus:ring-2 focus:ring-[#2ecc71] focus:ring-offset-2 transition-all duration-200 transform opacity-0 animate-fade-in-up delay-600 ${
+                className={`w-full py-3 px-4 rounded-xl font-medium focus:ring-2 focus:ring-[#3498db] focus:ring-offset-2 transition-all duration-200 transform opacity-0 animate-fade-in-up delay-600 ${
                   isLoading || !formik.isValid
                     ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-[#2ecc71] text-white hover:bg-[#27ae60] hover:scale-[1.02] active:scale-[0.98]"
+                    : "bg-[#3498db] text-white hover:bg-[#2980b9] hover:scale-[1.02] active:scale-[0.98]"
                 }`}
               >
                 {isLoading ? (
@@ -440,14 +441,30 @@ const LoginPage = () => {
         <div className="flex-1 relative hidden md:flex items-center justify-center overflow-hidden opacity-0 animate-fade-in delay-100">
           {/* Background Image */}
           <Image
-            src="/login_page_image.png"
+            src="/wisconsin_front.jpg"
             alt="University Campus"
             fill
             className="object-cover"
           />
 
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/40 bg-opacity-60 backdrop-blur-sm"></div>
+          <div className="absolute inset-0 bg-black/30 bg-opacity-60 backdrop-blur-sm"></div>
+
+          <div className="relative text-center text-white z-10">
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 mx-auto mb-6 w-fit">
+              <Image
+                src="/wisconsin_logo.png"
+                alt="UPSA University Crest"
+                width={120}
+                height={120}
+                className="object-contain opacity-100"
+              />
+            </div>
+            <h3 className="text-2xl font-light mb-2">
+              Wisconsin International University College, Ghana
+            </h3>
+            <p className="text-gray-200">Secure Electronic Voting System</p>
+          </div>
 
           {/* Content */}
         </div>
