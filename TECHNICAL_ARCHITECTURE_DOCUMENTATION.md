@@ -15,9 +15,11 @@
 ## 1. High-Level Overview
 
 ### System Purpose
+
 The University E-Voting System (VoteAurora) is a comprehensive digital voting platform designed for the University of Professional Studies, Accra. It facilitates secure, transparent, and auditable student elections with multi-role management capabilities.
 
 ### Core Functionality
+
 - **Secure Voting**: Anonymous ballot casting with OTP-based voter verification
 - **Role-Based Access Control**: Five distinct user roles (Voter, Admin, Superadmin, Approver, Orchestrator)
 - **Election Management**: Complete lifecycle management from creation to results analysis
@@ -25,6 +27,7 @@ The University E-Voting System (VoteAurora) is a comprehensive digital voting pl
 - **Audit Trail**: Comprehensive logging of all system activities
 
 ### Major Components
+
 1. **Frontend Application** - Next.js 15 React application with TypeScript
 2. **Backend API** - Next.js API routes with serverless functions
 3. **Primary Database** - PostgreSQL (via NeonDB) for voting system data
@@ -34,6 +37,7 @@ The University E-Voting System (VoteAurora) is a comprehensive digital voting pl
 7. **Image Storage** - Cloudinary for candidate photo management
 
 ### Technology Stack
+
 - **Framework**: Next.js 15.5.2 with React 19.1.1
 - **Language**: TypeScript 5.x
 - **Database ORM**: Prisma 6.17.0
@@ -214,6 +218,7 @@ src/app/
 #### Key Design Patterns
 
 1. **Container-Component Pattern**: Separation of data logic and presentation
+
    ```tsx
    // Container Component (Data Logic)
    function ElectionsContainer() {
@@ -229,12 +234,13 @@ src/app/
    ```
 
 2. **Hook-Based State Management**: Custom hooks for API interactions
+
    ```tsx
    // Custom Hook
    function useElections() {
      return useQuery({
-       queryKey: ['elections'],
-       queryFn: () => fetch('/api/elections').then(res => res.json())
+       queryKey: ["elections"],
+       queryFn: () => fetch("/api/elections").then((res) => res.json()),
      });
    }
    ```
@@ -254,6 +260,7 @@ src/app/
 #### State Management Strategy
 
 - **TanStack Query**: Server state management with caching
+
   - 1-minute stale time for fresh data
   - 5-minute garbage collection time
   - Automatic retry on failure (3 attempts)
@@ -316,13 +323,13 @@ src/app/api/
 
 ```typescript
 class AuthenticationService {
-  static async validateCredentials(email?: string, password?: string)
-  static async findUserByEmail(email: string)
-  static async validateUserStatus(user: any)
-  static async verifyPassword(password: string, user: any)
-  static async handleFailedLogin(userId: string)
-  static async handleSuccessfulLogin(userId: string)
-  static formatUserResponse(user: any)
+  static async validateCredentials(email?: string, password?: string);
+  static async findUserByEmail(email: string);
+  static async validateUserStatus(user: any);
+  static async verifyPassword(password: string, user: any);
+  static async handleFailedLogin(userId: string);
+  static async handleSuccessfulLogin(userId: string);
+  static formatUserResponse(user: any);
 }
 ```
 
@@ -330,13 +337,13 @@ class AuthenticationService {
 
 ```typescript
 class VoterVerificationService {
-  async initiateVerification(voterToken: string)
-  async verifyOTP(accessToken: string, otp: string)
-  async resendOTP(accessToken: string)
-  private generateOTP(): string
-  private generateAccessToken(): string
-  private sendOTPEmail(tokenRecord: any, otp: string)
-  private generateOTPEmailContent(tokenRecord: any, otp: string)
+  async initiateVerification(voterToken: string);
+  async verifyOTP(accessToken: string, otp: string);
+  async resendOTP(accessToken: string);
+  private generateOTP(): string;
+  private generateAccessToken(): string;
+  private sendOTPEmail(tokenRecord: any, otp: string);
+  private generateOTPEmailContent(tokenRecord: any, otp: string);
 }
 ```
 
@@ -350,7 +357,7 @@ interface AuditLogData {
   electionId?: string;
 }
 
-export async function createAuditLog(data: AuditLogData): Promise<void>
+export async function createAuditLog(data: AuditLogData): Promise<void>;
 ```
 
 ### Database Access Patterns
@@ -372,8 +379,8 @@ const universityPrisma = new UniversityPrismaClient();
 // Complex operations use transactions
 const result = await prisma.$transaction(async (tx) => {
   const user = await tx.users.create({ data: userData });
-  const assignment = await tx.adminAssignments.create({ 
-    data: { adminId: user.id, electionId } 
+  const assignment = await tx.adminAssignments.create({
+    data: { adminId: user.id, electionId },
   });
   return { user, assignment };
 });
@@ -384,12 +391,14 @@ const result = await prisma.$transaction(async (tx) => {
 #### Authentication & Authorization
 
 1. **NextAuth.js Configuration**:
+
    - JWT strategy with 24-hour expiration
    - Credential-based authentication
    - Custom authorization callbacks
    - Role-based access control
 
 2. **Password Security**:
+
    - bcrypt hashing with salt rounds
    - Failed login attempt tracking
    - Account lockout mechanisms
@@ -402,11 +411,13 @@ const result = await prisma.$transaction(async (tx) => {
 #### API Security
 
 1. **Input Validation**:
+
    - Zod schema validation
    - SQL injection prevention via Prisma
    - XSS protection through sanitization
 
 2. **Rate Limiting**:
+
    - OTP request limiting (5 attempts)
    - Failed login attempt tracking
    - IP-based restrictions
@@ -732,8 +743,8 @@ const nextConfig: NextConfig = {
   },
   // Serverless function configuration
   experimental: {
-    serverComponentsExternalPackages: ['@prisma/client']
-  }
+    serverComponentsExternalPackages: ["@prisma/client"],
+  },
 };
 ```
 
@@ -742,6 +753,7 @@ const nextConfig: NextConfig = {
 #### NeonDB Configuration
 
 - **Primary Database**: PostgreSQL 15+ on NeonDB
+
   - Connection pooling enabled
   - Auto-scaling based on usage
   - Automated backups
@@ -783,26 +795,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
-          
+          node-version: "18"
+
       - name: Install dependencies
         run: npm install
-        
+
       - name: Generate Prisma clients
         run: |
           npx prisma generate --schema=prisma/schema.prisma
           npx prisma generate --schema=prisma/university.prisma
-          
+
       - name: Run type checking
         run: npx tsc --noEmit
-        
+
       - name: Run linting
         run: npm run lint
-        
+
       - name: Deploy to Vercel
         uses: vercel/vercel-action@v1
         with:
@@ -823,7 +835,7 @@ jobs:
 #### SMTP Email Service
 
 - **Provider**: Gmail SMTP or dedicated email service
-- **Features**: 
+- **Features**:
   - OTP delivery for voter verification
   - Election notifications
   - Invitation emails
@@ -846,11 +858,11 @@ export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Global error:', error);
+    console.error("Global error:", error);
   }, [error]);
 
   return (
@@ -871,12 +883,14 @@ export default function GlobalError({
 #### Authentication Security
 
 1. **Password Security**:
+
    - bcrypt hashing with configurable salt rounds
    - Password complexity requirements enforced
    - Account lockout after failed attempts
    - Secure password reset mechanism
 
 2. **Session Management**:
+
    - JWT tokens with 24-hour expiration
    - Secure cookie configuration
    - Role-based access control enforcement
@@ -891,12 +905,14 @@ export default function GlobalError({
 #### Voting Security
 
 1. **Voter Verification**:
+
    - Two-factor authentication via OTP
    - University database cross-verification
    - Time-limited access tokens
    - IP address and user agent tracking
 
 2. **Anonymous Voting**:
+
    - No direct voter-vote linkage in database
    - Hashed access tokens for audit purposes
    - Separation of voter identity and vote data
@@ -911,6 +927,7 @@ export default function GlobalError({
 #### Data Protection
 
 1. **Encryption**:
+
    - HTTPS/TLS for all communications
    - Database encryption at rest (NeonDB)
    - Environment variable encryption
@@ -927,11 +944,13 @@ export default function GlobalError({
 #### Database Scalability
 
 1. **Read Replicas**:
+
    - Separate read replicas for analytics queries
    - Load balancing between primary and replicas
    - Eventual consistency for non-critical reads
 
 2. **Query Optimization**:
+
    - Strategic database indexing
    - Query performance monitoring
    - Connection pooling
@@ -945,12 +964,14 @@ export default function GlobalError({
 #### Application Scalability
 
 1. **Serverless Architecture**:
+
    - Vercel serverless functions auto-scaling
    - Edge function deployment for global reach
    - CDN integration for static assets
    - Automatic load balancing
 
 2. **Caching Strategy**:
+
    - TanStack Query client-side caching
    - API response caching
    - Static asset caching via CDN
@@ -965,6 +986,7 @@ export default function GlobalError({
 #### Monitoring and Alerting
 
 1. **Performance Monitoring**:
+
    - Real-time application performance metrics
    - Database query performance tracking
    - API endpoint response time monitoring
@@ -981,14 +1003,17 @@ export default function GlobalError({
 #### Identified Risk Areas
 
 1. **OTP Brute Force Attacks**:
+
    - **Risk**: Systematic OTP guessing attempts
    - **Mitigation**: Rate limiting (5 attempts), exponential backoff, account lockout
 
 2. **Token Hijacking**:
+
    - **Risk**: Access token interception or theft
    - **Mitigation**: Short token expiration, HTTPS enforcement, secure storage
 
 3. **Database Injection**:
+
    - **Risk**: SQL injection through API endpoints
    - **Mitigation**: Prisma ORM parameterized queries, input validation
 
@@ -999,6 +1024,7 @@ export default function GlobalError({
 #### Security Best Practices Implemented
 
 1. **Defense in Depth**:
+
    - Multiple security layers
    - Fail-secure principles
    - Regular security audits
@@ -1015,10 +1041,12 @@ export default function GlobalError({
 #### Performance Bottlenecks
 
 1. **Database Connections**:
+
    - Solution: Connection pooling and read replicas
    - Monitoring: Active connection count tracking
 
 2. **API Rate Limits**:
+
    - Solution: Intelligent caching and batching
    - Monitoring: Request rate and error rate tracking
 
@@ -1029,11 +1057,13 @@ export default function GlobalError({
 #### Growth Planning
 
 1. **Multi-University Support**:
+
    - Database schema modifications for multi-tenancy
    - University-specific configuration management
    - Centralized vs. federated deployment options
 
 2. **Advanced Analytics**:
+
    - Data warehouse integration
    - Business intelligence tools
    - Predictive analytics capabilities
@@ -1055,6 +1085,6 @@ Future enhancements should focus on performance optimization, mobile application
 
 ---
 
-*Last Updated: November 3, 2025*
-*Version: 1.0*
-*Document Maintainer: Technical Architecture Team*
+_Last Updated: November 3, 2025_
+_Version: 1.0_
+_Document Maintainer: Technical Architecture Team_
