@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import * as Yup from "yup";
-import {
-  validateSuperAdmin,
-  createAuthErrorResponse,
-} from "../../../../libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 // Validation schema mirrors the client-side Yup schema
 const createElectionSchema = Yup.object({
@@ -38,8 +35,8 @@ function formatValidationError(err: any) {
 
 export async function POST(req: NextRequest) {
   // Authorize
-  const auth = await validateSuperAdmin(req);
-  if (!auth.success) return createAuthErrorResponse(auth);
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   let body: any;
   try {
@@ -114,7 +111,7 @@ export async function POST(req: NextRequest) {
         department: body.is_general ? null : body.department,
         start_time: start,
         end_time: end,
-        created_by: auth.user!.id,
+        created_by: authResult.id,
       },
     });
 
@@ -145,8 +142,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   // Authorize
-  const auth = await validateSuperAdmin(req);
-  if (!auth.success) return createAuthErrorResponse(auth);
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     // Extract pagination parameters from URL

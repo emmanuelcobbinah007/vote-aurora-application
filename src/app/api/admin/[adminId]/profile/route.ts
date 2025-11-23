@@ -372,7 +372,12 @@ class ProfileErrorResponseFactory {
   }
 }
 
+import { requireRole } from "@/lib/auth-utils";
+
 export async function GET(request: NextRequest, { params }: RouteParams) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const resolvedParams = await params;
     const context = ProfileContextFactory.createGetContext(
@@ -390,6 +395,9 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 }
 
 export async function PUT(request: NextRequest, { params }: RouteParams) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const resolvedParams = await params;
     const body = await request.json();

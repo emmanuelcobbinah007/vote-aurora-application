@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 // GET: Fetch dashboard data for superadmin
 export async function GET(request: NextRequest) {
-  const authResult = await validateSuperAdmin(request);
-  if (!authResult.success) {
-    return createAuthErrorResponse(authResult);
-  }
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     // Get overview statistics

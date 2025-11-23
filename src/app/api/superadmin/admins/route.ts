@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 import crypto from "crypto";
 import EmailService from "@/libs/email";
 
 // GET: List all admins
 export async function GET(request: NextRequest) {
-  const authResult = await validateSuperAdmin(request);
-  if (!authResult.success) {
-    return createAuthErrorResponse(authResult);
-  }
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     const admins = await prisma.users.findMany({
@@ -67,10 +65,8 @@ export async function GET(request: NextRequest) {
 
 // POST: Invite a new admin
 export async function POST(request: NextRequest) {
-  const authResult = await validateSuperAdmin(request);
-  if (!authResult.success) {
-    return createAuthErrorResponse(authResult);
-  }
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     const body = await request.json();
@@ -147,7 +143,7 @@ export async function POST(request: NextRequest) {
         token,
         role: "ADMIN",
         expires_at: expiresAt,
-        created_by: authResult.user!.id,
+        created_by: authResult.id,
       },
     });
 
@@ -160,7 +156,7 @@ export async function POST(request: NextRequest) {
         email,
         invitationLink,
         "Admin",
-        authResult.user!.fullName
+        authResult.full_name
       );
     } catch (emailError) {
       console.error("Failed to send invitation email:", emailError);
@@ -185,7 +181,7 @@ export async function POST(request: NextRequest) {
         email: invitation.email,
         role: invitation.role,
         expires_at: invitation.expires_at.toISOString(),
-        invited_by: authResult.user!.fullName,
+        invited_by: authResult.full_name,
       },
       message: `Admin invitation sent successfully to ${email}`,
     });

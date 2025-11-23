@@ -1,17 +1,63 @@
 import { PrismaClient } from "../generated/university-prisma";
 
 const globalForUniversityPrisma = globalThis as unknown as {
-  universityPrisma: PrismaClient | undefined;
+  universityPrisma: any | undefined;
 };
 
-export const universityPrisma =
+// Base client
+const baseClient =
   globalForUniversityPrisma.universityPrisma ||
   new PrismaClient({
     log: ["query", "error", "warn"],
   });
 
+// Create read-only wrapper with Prisma extension
+export const universityPrisma = baseClient.$extends({
+  name: "read-only-enforcement",
+  query: {
+    $allModels: {
+      // Block all write operations
+      async create() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+      async createMany() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+      async update() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+      async updateMany() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+      async upsert() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+      async delete() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+      async deleteMany() {
+        throw new Error(
+          "Write operations are not allowed on the university database. This is a read-only data source."
+        );
+      },
+    },
+  },
+});
+
 if (process.env.NODE_ENV !== "production")
-  globalForUniversityPrisma.universityPrisma = universityPrisma;
+  globalForUniversityPrisma.universityPrisma = baseClient;
 
 // Helper function with timeout for database operations
 export const withTimeout = async <T>(

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { validateOrchestratorOrAdmin } from "../../../libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 // Define the interface for superadmin data
 interface SuperAdminData {
@@ -16,13 +16,8 @@ interface SuperAdminData {
 // Function to get all superadmins from the database
 export async function GET(request: NextRequest) {
   // Validate authentication and authorization - ORCHESTRATOR and SUPERADMIN can view superadmins
-  const authResult = await validateOrchestratorOrAdmin(request);
-  if (!authResult.success) {
-    return NextResponse.json(
-      { error: authResult.error },
-      { status: authResult.statusCode }
-    );
-  }
+  const authResult = await requireRole(["SUPERADMIN", "ORCHESTRATOR"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     // Fetch all users with SUPERADMIN role from the database

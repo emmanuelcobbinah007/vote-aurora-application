@@ -1,8 +1,12 @@
 import prisma from "@/libs/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { electionActivationService } from "@/libs/electionActivation";
+import { requireRole } from "@/lib/auth-utils";
 
 export async function POST(req: NextRequest) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const result =
       await electionActivationService.checkForElectionsToActivate();

@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const VoteSuccessPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
@@ -67,6 +68,24 @@ const VoteSuccessPage = () => {
           Thank you for participating in the democratic process. Your vote has
           been securely recorded and will remain anonymous.
         </p>
+
+        {/* Verification Code Display */}
+        {searchParams.get("code") && (
+          <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 mb-6 animate-fade-in">
+            <h3 className="text-lg font-bold text-green-900 mb-2">
+              Your Vote Verification Code
+            </h3>
+            <div className="bg-white border-2 border-green-300 rounded p-4 text-center mb-3 shadow-inner">
+              <code className="text-xl sm:text-2xl font-mono font-bold text-green-700 tracking-wider break-all">
+                {searchParams.get("code")}
+              </code>
+            </div>
+            <p className="text-sm text-green-800 font-medium flex items-center justify-center gap-2">
+              <span className="text-xl">⚠️</span> 
+              Save this code! You can use it to verify your vote was counted.
+            </p>
+          </div>
+        )}
 
         {/* Important Information */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-left">

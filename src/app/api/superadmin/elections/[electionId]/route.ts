@@ -355,6 +355,24 @@ export async function PATCH(
       );
     }
 
+    // Finalize Merkle Tree if election is closed
+    if (
+      updateData.status === "CLOSED" &&
+      currentElection.status !== "CLOSED"
+    ) {
+      try {
+        const { MerkleTreeService } = await import("@/libs/merkleTreeService");
+        await MerkleTreeService.finalizeElectionMerkleTree(electionId);
+        console.log(`Merkle tree finalized for election ${electionId}`);
+      } catch (merkleError) {
+        console.error(
+          `Failed to finalize Merkle tree for election ${electionId}:`,
+          merkleError
+        );
+        // We don't fail the request here, but we should probably alert/log critical error
+      }
+    }
+
     // Return formatted response
     const response = ElectionUpdateService.formatResponse(updated);
     return NextResponse.json(response, { status: 200 });

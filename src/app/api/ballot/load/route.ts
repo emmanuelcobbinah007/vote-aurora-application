@@ -2,9 +2,24 @@
 import { voterVerificationService } from "@/libs/voterVerificationService";
 import prisma from "@/libs/prisma";
 import crypto from "crypto";
+import { voteRateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    const { success: rateLimitSuccess } = await voteRateLimit.limit(ip);
+
+    if (!rateLimitSuccess) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Too many requests. Please slow down and try again.",
+        },
+        { status: 429, headers: { "Retry-After": "60" } }
+      );
+    }
+
     const { access_token } = await request.json();
 
     if (!access_token) {

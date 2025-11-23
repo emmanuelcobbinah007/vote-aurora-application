@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 import { isAdminAuthorized } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 class CandidateRepository {
   private static createBaseQuery(candidateId: string, electionId: string) {
@@ -484,6 +485,9 @@ export async function GET(
   }
 ) {
   return CandidateHttpHandlerFactory.handleRequest(async () => {
+    const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+    if (authResult instanceof NextResponse) return authResult;
+
     const resolvedParams = await params;
     return CandidateHttpHandlerFactory.executeReadCommand(
       resolvedParams,
@@ -507,6 +511,9 @@ export async function PUT(
 ) {
   return CandidateHttpHandlerFactory.handleRequest(
     async () => {
+      const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+      if (authResult instanceof NextResponse) return authResult;
+
       const resolvedParams = await params;
       const body = await request.json();
       const { full_name, photo_url, manifesto, portfolio_id } = body;
@@ -546,6 +553,9 @@ export async function DELETE(
   }
 ) {
   return CandidateHttpHandlerFactory.handleRequest(async () => {
+    const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+    if (authResult instanceof NextResponse) return authResult;
+
     const resolvedParams = await params;
     return CandidateHttpHandlerFactory.executeReadCommand(
       resolvedParams,

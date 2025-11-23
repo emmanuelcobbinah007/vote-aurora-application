@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@/generated/university-prisma";
+import universityPrisma from "@/libs/university-prisma";
 
 export async function GET(request: NextRequest) {
-  const client = new PrismaClient({
-    log: ["query", "error", "warn", "info"],
-  });
-
   try {
     console.log("Testing university database connection...");
     console.log("Database URL exists:", !!process.env.UNIVERSITY_DATABASE_URL);
@@ -14,12 +10,8 @@ export async function GET(request: NextRequest) {
       process.env.UNIVERSITY_DATABASE_URL?.substring(0, 50) + "..."
     );
 
-    // Test basic connection
-    await client.$connect();
-    console.log("✅ Connected to university database successfully!");
-
-    // Test query
-    const departments = await client.departments.findMany({
+    // Test query using singleton client
+    const departments = await universityPrisma.departments.findMany({
       take: 5, // Limit to 5 for testing
     });
     console.log(`✅ Found ${departments.length} departments`);
@@ -45,7 +37,5 @@ export async function GET(request: NextRequest) {
       },
       { status: 500 }
     );
-  } finally {
-    await client.$disconnect();
   }
 }

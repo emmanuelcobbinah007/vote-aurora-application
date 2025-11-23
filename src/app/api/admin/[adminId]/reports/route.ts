@@ -559,7 +559,12 @@ class ReportsDataService {
   }
 }
 
+import { requireRole } from "@/lib/auth-utils";
+
 export async function GET(request: NextRequest, { params }: RouteParams) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const resolvedParams = await params;
     const rawAdminId = resolvedParams.adminId;

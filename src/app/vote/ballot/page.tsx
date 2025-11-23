@@ -289,8 +289,12 @@ const BallotContent = () => {
         throw new Error(result.message || "Failed to submit votes");
       }
 
-      // Redirect to success page
-      router.push("/vote/success");
+      // Redirect to success page with verification code if available
+      if (result.verification_code) {
+        router.push(`/vote/success?code=${result.verification_code}`);
+      } else {
+        router.push("/vote/success");
+      }
     } catch (error) {
       console.error("Vote submission failed:", error);
 

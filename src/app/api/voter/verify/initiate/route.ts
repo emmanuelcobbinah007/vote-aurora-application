@@ -1,9 +1,26 @@
 import { NextResponse } from "next/server";
 import { voterVerificationService } from "@/libs/voterVerificationService";
+import { rateLimit } from "@/lib/rateLimit";
+import { headers } from "next/headers";
 
 export async function POST(request: Request) {
   try {
     const { voter_token } = await request.json();
+    const headersList = await headers();
+    const ip = headersList.get("x-forwarded-for") || "127.0.0.1";
+    const userAgent = headersList.get("user-agent") || "Unknown";
+
+    // Rate Limiting
+    const { success: limitSuccess } = await rateLimit.limit(ip);
+    if (!limitSuccess) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Too many requests. Please try again later.",
+        },
+        { status: 429 }
+      );
+    }
 
     // Validate required fields
     if (!voter_token) {
@@ -36,7 +53,9 @@ export async function POST(request: Request) {
 
     // Call verification service
     const result = await voterVerificationService.initiateVerification(
-      voter_token
+      voter_token,
+      ip,
+      userAgent
     );
 
     console.log(

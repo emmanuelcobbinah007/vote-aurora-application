@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
+import { requireRole } from "@/lib/auth-utils";
 
 export async function GET(request: NextRequest) {
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const { searchParams } = new URL(request.url);
 

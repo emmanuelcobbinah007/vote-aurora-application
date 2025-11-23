@@ -71,7 +71,10 @@ export class ElectionActivationService {
     console.log(`👥 Found ${eligibleStudents.length} eligible voters`);
 
     // 3. Generate voter tokens
-    await this.generateVoterTokens(election.id, eligibleStudents);
+    const rawTokens = await this.generateVoterTokens(
+      election.id,
+      eligibleStudents
+    );
 
     // 4. 📧 NEW: Send voting emails
     try {
@@ -79,7 +82,8 @@ export class ElectionActivationService {
         `📧 Sending voting emails to ${eligibleStudents.length} voters...`
       );
       const emailResults = await voterEmailService.sendVotingEmails(
-        election.id
+        election.id,
+        rawTokens
       );
       console.log(
         `📬 Email dispatch completed: ${emailResults.emails_sent}/${emailResults.total_voters} sent`
@@ -353,22 +357,38 @@ export class ElectionActivationService {
   private async generateVoterTokens(electionId: string, students: any[]) {
     if (students.length === 0) {
       console.warn("No eligible students found, skipping token generation");
-      return [];
+      return {};
     }
 
-    const voterTokens = students.map((student) => ({
-      // Required fields from your Prisma schema
-      voter_token: crypto.randomBytes(16).toString("hex"),
-      student_id: student.student_id,
-      student_email: student.email,
-      election_id: electionId,
-      access_token: crypto.randomBytes(32).toString("hex"), // Unique URL token
-      verification_otp: crypto.randomBytes(3).toString("hex").toUpperCase(), // 6-char OTP
-      otp_expires_at: new Date(Date.now() + 10 * 60 * 1000), // OTP expires in 10 minutes
-      expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000), // Token expires in 24 hours
-      used: false,
-      issued_at: new Date(),
-    }));
+    const rawTokensMap: Record<string, string> = {};
+
+    const voterTokens = students.map((student) => {
+      // Generate 32-byte random token (64 hex chars)
+      const rawToken = crypto.randomBytes(32).toString("hex");
+      
+      // Hash token for storage
+      const hashedToken = crypto
+        .createHash("sha256")
+        .update(rawToken)
+        .digest("hex");
+
+      // Store raw token in map for email sending
+      rawTokensMap[student.student_id] = rawToken;
+
+      return {
+        // Required fields from your Prisma schema
+        voter_token: hashedToken, // Store hash
+        student_id: student.student_id,
+        student_email: student.email,
+        election_id: electionId,
+        access_token: crypto.randomBytes(32).toString("hex"), // Unique URL token
+        verification_otp: crypto.randomBytes(3).toString("hex").toUpperCase(), // 6-char OTP
+        otp_expires_at: new Date(Date.now() + 10 * 60 * 1000), // OTP expires in 10 minutes
+        expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000), // Token expires in 24 hours
+        used: false,
+        issued_at: new Date(),
+      };
+    });
 
     try {
       // Batch insert voter tokens
@@ -378,7 +398,7 @@ export class ElectionActivationService {
       });
 
       console.log(`🎫 Generated ${voterTokens.length} voter tokens`);
-      return voterTokens;
+      return rawTokensMap;
     } catch (error) {
       console.error("Error generating voter tokens:", error);
       if (error instanceof Error) {

@@ -25,7 +25,15 @@ export class VoterEmailService {
   /**
    * Send voting emails to all eligible voters for an election
    */
-  async sendVotingEmails(electionId: string) {
+  /**
+   * Send voting emails to all eligible voters for an election
+   * @param electionId The ID of the election
+   * @param rawTokens Optional map of student_id -> raw_token. If provided, these tokens are used instead of DB values.
+   */
+  async sendVotingEmails(
+    electionId: string,
+    rawTokens?: Record<string, string>
+  ) {
     console.log(`Starting email dispatch for election: ${electionId}`);
 
     try {
@@ -38,7 +46,11 @@ export class VoterEmailService {
       console.log(`Found ${voterTokens.length} voters to notify`);
 
       // Send emails in batches to avoid overwhelming the email service
-      const results = await this.sendEmailsBatch(election, voterTokens);
+      const results = await this.sendEmailsBatch(
+        election,
+        voterTokens,
+        rawTokens
+      );
 
       // Update election to mark emails as sent
       await this.markEmailsAsSent(electionId, results);
@@ -108,7 +120,11 @@ export class VoterEmailService {
   /**
    * Send emails in batches
    */
-  private async sendEmailsBatch(election: Election, voterTokens: VoterToken[]) {
+  private async sendEmailsBatch(
+    election: Election,
+    voterTokens: VoterToken[],
+    rawTokens?: Record<string, string>
+  ) {
     const BATCH_SIZE = 10; // Send 10 emails at a time
     const BATCH_DELAY = 2000; // 2 second delay between batches
 
@@ -143,9 +159,22 @@ export class VoterEmailService {
       );
 
       // Send all emails in current batch concurrently
-      const batchPromises = batch.map((token) =>
-        this.sendSingleVotingEmail(election, token)
-      );
+      const batchPromises = batch.map((token) => {
+        // Use raw token if available, otherwise fall back to DB token (legacy behavior)
+        // Note: If DB token is hashed, this fallback will result in sending a hash, which is invalid.
+        // This implies rawTokens MUST be provided if hashing is enabled.
+        const tokenToSend = rawTokens
+          ? rawTokens[token.student_id]
+          : token.voter_token;
+
+        if (!tokenToSend) {
+          return Promise.reject(
+            new Error(`No raw token found for student ${token.student_id}`)
+          );
+        }
+
+        return this.sendSingleVotingEmail(election, token, tokenToSend);
+      });
 
       try {
         const batchResults = await Promise.allSettled(batchPromises);
@@ -204,17 +233,28 @@ export class VoterEmailService {
   /**
    * Send a single voting email
    */
-  private async sendSingleVotingEmail(election: Election, token: VoterToken) {
-    const votingUrl = this.generateVotingUrl(token.voter_token);
+  private async sendSingleVotingEmail(
+    election: Election,
+    token: VoterToken,
+    tokenString: string
+  ) {
+    const votingUrl = this.generateVotingUrl(tokenString);
 
     const emailContent = this.generateEmailContent(election, token, votingUrl);
 
-    // Send the email and get the messageId
-    const result = await emailService.sendEmail({
+    // Use Brevo API for better delivery tracking
+    const { brevoEmailService } = await import("@/libs/brevo-email");
+    
+    const result = await brevoEmailService.sendEmail({
       to: token.student_email,
       subject: `Your Voting Link: ${election.title}`,
-      html: emailContent.html,
-      text: emailContent.text,
+      htmlContent: emailContent.html,
+      textContent: emailContent.text,
+      tags: [
+        "voting-link",
+        `election:${election.id}`,
+        `student:${token.student_id}`,
+      ],
     });
 
     return { messageId: result.messageId };

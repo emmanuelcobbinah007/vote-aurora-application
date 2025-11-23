@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { validateSuperAdmin } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 import { createAuditLog, AUDIT_ACTIONS } from "@/libs/audit-utils";
 import EmailService from "@/libs/email";
 
@@ -11,13 +11,8 @@ interface ReassignRequest {
 
 export async function POST(request: NextRequest) {
   // Validate authentication - only SUPERADMIN can reassign admins
-  const authResult = await validateSuperAdmin(request);
-  if (!authResult.success) {
-    return NextResponse.json(
-      { error: authResult.error },
-      { status: authResult.statusCode }
-    );
-  }
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     const body: ReassignRequest = await request.json();
@@ -105,7 +100,7 @@ export async function POST(request: NextRequest) {
       where: { id: currentAssignment.id },
       data: {
         election_id: newElectionId,
-        assigned_by: authResult.user!.id,
+        assigned_by: authResult.id,
       },
     });
 
@@ -121,7 +116,7 @@ export async function POST(request: NextRequest) {
         adminUser.email,
         adminUser.full_name,
         currentAssignment.election.title,
-        authResult.user!.fullName
+        authResult.full_name
       );
 
       // Send assignment notification for the new election
@@ -134,7 +129,7 @@ export async function POST(request: NextRequest) {
           start_time: newElection.start_time.toISOString(),
           end_time: newElection.end_time.toISOString(),
         },
-        authResult.user!.fullName,
+        authResult.full_name,
         dashboardLink
       );
     } catch (emailError) {
@@ -144,7 +139,7 @@ export async function POST(request: NextRequest) {
 
     // Log audit trail for admin reassignment
     await createAuditLog({
-      userId: authResult.user!.id,
+      userId: authResult.id,
       action: AUDIT_ACTIONS.ADMIN_REASSIGNED,
       metadata: {
         adminId: adminUser.id,
@@ -154,8 +149,8 @@ export async function POST(request: NextRequest) {
         previousElectionTitle: currentAssignment.election.title,
         newElectionId: newElectionId,
         newElectionTitle: newElection.title,
-        reassignedBy: authResult.user!.fullName,
-        reassignedByEmail: authResult.user!.email,
+        reassignedBy: authResult.full_name,
+        reassignedByEmail: authResult.email,
       },
     });
 

@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
+import { requireRole } from "@/lib/auth-utils";
 
 // PUT - Update a candidate
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ electionId: string; candidateId: string }> }
 ) {
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const { electionId, candidateId } = await params;
     const body = await request.json();
@@ -118,6 +122,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ electionId: string; candidateId: string }> }
 ) {
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const { electionId, candidateId } = await params;
 

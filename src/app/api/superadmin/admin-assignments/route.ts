@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 import crypto from "crypto";
 import EmailService from "@/libs/email";
 
 // GET: List all admin assignments
 export async function GET(request: NextRequest) {
-  const authResult = await validateSuperAdmin(request);
-  if (!authResult.success) {
-    return createAuthErrorResponse(authResult);
-  }
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     const adminAssignments = await prisma.adminAssignments.findMany({
@@ -64,10 +62,8 @@ export async function GET(request: NextRequest) {
 
 // POST: Create a new admin assignment
 export async function POST(request: NextRequest) {
-  const authResult = await validateSuperAdmin(request);
-  if (!authResult.success) {
-    return createAuthErrorResponse(authResult);
-  }
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     const body = await request.json();
@@ -137,7 +133,7 @@ export async function POST(request: NextRequest) {
       data: {
         admin_id,
         election_id,
-        assigned_by: authResult.user!.id,
+        assigned_by: authResult.id,
       },
       include: {
         admin: {

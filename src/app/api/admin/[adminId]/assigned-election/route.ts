@@ -50,10 +50,15 @@ function buildElectionDetailsResponse(adminAssignment: any) {
   };
 }
 
+import { requireRole } from "@/lib/auth-utils";
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ adminId: string }> }
 ) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const { adminId } = await params;
 

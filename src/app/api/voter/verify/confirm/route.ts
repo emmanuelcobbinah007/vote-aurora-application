@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { voterVerificationService } from "@/libs/voterVerificationService";
+import { headers } from "next/headers";
 
 export async function POST(request: Request) {
   try {
     const { voter_token, student_id, otp } = await request.json();
+    const headersList = await headers();
+    const ip = headersList.get("x-forwarded-for") || "127.0.0.1";
+    const userAgent = headersList.get("user-agent") || "Unknown";
 
     // Validate required fields
     if (!voter_token || !student_id || !otp) {
@@ -55,7 +59,9 @@ export async function POST(request: Request) {
     const result = await voterVerificationService.verifyCredentials(
       voter_token,
       student_id.trim(),
-      otp.trim()
+      otp.trim(),
+      ip,
+      userAgent
     );
 
     console.log(

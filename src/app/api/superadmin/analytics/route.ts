@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import { validateSuperAdmin, createAuthErrorResponse } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 type RecentElectionItem = {
   election: {
@@ -196,8 +196,8 @@ class AnalyticsService {
 
 export async function GET(req: NextRequest) {
   // authorize
-  const auth = await validateSuperAdmin(req);
-  if (!auth.success) return createAuthErrorResponse(auth);
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     // Get all analytics data using service methods

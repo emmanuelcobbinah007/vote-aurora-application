@@ -269,10 +269,17 @@ function generateStatusSpecificAnalytics(context: AnalyticsContext) {
   };
 }
 
+import { requireRole } from "@/lib/auth-utils";
+
+// ... (imports)
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ superadminId: string; electionId: string }> }
 ) {
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     // `params` can be a Promise in some Next.js runtimes — await it before use
     const { superadminId, electionId } = await params;

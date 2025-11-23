@@ -2,6 +2,7 @@
 import { voterVerificationService } from "@/libs/voterVerificationService";
 import prisma from "@/libs/prisma";
 import crypto from "crypto";
+import { voteRateLimit } from "@/lib/rateLimit";
 
 interface VoteData {
   portfolio_id: string;
@@ -10,6 +11,20 @@ interface VoteData {
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    const { success: rateLimitSuccess } = await voteRateLimit.limit(ip);
+
+    if (!rateLimitSuccess) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Too many requests. Please slow down and try again.",
+        },
+        { status: 429, headers: { "Retry-After": "60" } }
+      );
+    }
+
     const { access_token, votes } = await request.json();
 
     console.log("📝 Ballot submit request:", {
@@ -151,6 +166,32 @@ export async function POST(request: NextRequest) {
 
     const result = await prisma.$transaction(async (tx) => {
       console.log("🔄 Starting transaction");
+
+      // 1. Atomic Check-and-Set: Try to mark token as used.
+      // If it's already used, this update will fail (throw RecordNotFound)
+      // because of the 'used: false' condition.
+      try {
+        await tx.voterTokens.update({
+          where: {
+            id: voter.id,
+            used: false, // CRITICAL: Only update if currently unused
+          },
+          data: {
+            used: true,
+            voted_at: new Date(),
+            updated_at: new Date(),
+          },
+        });
+        console.log("✅ Voter token marked as used (atomic)");
+      } catch (error: any) {
+        if (error.code === "P2025") {
+          // Prisma error for "Record to update not found."
+          console.warn("🚫 Token already used (caught by atomic check)");
+          throw new Error("ALREADY_VOTED");
+        }
+        throw error;
+      }
+
       const voteRecords = [];
 
       for (const vote of votes) {
@@ -167,27 +208,12 @@ export async function POST(request: NextRequest) {
           voteData.candidate_id = vote.candidate_id;
         }
 
-        console.log(
-          "📝 Vote data to create:",
-          JSON.stringify(voteData, null, 2)
-        );
         const voteRecord = await tx.votes.create({
           data: voteData,
         });
-        console.log("✅ Vote created:", voteRecord.id);
         voteRecords.push(voteRecord);
       }
-
-      console.log("🔄 Updating voter token");
-      await tx.voterTokens.update({
-        where: { id: voter.id },
-        data: {
-          used: true,
-          voted_at: new Date(),
-          updated_at: new Date(),
-        },
-      });
-      console.log("✅ Voter token updated");
+      console.log(`✅ Created ${voteRecords.length} vote records`);
 
       console.log("🔄 Updating student session");
       await tx.studentSessions.updateMany({
@@ -203,8 +229,6 @@ export async function POST(request: NextRequest) {
         },
       });
       console.log("✅ Student session updated");
-
-      console.log("🔄 Skipping analytics for now");
 
       return { voteRecords };
     });
@@ -233,6 +257,44 @@ export async function POST(request: NextRequest) {
       console.error("Failed to create audit trail:", auditError);
     }
 
+    // Generate vote receipt with verification code
+    let verificationCode: string | undefined;
+    try {
+      const { MerkleTreeService } = await import("@/libs/merkleTreeService");
+
+      // Create vote commitment (doesn't reveal vote choices)
+      const voteData = {
+        election_id: election.id,
+        votes: votes.map((v: VoteData) => ({
+          portfolio_id: v.portfolio_id,
+          candidate_id: v.candidate_id,
+        })),
+        timestamp: new Date().toISOString(),
+      };
+
+      const { commitment, salt } =
+        MerkleTreeService.generateVoteCommitment(voteData);
+      verificationCode = MerkleTreeService.generateVerificationCode();
+
+      await prisma.voteReceipts.create({
+        data: {
+          election_id: election.id,
+          voter_token_hash: voterTokenHash,
+          verification_code: verificationCode,
+          vote_commitment: commitment,
+          salt,
+          issued_at: new Date(),
+        },
+      });
+
+      console.log(
+        `✅ Vote receipt issued: ${verificationCode} for election ${election.id}`
+      );
+    } catch (receiptError) {
+      console.error("Failed to issue vote receipt:", receiptError);
+      // Don't fail the vote if receipt fails, but log it
+    }
+
     console.log(
       "Vote successfully cast for student:" +
         voter.student_id +
@@ -243,8 +305,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Your vote has been successfully recorded",
+      verification_code: verificationCode, // NEW: Return verification code to voter
       data: {
         election_id: election.id,
+        election_title: election.title,
         vote_count: votes.length,
         timestamp: new Date().toISOString(),
       },
@@ -256,9 +320,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: error.message.includes("already voted")
-            ? "You have already voted in this election"
-            : "Failed to submit your vote. Please try again.",
+          message:
+            error.message === "ALREADY_VOTED" ||
+            error.message.includes("already voted")
+              ? "You have already voted in this election"
+              : "Failed to submit your vote. Please try again.",
         },
         { status: 500 }
       );

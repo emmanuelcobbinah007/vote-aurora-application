@@ -24,7 +24,11 @@ export class VoterVerificationService {
   /**
    * Step 1: Validate voting token and initiate verification
    */
-  async initiateVerification(voterToken: string) {
+  async initiateVerification(
+    voterToken: string,
+    ip?: string,
+    userAgent?: string
+  ) {
     console.log(
       `🔍 Initiating verification for token: ${voterToken.substring(0, 8)}...`
     );
@@ -32,6 +36,9 @@ export class VoterVerificationService {
     try {
       // 1. Validate the voter token
       const tokenRecord = await this.validateVoterToken(voterToken);
+
+      // 1.5 Device Binding Check/Setup
+      await this.handleDeviceBinding(tokenRecord, ip, userAgent);
 
       // 2. Check if election is still active
       await this.validateElectionStatus(tokenRecord.election_id);
@@ -75,12 +82,21 @@ export class VoterVerificationService {
   /**
    * Step 2: Verify student ID and OTP
    */
-  async verifyCredentials(voterToken: string, studentId: string, otp: string) {
+  async verifyCredentials(
+    voterToken: string,
+    studentId: string,
+    otp: string,
+    ip?: string,
+    userAgent?: string
+  ) {
     console.log(`Verifying credentials for student: ${studentId}`);
 
     try {
       // 1. Get token record with current OTP
       const tokenRecord = await this.getTokenRecordForVerification(voterToken);
+
+      // 1.5 Validate Device Binding
+      await this.validateDeviceBinding(tokenRecord, ip, userAgent);
 
       // 2. Validate student ID matches
       if (tokenRecord.student_id !== studentId.toUpperCase().trim()) {
@@ -191,6 +207,83 @@ export class VoterVerificationService {
     } catch (error) {
       console.error(`❌ OTP resend failed:`, error);
       throw error;
+    }
+  }
+
+  /**
+   * Handle device binding (set if empty, validate if exists)
+   */
+  private async handleDeviceBinding(
+    tokenRecord: any,
+    ip?: string,
+    userAgent?: string
+  ) {
+    // If no IP/UA provided, skip binding (should be provided in prod)
+    if (!ip && !userAgent) return;
+
+    const ipHash = ip
+      ? crypto.createHash("sha256").update(ip).digest("hex")
+      : null;
+    const uaHash = userAgent
+      ? crypto.createHash("sha256").update(userAgent).digest("hex")
+      : null;
+
+    // If binding exists, validate it
+    if (tokenRecord.ip_hash || tokenRecord.ua_hash) {
+      if (
+        (tokenRecord.ip_hash && tokenRecord.ip_hash !== ipHash) ||
+        (tokenRecord.ua_hash && tokenRecord.ua_hash !== uaHash)
+      ) {
+        console.warn(
+          `⚠️ Device mismatch for token ${tokenRecord.voter_token.substring(
+            0,
+            8
+          )}`
+        );
+        // We might want to block or just warn. For security, blocking is better.
+        // But IP can change on mobile networks. UA is more stable for same session.
+        // Let's enforce UA if it exists, and IP if it exists.
+        throw new Error(
+          "Security alert: This voting link is bound to a different device/network. Please use the original device."
+        );
+      }
+    } else {
+      // First time access - bind the device
+      await prisma.voterTokens.update({
+        where: { id: tokenRecord.id },
+        data: {
+          ip_hash: ipHash,
+          ua_hash: uaHash,
+          updated_at: new Date(),
+        },
+      });
+    }
+  }
+
+  /**
+   * Validate device binding
+   */
+  private async validateDeviceBinding(
+    tokenRecord: any,
+    ip?: string,
+    userAgent?: string
+  ) {
+    if (!tokenRecord.ip_hash && !tokenRecord.ua_hash) return;
+
+    const ipHash = ip
+      ? crypto.createHash("sha256").update(ip).digest("hex")
+      : null;
+    const uaHash = userAgent
+      ? crypto.createHash("sha256").update(userAgent).digest("hex")
+      : null;
+
+    if (
+      (tokenRecord.ip_hash && tokenRecord.ip_hash !== ipHash) ||
+      (tokenRecord.ua_hash && tokenRecord.ua_hash !== uaHash)
+    ) {
+      throw new Error(
+        "Security alert: Access denied. Please use the device where you started the verification."
+      );
     }
   }
 
@@ -588,6 +681,11 @@ Secure • Anonymous • Verified
 
     if (!tokenRecord) {
       throw new Error("Invalid voting session");
+    }
+
+    // Check if token has expired (Fix 1.2)
+    if (tokenRecord.expires_at && new Date() > tokenRecord.expires_at) {
+      throw new Error("Voting link has expired");
     }
 
     return tokenRecord;

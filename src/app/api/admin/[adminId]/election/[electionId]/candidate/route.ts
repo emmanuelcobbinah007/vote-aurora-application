@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 import { isAdminAuthorized } from "@/libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 // Domain types for candidate creation
 interface CandidateCreationData {
@@ -306,6 +307,9 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ adminId: string; electionId: string }> }
 ) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const resolvedParams = await params;
     const command = new ListCandidatesCommand(resolvedParams);
@@ -331,6 +335,9 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ adminId: string; electionId: string }> }
 ) {
+  const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const resolvedParams = await params;
     const body = await request.json();

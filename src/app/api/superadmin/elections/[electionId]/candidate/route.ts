@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
+import { requireRole } from "@/lib/auth-utils";
 
 // GET - Fetch all candidates for an election
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ electionId: string }> }
 ) {
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const { electionId } = await params;
 
@@ -57,6 +61,9 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ electionId: string }> }
 ) {
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
     const { electionId } = await params;
     const body = await request.json();

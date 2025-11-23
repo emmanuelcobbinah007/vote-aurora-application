@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
-import {
-  validateSuperAdmin,
-  createAuthErrorResponse,
-} from "../../../../libs/auth-utils";
+import { requireRole } from "@/lib/auth-utils";
 
 export async function GET(request: NextRequest) {
   // Authorize
-  const auth = await validateSuperAdmin(request);
-  if (!auth.success) return createAuthErrorResponse(auth);
+  const authResult = await requireRole(["SUPERADMIN"]);
+  if (authResult instanceof NextResponse) return authResult;
 
   try {
     // Extract pagination parameters from URL
