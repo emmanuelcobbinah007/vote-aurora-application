@@ -81,7 +81,7 @@ const VoteSuccessContent = () => {
               </code>
             </div>
             <p className="text-sm text-green-800 font-medium flex items-center justify-center gap-2">
-              <span className="text-xl">⚠️</span> 
+              <span className="text-xl">⚠️</span>
               Save this code! You can use it to verify your vote was counted.
             </p>
           </div>
@@ -148,18 +148,20 @@ const VoteSuccessContent = () => {
 
 const VoteSuccessPage = () => {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
-          <div className="animate-pulse">
-            <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-6"></div>
-            <div className="h-8 bg-gray-200 rounded mb-4"></div>
-            <div className="h-4 bg-gray-200 rounded mb-6"></div>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-6">
+          <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
+            <div className="animate-pulse">
+              <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-6"></div>
+              <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-6"></div>
+              <div className="h-8 bg-gray-200 rounded mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded mb-6"></div>
+            </div>
           </div>
         </div>
-      </div>
-    }>
+      }
+    >
       <VoteSuccessContent />
     </Suspense>
   );
