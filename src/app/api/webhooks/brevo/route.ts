@@ -116,7 +116,6 @@ async function handleBouncedEmail(
           timestamp: new Date().toISOString(),
         },
       });
-      });
 
       console.warn(
         `⚠️ Email bounced for student ${voterToken.student_id}: ${email} (${eventType})`
