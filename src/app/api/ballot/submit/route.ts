@@ -3,6 +3,7 @@ import { voterVerificationService } from "@/libs/voterVerificationService";
 import prisma from "@/libs/prisma";
 import crypto from "crypto";
 import { voteRateLimit } from "@/lib/rateLimit";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 interface VoteData {
   portfolio_id: string;
@@ -234,24 +235,21 @@ export async function POST(request: NextRequest) {
     });
 
     try {
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "System", // Use system user for voter actions
-          election_id: election.id,
-          action: "VOTE_CAST",
-          metadata: {
-            student_id: voter.student_id,
-            vote_count: votes.length,
-            portfolios: votes.map((v: VoteData) => v.portfolio_id),
-            timestamp: new Date().toISOString(),
-            ip_address:
-              request.headers.get("x-forwarded-for") ||
-              request.headers.get("x-real-ip") ||
-              "unknown",
-            user_agent: request.headers.get("user-agent") || "unknown",
-          },
-          timestamp: new Date(),
+      await AuditTrailService.log({
+        user_id: "System", // Use system user for voter actions
+        election_id: election.id,
+        action: "VOTE_CAST",
+        metadata: {
+          student_id: voter.student_id,
+          vote_count: votes.length,
+          portfolios: votes.map((v: VoteData) => v.portfolio_id),
+          timestamp: new Date().toISOString(),
         },
+        ip_address:
+          request.headers.get("x-forwarded-for") ||
+          request.headers.get("x-real-ip") ||
+          "unknown",
+        user_agent: request.headers.get("user-agent") || "unknown",
       });
     } catch (auditError) {
       console.error("Failed to create audit trail:", auditError);

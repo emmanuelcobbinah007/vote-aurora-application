@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 /**
  * Brevo Webhook Handler
@@ -47,19 +48,17 @@ export async function POST(request: NextRequest) {
       const status = statusMap[eventType] || "unknown";
 
       // Update delivery status in database
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "system",
-          action: "EMAIL_WEBHOOK_RECEIVED",
-          metadata: {
-            email,
-            status,
-            eventType,
-            messageId: messageId || "unknown",
-            timestamp: date || new Date().toISOString(),
-            reason: reason || null,
-            tag: tag || null,
-          },
+      await AuditTrailService.log({
+        user_id: "system",
+        action: "EMAIL_WEBHOOK_RECEIVED",
+        metadata: {
+          email,
+          status,
+          eventType,
+          messageId: messageId || "unknown",
+          timestamp: date || new Date().toISOString(),
+          reason: reason || null,
+          tag: tag || null,
         },
       });
 
@@ -103,21 +102,20 @@ async function handleBouncedEmail(
 
     if (voterToken) {
       // Log bounce for election admins to review
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "system",
-          election_id: voterToken.election_id,
-          action: "VOTER_EMAIL_BOUNCED",
-          metadata: {
-            student_id: voterToken.student_id,
-            student_email: email,
-            messageId: messageId || "unknown",
-            token_id: voterToken.id,
-            bounce_type: eventType,
-            bounce_reason: reason || "Not provided",
-            timestamp: new Date().toISOString(),
-          },
+      await AuditTrailService.log({
+        user_id: "system",
+        election_id: voterToken.election_id,
+        action: "VOTER_EMAIL_BOUNCED",
+        metadata: {
+          student_id: voterToken.student_id,
+          student_email: email,
+          messageId: messageId || "unknown",
+          token_id: voterToken.id,
+          bounce_type: eventType,
+          bounce_reason: reason || "Not provided",
+          timestamp: new Date().toISOString(),
         },
+      });
       });
 
       console.warn(

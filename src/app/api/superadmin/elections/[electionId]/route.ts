@@ -6,6 +6,7 @@ import {
   createAuthErrorResponse,
 } from "../../../../../libs/auth-utils";
 import { emailService } from "@/libs/email";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 const updateSchema = Yup.object({
   title: Yup.string().trim().optional(),
@@ -512,20 +513,18 @@ export async function DELETE(
     });
 
     // Log the deletion in audit trail (we need to do this after the transaction since the election is gone)
-    await prisma.auditTrail.create({
-      data: {
-        action: "ELECTION_DELETED",
-        user_id: auth.user!.id,
-        metadata: {
-          election_id: electionId,
-          election_title: election.title,
-          deleted_by: auth.user!.fullName,
-          deleted_by_email: auth.user!.email,
-          election_status: election.status,
-          candidates_count: election._count.candidates,
-          portfolios_count: election._count.portfolios,
-          votes_count: election._count.votes,
-        },
+    await AuditTrailService.log({
+      action: "ELECTION_DELETED",
+      user_id: auth.user!.id,
+      metadata: {
+        election_id: electionId,
+        election_title: election.title,
+        deleted_by: auth.user!.fullName,
+        deleted_by_email: auth.user!.email,
+        election_status: election.status,
+        candidates_count: election._count.candidates,
+        portfolios_count: election._count.portfolios,
+        votes_count: election._count.votes,
       },
     });
 
