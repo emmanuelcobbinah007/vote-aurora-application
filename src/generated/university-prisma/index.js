@@ -166,6 +166,7 @@ const config = {
     "university_db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "university_db": {
       "url": {

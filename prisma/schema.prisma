@@ -49,6 +49,7 @@ model Users {
   last_login            DateTime?
   last_failed_attempt   DateTime?
   password_changed_at   DateTime?
+  deleted_at            DateTime? // Soft delete timestamp
   created_at            DateTime   @default(now())
   updated_at            DateTime   @updatedAt
 

@@ -10,29 +10,35 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Token is required" }, { status: 400 });
     }
 
-    // Find the invitation token using raw query to ensure we get election_id
-    const invitation = await prisma.$queryRaw<any[]>`
-      SELECT 
-        it.id, it.email, it.token, it.role, it.expires_at, it.used, 
-        it.created_at, it.created_by, it.election_id,
-        u.full_name as creator_name, u.email as creator_email
-      FROM "InvitationTokens" it
-      LEFT JOIN "Users" u ON it.created_by = u.id
-      WHERE it.token = ${token}
-      LIMIT 1
-    `;
+    // Find the invitation token with creator info
+    const invitation = await prisma.invitationTokens.findUnique({
+      where: { token },
+      include: {
+        creator: {
+          select: {
+            id: true,
+            full_name: true,
+            email: true
+          }
+        },
+        election: {
+          select: {
+            id: true,
+            title: true
+          }
+        }
+      }
+    });
 
-    if (!invitation || invitation.length === 0) {
+    if (!invitation) {
       return NextResponse.json(
         { error: "Invalid invitation token" },
         { status: 404 }
       );
     }
 
-    const inviteData = invitation[0];
-
     // Check if token is expired
-    if (inviteData.expires_at < new Date()) {
+    if (invitation.expires_at < new Date()) {
       return NextResponse.json(
         { error: "Invitation has expired" },
         { status: 410 }
@@ -40,35 +46,23 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if token has already been used
-    if (inviteData.used) {
+    if (invitation.used) {
       return NextResponse.json(
         { error: "Invitation has already been used" },
         { status: 410 }
       );
     }
 
-    // Optionally include election info if this invitation is scoped to an election
-    let electionInfo = null;
-    const electionId = inviteData.election_id;
-    console.log("🔍 Checking election_id:", electionId);
-    if (electionId) {
-      const election = await prisma.elections.findUnique({
-        where: { id: electionId },
-        select: { id: true, title: true },
-      });
-      if (election) {
-        electionInfo = { id: election.id, title: election.title };
-        console.log("✅ Found election info:", electionInfo);
-      }
-    }
-
     // Return invitation data (without sensitive information)
     return NextResponse.json({
-      email: inviteData.email,
-      role: inviteData.role,
-      expires_at: inviteData.expires_at.toISOString(),
-      created_by: inviteData.creator_name || "System Administrator",
-      election: electionInfo,
+      email: invitation.email,
+      role: invitation.role,
+      expires_at: invitation.expires_at.toISOString(),
+      created_by: invitation.creator?.full_name || "System Administrator",
+      election: invitation.election ? {
+        id: invitation.election.id,
+        title: invitation.election.title
+      } : null,
     });
   } catch (error) {
     console.error("Error verifying invitation:", error);

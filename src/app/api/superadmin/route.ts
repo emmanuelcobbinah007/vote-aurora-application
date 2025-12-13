@@ -20,10 +20,11 @@ export async function GET(request: NextRequest) {
   if (authResult instanceof NextResponse) return authResult;
 
   try {
-    // Fetch all users with SUPERADMIN role from the database
+    // Fetch all users with SUPERADMIN role from the database (excluding soft-deleted)
     const superadmins = await prisma.users.findMany({
       where: {
         role: "SUPERADMIN",
+        deleted_at: null, // Exclude soft-deleted users
       },
       select: {
         id: true,

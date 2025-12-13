@@ -48,24 +48,42 @@ async function getDashboardStats(orchestratorId: string | null) {
   // For now, return mock data with some basic counts
   // In a real implementation, these would be actual database queries
 
-  const [totalOrchestrators, totalElections, totalVoters, totalCandidates] =
-    await Promise.all([
-      // Count total orchestrators
-      prisma.users.count({
-        where: { role: "ORCHESTRATOR", status: "ACTIVE" },
-      }),
+  const [
+    totalOrchestrators,
+    totalElections,
+    totalVoters,
+    totalCandidates,
+    approverUser,
+    superAdminUser
+  ] = await Promise.all([
+    // Count total orchestrators
+    prisma.users.count({
+      where: { role: "ORCHESTRATOR", status: "ACTIVE" },
+    }),
 
-      // Count total elections
-      prisma.elections.count({}),
+    // Count total elections
+    prisma.elections.count({}),
 
-      // Count total voters
-      prisma.users.count({
-        where: { role: "VOTER", status: "ACTIVE" },
-      }),
+    // Count total voters
+    prisma.users.count({
+      where: { role: "VOTER", status: "ACTIVE" },
+    }),
 
-      // Count total candidates (placeholder)
-      Promise.resolve(0),
-    ]);
+    // Count total candidates (placeholder)
+    Promise.resolve(0),
+
+    // Get approver user status
+    prisma.users.findFirst({
+      where: { role: "APPROVER", deleted_at: null },
+      select: { status: true },
+    }),
+
+    // Get superadmin user status
+    prisma.users.findFirst({
+      where: { role: "SUPERADMIN", deleted_at: null },
+      select: { status: true },
+    }),
+  ]);
 
   // Get recent activity count (last 30 days)
   const thirtyDaysAgo = new Date();
@@ -99,5 +117,7 @@ async function getDashboardStats(orchestratorId: string | null) {
     pendingInvitations,
     activeElections: 0, // Placeholder
     completedElections: 0, // Placeholder
+    approverStatus: approverUser?.status === "ACTIVE" ? "active" : "inactive",
+    superadminStatus: superAdminUser?.status === "ACTIVE" ? "active" : "inactive",
   };
 }

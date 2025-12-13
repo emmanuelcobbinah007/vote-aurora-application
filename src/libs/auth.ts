@@ -15,7 +15,10 @@ class AuthenticationService {
     console.log("Login attempt for email:", email);
     
     const user = await prisma.users.findUnique({
-      where: { email },
+      where: { 
+        email,
+        deleted_at: null, // Exclude soft-deleted users
+      },
     });
 
     if (!user) {

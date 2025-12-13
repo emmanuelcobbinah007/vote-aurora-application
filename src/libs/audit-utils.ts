@@ -1,4 +1,5 @@
 import prisma from "./prisma";
+import { AuditTrailService } from "./auditTrailService";
 
 export interface AuditLogData {
   userId: string;
@@ -21,14 +22,11 @@ export interface DetailedAuditLogData {
  */
 export async function createAuditLog(data: AuditLogData): Promise<void> {
   try {
-    await prisma.auditTrail.create({
-      data: {
-        user_id: data.userId,
-        action: data.action,
-        metadata: data.metadata || {},
-        election_id: data.electionId || null,
-        timestamp: new Date(),
-      },
+    await AuditTrailService.log({
+      user_id: data.userId,
+      action: data.action,
+      metadata: data.metadata || {},
+      election_id: data.electionId || undefined,
     });
   } catch (error) {
     console.error("Failed to create audit log:", error);
@@ -44,6 +42,7 @@ export const AUDIT_ACTIONS = {
   USER_LOGIN: "USER_LOGIN",
   USER_LOGOUT: "USER_LOGOUT",
   USER_REGISTRATION: "USER_REGISTRATION",
+  USER_ROLE_REPLACED: "USER_ROLE_REPLACED",
   PASSWORD_CHANGE: "PASSWORD_CHANGE",
   PASSWORD_RESET_REQUEST: "PASSWORD_RESET_REQUEST",
   PASSWORD_RESET: "PASSWORD_RESET",

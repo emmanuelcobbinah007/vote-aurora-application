@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 import { isAdminAuthorized } from "@/libs/auth-utils";
 import { requireRole } from "@/lib/auth-utils";
+import { AuditTrailService as GlobalAuditTrailService } from "@/libs/auditTrailService";
 
 class CandidateRepository {
   private static createBaseQuery(candidateId: string, electionId: string) {
@@ -265,13 +266,11 @@ class AuditTrailService {
       });
     }
 
-    await prisma.auditTrail.create({
-      data: {
-        action,
-        user_id: context.adminId,
-        election_id: context.electionId,
-        metadata,
-      },
+    await GlobalAuditTrailService.log({
+      action,
+      user_id: context.adminId,
+      election_id: context.electionId,
+      metadata,
     });
   }
 }

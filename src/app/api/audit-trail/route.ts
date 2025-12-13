@@ -3,6 +3,7 @@ import prisma from "@/libs/prisma";
 import { validateOrchestratorOrAdmin } from "../../../libs/auth-utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../libs/auth";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 export async function GET(request: NextRequest) {
   // Validate authentication and authorization
@@ -128,23 +129,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create the audit trail entry
-    const auditEntry = await prisma.auditTrail.create({
-      data: {
-        user_id: session.user.id,
-        action: body.action,
-        election_id: body.entityId || null,
-        metadata: {
-          ...(body.metadata || {}),
-          entityType: body.entityType || "SYSTEM"
-        },
-        timestamp: new Date(),
+    // Extract request metadata for audit trail
+    const ip_address = request.headers.get("x-forwarded-for") || 
+                      request.headers.get("x-real-ip") || 
+                      "unknown";
+    const user_agent = request.headers.get("user-agent") || "unknown";
+
+    // Create the audit trail entry using the service with hash chaining
+    await AuditTrailService.log({
+      user_id: session.user.id,
+      action: body.action,
+      election_id: body.entityId || undefined,
+      metadata: {
+        ...(body.metadata || {}),
+        entityType: body.entityType || "SYSTEM",
+        userId: session.user.id,
+        user_name: session.user.name,
+        user_email: session.user.email,
+        user_role: session.user.role
       },
+      ip_address,
+      user_agent
     });
 
     return NextResponse.json({
       success: true,
-      id: auditEntry.id,
+      message: "Audit trail entry created successfully",
     });
   } catch (error) {
     console.error("Error creating audit trail entry:", error);

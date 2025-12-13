@@ -12,6 +12,8 @@ export async function middleware(request: NextRequest) {
     "/reset-password",
     "/vote", // Voter pages use token-based auth, not session
     "/invite/accept",
+    "/api/invite/verify", // Allow token verification
+    "/api/invite/accept", // Allow invitation acceptance
     "/election-closed",
     "/api/auth", // Next Auth routes
     "/api/webhooks", // Webhook endpoints (Brevo, etc.)

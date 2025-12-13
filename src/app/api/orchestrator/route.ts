@@ -25,10 +25,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Fetch all users with ORCHESTRATOR role from the database
+    // Fetch all users with ORCHESTRATOR role from the database (excluding soft-deleted)
     const orchestrators = await prisma.users.findMany({
       where: {
         role: "ORCHESTRATOR",
+        deleted_at: null, // Exclude soft-deleted users
       },
       select: {
         id: true,

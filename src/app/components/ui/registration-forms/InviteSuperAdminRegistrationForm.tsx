@@ -29,6 +29,9 @@ export default function InviteSuperAdminRegistrationForm({
   showConfirmPassword,
   setShowConfirmPassword,
 }: Props) {
+  // Debug invitation data
+  console.log("🔍 InviteSuperAdminRegistrationForm - invitationData:", invitationData);
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full overflow-hidden">
@@ -50,10 +53,10 @@ export default function InviteSuperAdminRegistrationForm({
           <div className="mb-6">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
               <p className="text-blue-700 text-sm">
-                <strong>Email:</strong> {invitationData?.email}
+                <strong>Email:</strong> {invitationData?.email || "Loading..."}
               </p>
               <p className="text-blue-700 text-sm">
-                <strong>Role:</strong> {invitationData?.role}
+                <strong>Role:</strong> {invitationData?.role || "Loading..."}
               </p>
             </div>
           </div>

@@ -51,8 +51,8 @@ export const fetchDashboardStats = async (
         pendingInvitations: stats.pendingInvitations || 0,
         activeElections: stats.activeElections || 0,
         completedElections: stats.completedElections || 0,
-        approverStatus: stats.totalElections > 0 ? "active" : "inactive",
-        superadminStatus: stats.recentActivity > 0 ? "active" : "inactive",
+        approverStatus: stats.approverStatus || "inactive",
+        superadminStatus: stats.superadminStatus || "inactive",
       };
     }
 

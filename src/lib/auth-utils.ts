@@ -26,7 +26,10 @@ export async function requireAuth() {
 
   try {
     const user = await prisma.users.findUnique({
-      where: { email: session.user.email },
+      where: { 
+        email: session.user.email,
+        deleted_at: null, // Exclude soft-deleted users
+      },
       select: {
         id: true,
         email: true,

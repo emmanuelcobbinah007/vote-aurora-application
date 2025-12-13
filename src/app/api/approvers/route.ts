@@ -25,10 +25,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Fetch all users with APPROVER role from the database
+    // Fetch all users with APPROVER role from the database (excluding soft-deleted)
     const approvers = await prisma.users.findMany({
       where: {
         role: "APPROVER",
+        deleted_at: null, // Exclude soft-deleted users
       },
       select: {
         id: true,

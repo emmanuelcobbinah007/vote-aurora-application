@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { emailService } from "@/libs/email";
 import { electionActivationService } from "@/libs/electionActivation";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 interface ActionRequest {
   electionId: string;
@@ -129,6 +130,7 @@ export async function POST(
         const now = new Date();
         const startTime = new Date(updatedElection.start_time);
         const endTime = new Date(updatedElection.end_time);
+        
         if (startTime <= now && endTime > now) {
           console.log(
             `Election start time has passed, activating immediately...`
@@ -149,19 +151,27 @@ export async function POST(
         }
       } catch (activationError: any) {
         console.log(`Election activation failed for ${updatedElection.title}`);
+        
         // Don't fail the approval process if activation fails
         // Log to audit trail for debugging
-        await prisma.auditTrail.create({
-          data: {
-            action: "ELECTION_ACTIVATION_FAILED",
-            user_id: approverId,
-            election_id: electionId,
-            metadata: {
-              error: activationError.message,
-              election_title: updatedElection.title,
-              activation_attempt_time: new Date().toISOString(),
-            },
+        const ip = request.headers.get("x-forwarded-for") || 
+                   request.headers.get("x-real-ip") || 
+                   "unknown";
+        const userAgent = request.headers.get("user-agent") || "unknown";
+        
+        await AuditTrailService.log({
+          user_id: approverId,
+          action: "ELECTION_ACTIVATION_FAILED",
+          election_id: electionId,
+          metadata: {
+            error: activationError.message,
+            election_title: updatedElection.title,
+            activation_attempt_time: new Date().toISOString(),
+            approver_name: approver.full_name,
+            approver_email: approver.email
           },
+          ip_address: ip,
+          user_agent: userAgent
         });
       }
     }
@@ -172,20 +182,28 @@ export async function POST(
         ? "ELECTION_REQUEST_REVIEW"
         : `ELECTION_${action.toUpperCase()}`;
 
-    await prisma.auditTrail.create({
-      data: {
-        action: auditAction,
-        user_id: approverId,
-        election_id: electionId,
-        metadata: {
-          action,
-          requestReview: requestReview || false,
-          comments: comments || null,
-          previous_status: election.status,
-          new_status: newStatus,
-          election_title: election.title,
-        },
+    // Extract request metadata for audit trail
+    const ip_address = request.headers.get("x-forwarded-for") || 
+                      request.headers.get("x-real-ip") || 
+                      "unknown";
+    const user_agent = request.headers.get("user-agent") || "unknown";
+
+    await AuditTrailService.log({
+      user_id: approverId,
+      action: auditAction,
+      election_id: electionId,
+      metadata: {
+        action,
+        requestReview: requestReview || false,
+        comments: comments || null,
+        previous_status: election.status,
+        new_status: newStatus,
+        election_title: election.title,
+        approver_name: approver.full_name,
+        approver_email: approver.email
       },
+      ip_address,
+      user_agent
     });
 
     // Send email notifications

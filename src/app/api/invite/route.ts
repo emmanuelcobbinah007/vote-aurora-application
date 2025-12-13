@@ -49,6 +49,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Handle unique role replacement logic for SUPERADMIN and APPROVER
+    if (role.toUpperCase() === "SUPERADMIN" || role.toUpperCase() === "APPROVER") {
+      const existingRoleUser = await prisma.users.findFirst({
+        where: {
+          role: role.toUpperCase(),
+          deleted_at: null, // Only active users
+        },
+      });
+
+      if (existingRoleUser) {
+        // Soft delete the existing user with this role
+        await prisma.users.update({
+          where: { id: existingRoleUser.id },
+          data: { 
+            deleted_at: new Date(),
+            status: "INACTIVE"
+          },
+        });
+
+        // Create audit log for role replacement
+        await createAuditLog({
+          user_id: authResult.user!.id,
+          action: AUDIT_ACTIONS.USER_ROLE_REPLACED,
+          election_id: null,
+          metadata: {
+            replaced_user_id: existingRoleUser.id,
+            replaced_user_email: existingRoleUser.email,
+            new_user_email: email,
+            role: role.toUpperCase(),
+          },
+        });
+
+        console.log(`🔄 Replaced existing ${role.toUpperCase()}: ${existingRoleUser.email} with invitation for: ${email}`);
+      }
+    }
+
     // Check if user already exists
     const existingUser = await prisma.users.findUnique({
       where: { email },

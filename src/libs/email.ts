@@ -51,8 +51,8 @@ class EmailService {
           body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+            color: #1f2937;
+            background-color: #f0f9ff;
             margin: 0;
             padding: 20px;
           }
@@ -60,33 +60,43 @@ class EmailService {
             max-width: 500px;
             margin: 0 auto;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
             overflow: hidden;
+            border: 1px solid rgba(16, 185, 129, 0.1);
           }
           .header {
-            background: #2563eb;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 24px 30px;
+            padding: 32px 30px;
             text-align: center;
           }
           .header h1 {
             margin: 0;
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+          }
+          .header p {
+            margin: 8px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 400;
           }
           .content {
-            padding: 30px;
+            padding: 40px 30px;
           }
           .content h2 {
-            margin: 0 0 16px 0;
-            font-size: 18px;
+            margin: 0 0 20px 0;
+            font-size: 22px;
             font-weight: 600;
-            color: #1f2937;
+            color: #111827;
           }
           .content p {
-            margin: 0 0 16px 0;
+            margin: 0 0 18px 0;
             color: #4b5563;
+            font-size: 16px;
+            line-height: 1.7;
           }
           .content p:last-child { margin-bottom: 0; }
           .cta-container { 
@@ -95,58 +105,104 @@ class EmailService {
           }
           .cta { 
             display: inline-block; 
-            background: #2563eb; 
-            color: #ffffff; 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff !important; 
             text-decoration: none; 
-            padding: 14px 28px; 
+            padding: 16px 32px; 
             border: none;
             font-weight: 600;
             font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
           }
-          .cta:hover { background: #1d4ed8; }
+          .cta, .cta:link, .cta:visited, .cta:hover, .cta:active {
+            color: #ffffff !important;
+            text-decoration: none !important;
+          }
+          .cta:hover { 
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+          }
           .link-box { 
-            background: #f8f9fa; 
-            border: 1px solid #e5e7eb;
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
             padding: 16px; 
-            margin-top: 16px;
+            margin-top: 20px;
             word-break: break-all;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 13px;
-            color: #6b7280;
+            color: #64748b;
           }
           .info-box { 
-            background: #f8f9fa;
-            border-left: 3px solid #2563eb;
-            padding: 20px; 
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 24px; 
             margin: 24px 0;
           }
           .info-box h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 8px;
+            color: #065f46;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+          }
+          .info-box h3:before {
+            content: "ℹ";
+            background: #10b981;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
           }
           .info-box p, .info-box ul {
             font-size: 14px;
-            color: #4b5563;
+            color: #047857;
             margin: 0;
           }
           .info-box ul {
             padding-left: 20px;
           }
           .warning-box { 
-            background: #fefce8;
-            border-left: 3px solid #cc910d;
-            padding: 20px; 
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 24px; 
             margin: 24px 0;
           }
           .warning-box h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: #92400e;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+          }
+          .warning-box h3:before {
+            content: "⚠";
+            background: #f59e0b;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
           }
           .warning-box p, .warning-box ul {
             font-size: 14px;
@@ -157,15 +213,19 @@ class EmailService {
             padding-left: 20px;
           }
           .footer { 
-            background: #f8f9fa; 
-            padding: 24px 40px; 
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 30px 40px; 
             text-align: center; 
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid #e2e8f0;
           }
           .footer p { 
             font-size: 14px; 
-            color: #6b7280; 
-            margin: 0;
+            color: #64748b; 
+            margin: 0 0 4px 0;
+          }
+          .footer p:last-child { 
+            font-weight: 500;
+            color: #10b981;
           }
         </style>
       </head>
@@ -173,6 +233,7 @@ class EmailService {
         <div class="container">
           <div class="header">
             <h1>VoteAurora</h1>
+            <p>University of Professional Studies, Accra</p>
           </div>
           <div class="content">
             <h2>${title}</h2>
@@ -214,8 +275,8 @@ class EmailService {
           body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+            color: #1f2937;
+            background-color: #f0f9ff;
             margin: 0;
             padding: 20px;
           }
@@ -223,38 +284,43 @@ class EmailService {
             max-width: 600px;
             margin: 0 auto;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
             overflow: hidden;
+            border: 1px solid rgba(16, 185, 129, 0.1);
           }
           .header {
-            background: #2563eb;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 24px 30px;
+            padding: 32px 30px;
             text-align: center;
           }
           .header h1 {
             margin: 0;
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
           }
           .subtitle {
-            font-size: 14px;
+            font-size: 16px;
             opacity: 0.9;
-            margin-top: 4px;
+            margin-top: 8px;
+            font-weight: 400;
           }
           .content {
-            padding: 30px;
+            padding: 40px 30px;
           }
           .content h2 {
-            margin: 0 0 16px 0;
-            font-size: 18px;
+            margin: 0 0 20px 0;
+            font-size: 22px;
             font-weight: 600;
-            color: #1f2937;
+            color: #111827;
           }
           .content p {
-            margin: 0 0 16px 0;
+            margin: 0 0 18px 0;
             color: #4b5563;
+            font-size: 16px;
+            line-height: 1.7;
           }
           .content p:last-child { margin-bottom: 0; }
           .cta-container {
@@ -263,58 +329,104 @@ class EmailService {
           }
           .cta {
             display: inline-block;
-            background: #2563eb;
-            color: #ffffff;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff !important;
             text-decoration: none;
-            padding: 14px 28px;
+            padding: 16px 32px;
             border: none;
             font-weight: 600;
             font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border-radius: 8px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
           }
-          .cta:hover { background: #1d4ed8; }
+          .cta, .cta:link, .cta:visited, .cta:hover, .cta:active {
+            color: #ffffff !important;
+            text-decoration: none !important;
+          }
+          .cta:hover { 
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+          }
           .link-box {
-            background: #f8f9fa;
-            border: 1px solid #e5e7eb;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
             padding: 16px;
-            margin-top: 16px;
+            margin-top: 20px;
             word-break: break-all;
             font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 13px;
-            color: #6b7280;
+            color: #64748b;
           }
           .info-box {
-            background: #f8f9fa;
-            border-left: 3px solid #2563eb;
-            padding: 20px;
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 24px;
             margin: 24px 0;
           }
           .info-box h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 8px;
+            color: #065f46;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+          }
+          .info-box h3:before {
+            content: "ℹ";
+            background: #10b981;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
           }
           .info-box p, .info-box ul {
             font-size: 14px;
-            color: #4b5563;
+            color: #047857;
             margin: 0;
           }
           .info-box ul {
             padding-left: 20px;
           }
           .warning-box {
-            background: #fefce8;
-            border-left: 3px solid #cc910d;
-            padding: 20px;
+            background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 24px;
             margin: 24px 0;
           }
           .warning-box h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: #92400e;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+          }
+          .warning-box h3:before {
+            content: "⚠";
+            background: #f59e0b;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            font-size: 12px;
+            font-weight: bold;
           }
           .warning-box p, .warning-box ul {
             font-size: 14px;
@@ -325,27 +437,32 @@ class EmailService {
             padding-left: 20px;
           }
           .footer {
-            background: #f8f9fa;
-            padding: 24px 40px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 30px 40px;
             text-align: center;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid #e2e8f0;
           }
           .footer p {
             font-size: 14px;
-            color: #6b7280;
-            margin: 0;
+            color: #64748b;
+            margin: 0 0 4px 0;
+          }
+          .footer p:last-child { 
+            font-weight: 500;
+            color: #10b981;
           }
           .divider {
             height: 1px;
-            background: #e5e7eb;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
             margin: 24px 0;
           }
           .badge {
             display: inline-block;
-            background: #eff6ff;
-            color: #2563eb;
-            padding: 4px 12px;
-            border: 1px solid #dbeafe;
+            background: #ecfdf5;
+            color: #065f46;
+            padding: 6px 14px;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
             font-size: 13px;
             font-weight: 500;
             margin: 0 4px;
@@ -354,16 +471,28 @@ class EmailService {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
           }
           .data-table th, .data-table td {
-            padding: 12px;
+            padding: 14px 16px;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
           }
           .data-table th {
-            background: #f8f9fa;
+            background: #f0fdf4;
             font-weight: 600;
-            color: #374151;
+            color: #065f46;
+            border-bottom: 2px solid #bbf7d0;
+          }
+          .data-table td {
+            border-bottom: 1px solid #f3f4f6;
+          }
+          .data-table tr:last-child td {
+            border-bottom: none;
+          }
+          .data-table tr:hover {
+            background: #f9fafb;
           }
         </style>
       </head>

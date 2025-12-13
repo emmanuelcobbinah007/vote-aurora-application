@@ -66,6 +66,8 @@ const AcceptInvitePageContent = () => {
       try {
         const response = await axios.get(`/api/invite/verify?token=${token}`);
         console.log("🔍 Verification response:", response.data);
+        console.log("📧 Email received:", response.data?.email);
+        console.log("🔑 Role received:", response.data?.role);
         setInvitationData(response.data);
       } catch (error: any) {
         console.error("Error verifying token:", error);

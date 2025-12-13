@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 import { isAdminAuthorized } from "@/libs/auth-utils";
 import { requireRole } from "@/lib/auth-utils";
+import { AuditTrailService as GlobalAuditTrailService } from "@/libs/auditTrailService";
 
 // Domain types for candidate creation
 interface CandidateCreationData {
@@ -134,19 +135,17 @@ class CandidateCreationAuditService {
       context.electionId
     );
 
-    await prisma.auditTrail.create({
-      data: {
-        action: "CREATE_CANDIDATE",
-        user_id: context.adminId,
-        election_id: context.electionId,
-        metadata: {
-          candidate_id: newCandidate.id,
-          candidate_name: full_name,
-          portfolio_id,
-          portfolio_title: portfolio?.title || "Unknown",
-          photo_url: photo_url ? "Yes" : "No",
-          manifesto: manifesto ? "Yes" : "No",
-        },
+    await GlobalAuditTrailService.log({
+      action: "CREATE_CANDIDATE",
+      user_id: context.adminId,
+      election_id: context.electionId,
+      metadata: {
+        candidate_id: newCandidate.id,
+        candidate_name: full_name,
+        portfolio_id,
+        portfolio_title: portfolio?.title || "Unknown",
+        photo_url: photo_url ? "Yes" : "No",
+        manifesto: manifesto ? "Yes" : "No",
       },
     });
   }
