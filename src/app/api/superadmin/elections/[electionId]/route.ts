@@ -357,10 +357,7 @@ export async function PATCH(
     }
 
     // Finalize Merkle Tree if election is closed
-    if (
-      updateData.status === "CLOSED" &&
-      currentElection.status !== "CLOSED"
-    ) {
+    if (updateData.status === "CLOSED" && currentElection.status !== "CLOSED") {
       try {
         const { MerkleTreeService } = await import("@/libs/merkleTreeService");
         await MerkleTreeService.finalizeElectionMerkleTree(electionId);
