@@ -1,14 +1,4 @@
-import nodemailer from "nodemailer";
-
-interface EmailConfig {
-  host: string;
-  port: number;
-  secure: boolean;
-  auth: {
-    user: string;
-    pass: string;
-  };
-}
+import { brevoEmailService } from "./brevo-email";
 
 interface SendEmailOptions {
   to: string;
@@ -18,21 +8,7 @@ interface SendEmailOptions {
 }
 
 class EmailService {
-  private transporter: nodemailer.Transporter;
-
-  constructor() {
-    const emailConfig: EmailConfig = {
-      host: process.env.SMTP_HOST || "smtp.gmail.com",
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_SECURE === "true",
-      auth: {
-        user: process.env.SMTP_USER || "",
-        pass: process.env.SMTP_PASS || "",
-      },
-    };
-
-    this.transporter = nodemailer.createTransport(emailConfig);
-  }
+  constructor() {}
 
   getSimpleTemplate(
     title: string,
@@ -532,19 +508,12 @@ class EmailService {
     text,
   }: SendEmailOptions): Promise<{ messageId: string }> {
     try {
-      const mailOptions = {
-        from: {
-          name: process.env.FROM_NAME || "VoteAurora",
-          address: process.env.FROM_EMAIL || process.env.SMTP_USER || "",
-        },
+      return await brevoEmailService.sendEmail({
         to,
         subject,
-        html,
-        text,
-      };
-      const result = await this.transporter.sendMail(mailOptions);
-      console.log("Email sent:", result.messageId);
-      return { messageId: result.messageId };
+        htmlContent: html,
+        textContent: text,
+      });
     } catch (error) {
       console.error("Email error:", error);
       throw new Error("Failed to send email");
