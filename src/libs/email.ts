@@ -900,8 +900,11 @@ If you believe this was done in error, please contact your system administrator.
 
   async testConnection(): Promise<boolean> {
     try {
-      await this.transporter.verify();
-      console.log("Email service ready");
+      if (!process.env.BREVO_API_KEY) {
+        console.warn("BREVO_API_KEY not found");
+        return false;
+      }
+      console.log("Email service ready (Brevo)");
       return true;
     } catch (error) {
       console.error("Email service failed:", error);
