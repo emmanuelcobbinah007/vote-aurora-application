@@ -5,9 +5,9 @@ import { AuditTrailService } from "@/libs/auditTrailService";
 /**
  * Brevo Webhook Handler
  * Receives email delivery events from Brevo and logs them to the database
- * 
+ *
  * Webhook URL: https://yourdomain.com/api/webhooks/brevo
- * 
+ *
  * Configure in Brevo Dashboard:
  * Settings → Webhooks → Add new webhook
  * Events to subscribe: delivered, hard_bounce, soft_bounce, invalid_email, blocked, spam
@@ -15,7 +15,11 @@ import { AuditTrailService } from "@/libs/auditTrailService";
 export async function POST(request: NextRequest) {
   try {
     const events = await request.json();
-    console.log(`📨 Received ${Array.isArray(events) ? events.length : 1} webhook event(s) from Brevo`);
+    console.log(
+      `📨 Received ${
+        Array.isArray(events) ? events.length : 1
+      } webhook event(s) from Brevo`
+    );
 
     // Brevo sends events as an array
     const eventArray = Array.isArray(events) ? events : [events];
@@ -77,7 +81,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : "Webhook processing failed",
+        error:
+          error instanceof Error ? error.message : "Webhook processing failed",
       },
       { status: 500 }
     );
