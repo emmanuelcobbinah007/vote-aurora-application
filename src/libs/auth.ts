@@ -13,9 +13,9 @@ class AuthenticationService {
 
   static async findUserByEmail(email: string) {
     console.log("Login attempt for email:", email);
-    
+
     const user = await prisma.users.findUnique({
-      where: { 
+      where: {
         email,
         deleted_at: null, // Exclude soft-deleted users
       },
@@ -38,7 +38,7 @@ class AuthenticationService {
 
   static async verifyPassword(password: string, user: any) {
     console.log("User found, checking password...");
-    
+
     const passwordMatch = await compare(password, user.password_hash);
 
     if (!passwordMatch) {
@@ -87,24 +87,29 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
           // Validate input credentials
           await AuthenticationService.validateCredentials(
-            credentials?.email, 
+            credentials?.email,
             credentials?.password
           );
 
           // Find user in database
-          const user = await AuthenticationService.findUserByEmail(credentials!.email);
+          const user = await AuthenticationService.findUserByEmail(
+            credentials!.email
+          );
 
           // Validate user status
           await AuthenticationService.validateUserStatus(user);
 
           // Verify password
-          await AuthenticationService.verifyPassword(credentials!.password, user);
+          await AuthenticationService.verifyPassword(
+            credentials!.password,
+            user
+          );
 
           // Handle successful login
           await AuthenticationService.handleSuccessfulLogin(user.id);

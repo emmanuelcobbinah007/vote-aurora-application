@@ -7,6 +7,7 @@ import {
 import { emailService } from "@/libs/email";
 import { voterEmailService } from "@/libs/voterEmailService";
 import { electionNotificationService } from "@/libs/electionNotificationService";
+import { AuditTrailService } from "@/libs/auditTrailService";
 import crypto from "crypto";
 
 interface EligibleStudent {
@@ -94,25 +95,19 @@ export class ElectionActivationService {
         emailError
       );
       // Don't fail activation if emails fail - log it in audit trail
-      await prisma.auditTrail.create({
-        data: {
-          user: {
-            connect: { id: election.approver?.id || election.creator.id },
-          },
-          election: {
-            connect: { id: election.id },
-          },
-          action: "EMAIL_DISPATCH_FAILED",
-          metadata: {
-            error:
-              emailError &&
-              typeof emailError === "object" &&
-              "message" in emailError
-                ? (emailError as any).message
-                : String(emailError),
-            election_title: election.title,
-            eligible_voters: eligibleStudents.length,
-          },
+      await AuditTrailService.log({
+        user_id: election.approver?.id || election.creator.id,
+        election_id: election.id,
+        action: "EMAIL_DISPATCH_FAILED",
+        metadata: {
+          error:
+            emailError &&
+            typeof emailError === "object" &&
+            "message" in emailError
+              ? (emailError as any).message
+              : String(emailError),
+          election_title: election.title,
+          eligible_voters: eligibleStudents.length,
         },
       });
     }
@@ -286,16 +281,14 @@ export class ElectionActivationService {
         });
 
         // Log closure in audit trail
-        await prisma.auditTrail.create({
-          data: {
-            user_id: election.approver?.id || election.creator.id,
-            election_id: election.id,
-            action: "ELECTION_CLOSED",
-            metadata: {
-              election_title: election.title,
-              closed_time: new Date().toISOString(),
-              end_time: election.end_time.toISOString(),
-            },
+        await AuditTrailService.log({
+          user_id: election.approver?.id || election.creator.id,
+          election_id: election.id,
+          action: "ELECTION_CLOSED",
+          metadata: {
+            election_title: election.title,
+            closed_time: new Date().toISOString(),
+            end_time: election.end_time.toISOString(),
           },
         });
 
@@ -322,18 +315,16 @@ export class ElectionActivationService {
             notificationError
           );
           // Log notification failure but don't fail the closure
-          await prisma.auditTrail.create({
-            data: {
-              user_id: election.approver?.id || election.creator.id,
-              election_id: election.id,
-              action: "CLOSURE_NOTIFICATION_FAILED",
-              metadata: {
-                error:
-                  notificationError instanceof Error
-                    ? notificationError.message
-                    : String(notificationError),
-                election_title: election.title,
-              },
+          await AuditTrailService.log({
+            user_id: election.approver?.id || election.creator.id,
+            election_id: election.id,
+            action: "CLOSURE_NOTIFICATION_FAILED",
+            metadata: {
+              error:
+                notificationError instanceof Error
+                  ? notificationError.message
+                  : String(notificationError),
+              election_title: election.title,
             },
           });
         }
@@ -365,7 +356,7 @@ export class ElectionActivationService {
     const voterTokens = students.map((student) => {
       // Generate 32-byte random token (64 hex chars)
       const rawToken = crypto.randomBytes(32).toString("hex");
-      
+
       // Hash token for storage
       const hashedToken = crypto
         .createHash("sha256")
@@ -411,18 +402,16 @@ export class ElectionActivationService {
 
   private async logActivation(election: any, voterCount: number) {
     try {
-      await prisma.auditTrail.create({
-        data: {
-          user_id: election.approver?.id || election.creator.id,
-          election_id: election.id,
-          action: "ELECTION_ACTIVATED",
-          metadata: {
-            election_title: election.title,
-            activation_time: new Date().toISOString(),
-            eligible_voters: voterCount,
-            is_general: election.is_general,
-            department: election.department,
-          },
+      await AuditTrailService.log({
+        user_id: election.approver?.id || election.creator.id,
+        election_id: election.id,
+        action: "ELECTION_ACTIVATED",
+        metadata: {
+          election_title: election.title,
+          activation_time: new Date().toISOString(),
+          eligible_voters: voterCount,
+          is_general: election.is_general,
+          department: election.department,
         },
       });
     } catch (error) {

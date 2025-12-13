@@ -54,7 +54,7 @@ async function getDashboardStats(orchestratorId: string | null) {
     totalVoters,
     totalCandidates,
     approverUser,
-    superAdminUser
+    superAdminUser,
   ] = await Promise.all([
     // Count total orchestrators
     prisma.users.count({
@@ -118,6 +118,7 @@ async function getDashboardStats(orchestratorId: string | null) {
     activeElections: 0, // Placeholder
     completedElections: 0, // Placeholder
     approverStatus: approverUser?.status === "ACTIVE" ? "active" : "inactive",
-    superadminStatus: superAdminUser?.status === "ACTIVE" ? "active" : "inactive",
+    superadminStatus:
+      superAdminUser?.status === "ACTIVE" ? "active" : "inactive",
   };
 }

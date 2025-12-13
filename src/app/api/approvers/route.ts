@@ -46,17 +46,15 @@ export async function GET(request: NextRequest) {
     });
 
     // Transform the data to match the frontend interface
-    const formattedApprovers = approvers.map(
-      (approver: ApproverData) => ({
-        id: approver.id,
-        name: approver.full_name,
-        email: approver.email,
-        role: approver.role,
-        status: approver.status,
-        createdAt: approver.created_at.toISOString(),
-        updatedAt: approver.updated_at.toISOString(),
-      })
-    );
+    const formattedApprovers = approvers.map((approver: ApproverData) => ({
+      id: approver.id,
+      name: approver.full_name,
+      email: approver.email,
+      role: approver.role,
+      status: approver.status,
+      createdAt: approver.created_at.toISOString(),
+      updatedAt: approver.updated_at.toISOString(),
+    }));
 
     return NextResponse.json({
       success: true,

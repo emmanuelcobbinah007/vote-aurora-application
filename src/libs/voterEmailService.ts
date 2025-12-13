@@ -1,6 +1,7 @@
 // src/libs/voterEmailService.ts
 import { emailService } from "@/libs/email";
 import prisma from "@/libs/prisma";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 interface VoterToken {
   id: string;
@@ -244,7 +245,7 @@ export class VoterEmailService {
 
     // Use Brevo API for better delivery tracking
     const { brevoEmailService } = await import("@/libs/brevo-email");
-    
+
     const result = await brevoEmailService.sendEmail({
       to: token.student_email,
       subject: `Your Voting Link: ${election.title}`,
@@ -408,17 +409,15 @@ Secure • Anonymous • Verified
       });
 
       // Log in audit trail
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "system", // or provide the actual user ID if available
-          election_id: electionId,
-          action: "VOTING_EMAILS_SENT",
-          metadata: {
-            total_voters: results.total,
-            emails_sent: results.successful.length,
-            emails_failed: results.failed.length,
-            dispatch_time: new Date().toISOString(),
-          },
+      await AuditTrailService.log({
+        user_id: "system", // or provide the actual user ID if available
+        election_id: electionId,
+        action: "VOTING_EMAILS_SENT",
+        metadata: {
+          total_voters: results.total,
+          emails_sent: results.successful.length,
+          emails_failed: results.failed.length,
+          dispatch_time: new Date().toISOString(),
         },
       });
 

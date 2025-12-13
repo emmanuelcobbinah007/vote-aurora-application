@@ -130,7 +130,7 @@ export async function POST(
         const now = new Date();
         const startTime = new Date(updatedElection.start_time);
         const endTime = new Date(updatedElection.end_time);
-        
+
         if (startTime <= now && endTime > now) {
           console.log(
             `Election start time has passed, activating immediately...`
@@ -151,14 +151,15 @@ export async function POST(
         }
       } catch (activationError: any) {
         console.log(`Election activation failed for ${updatedElection.title}`);
-        
+
         // Don't fail the approval process if activation fails
         // Log to audit trail for debugging
-        const ip = request.headers.get("x-forwarded-for") || 
-                   request.headers.get("x-real-ip") || 
-                   "unknown";
+        const ip =
+          request.headers.get("x-forwarded-for") ||
+          request.headers.get("x-real-ip") ||
+          "unknown";
         const userAgent = request.headers.get("user-agent") || "unknown";
-        
+
         await AuditTrailService.log({
           user_id: approverId,
           action: "ELECTION_ACTIVATION_FAILED",
@@ -168,10 +169,10 @@ export async function POST(
             election_title: updatedElection.title,
             activation_attempt_time: new Date().toISOString(),
             approver_name: approver.full_name,
-            approver_email: approver.email
+            approver_email: approver.email,
           },
           ip_address: ip,
-          user_agent: userAgent
+          user_agent: userAgent,
         });
       }
     }
@@ -183,9 +184,10 @@ export async function POST(
         : `ELECTION_${action.toUpperCase()}`;
 
     // Extract request metadata for audit trail
-    const ip_address = request.headers.get("x-forwarded-for") || 
-                      request.headers.get("x-real-ip") || 
-                      "unknown";
+    const ip_address =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
     const user_agent = request.headers.get("user-agent") || "unknown";
 
     await AuditTrailService.log({
@@ -200,10 +202,10 @@ export async function POST(
         new_status: newStatus,
         election_title: election.title,
         approver_name: approver.full_name,
-        approver_email: approver.email
+        approver_email: approver.email,
       },
       ip_address,
-      user_agent
+      user_agent,
     });
 
     // Send email notifications

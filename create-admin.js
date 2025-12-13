@@ -18,11 +18,6 @@ async function createSuperAdmin() {
       },
     });
     
-    console.log('✅ SuperAdmin created successfully:');
-    console.log('Email: admin@university.edu');
-    console.log('Password: admin123');
-    console.log('Role: SUPERADMIN');
-    console.log('Please change this password after first login!');
     
     // Also create an ORCHESTRATOR user
     const orchestratorHash = await bcrypt.hash('orchestrator123', 12);
@@ -37,10 +32,7 @@ async function createSuperAdmin() {
       },
     });
     
-    console.log('\n✅ Orchestrator created successfully:');
-    console.log('Email: orchestrator@university.edu');
-    console.log('Password: orchestrator123');
-    console.log('Role: ORCHESTRATOR');
+    
     
   } catch (error) {
     if (error.code === 'P2002') {

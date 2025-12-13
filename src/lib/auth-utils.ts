@@ -3,7 +3,12 @@ import { NextResponse } from "next/server";
 import prisma from "@/libs/prisma";
 import { authOptions } from "@/libs/auth";
 
-export type Role = "VOTER" | "ADMIN" | "SUPERADMIN" | "APPROVER" | "ORCHESTRATOR";
+export type Role =
+  | "VOTER"
+  | "ADMIN"
+  | "SUPERADMIN"
+  | "APPROVER"
+  | "ORCHESTRATOR";
 
 export interface AuthUser {
   id: string;
@@ -26,7 +31,7 @@ export async function requireAuth() {
 
   try {
     const user = await prisma.users.findUnique({
-      where: { 
+      where: {
         email: session.user.email,
         deleted_at: null, // Exclude soft-deleted users
       },
@@ -53,7 +58,7 @@ export async function requireAuth() {
 /**
  * Validates that a user is authenticated and has one of the allowed roles.
  * Returns the user object if authorized, or returns a NextResponse error if not.
- * 
+ *
  * Usage:
  * const authResult = await requireRole(["ADMIN", "SUPERADMIN"]);
  * if (authResult instanceof NextResponse) return authResult;

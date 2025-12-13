@@ -1,5 +1,6 @@
 import { emailService } from "@/libs/email";
 import prisma from "@/libs/prisma";
+import { AuditTrailService } from "@/libs/auditTrailService";
 
 interface Election {
   id: string;
@@ -390,21 +391,19 @@ University E-Voting System | Secure • Anonymous • Verified
    */
   private async logClosureNotifications(electionId: string, results: any) {
     try {
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "System Admin", // System action
-          election_id: electionId,
-          action: "CLOSURE_NOTIFICATIONS_SENT",
-          metadata: {
-            notifications_sent: results.successful.length,
-            notifications_failed: results.failed.length,
-            recipients: results.successful.map((r: any) => ({
-              name: r.name,
-              email: r.email,
-              role: r.role,
-            })),
-            sent_at: new Date().toISOString(),
-          },
+      await AuditTrailService.log({
+        user_id: "System Admin", // System action
+        election_id: electionId,
+        action: "CLOSURE_NOTIFICATIONS_SENT",
+        metadata: {
+          notifications_sent: results.successful.length,
+          notifications_failed: results.failed.length,
+          recipients: results.successful.map((r: any) => ({
+            name: r.name,
+            email: r.email,
+            role: r.role,
+          })),
+          sent_at: new Date().toISOString(),
         },
       });
 

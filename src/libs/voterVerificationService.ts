@@ -1,5 +1,6 @@
 import { emailService } from "@/libs/email";
 import prisma from "@/libs/prisma";
+import { AuditTrailService } from "@/libs/auditTrailService";
 import crypto from "crypto";
 
 interface VerificationSession {
@@ -811,16 +812,14 @@ Secure • Anonymous • Verified
     metadata: any = {}
   ) {
     try {
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "System Admin", // Voter activity - no user account
-          election_id: electionId,
-          action: `VOTER_${action}`,
-          metadata: {
-            student_id: studentId,
-            action_time: new Date().toISOString(),
-            ...metadata,
-          },
+      await AuditTrailService.log({
+        user_id: "System Admin", // Voter activity - no user account
+        election_id: electionId,
+        action: `VOTER_${action}`,
+        metadata: {
+          student_id: studentId,
+          action_time: new Date().toISOString(),
+          ...metadata,
         },
       });
     } catch (error) {

@@ -1,4 +1,5 @@
 import prisma from "./prisma";
+import { AuditTrailService } from "./auditTrailService";
 
 interface EmailDeliveryStatus {
   email: string;
@@ -18,7 +19,7 @@ class BrevoEmailService {
   constructor() {
     // Configure API key from environment
     this.apiKey = process.env.BREVO_API_KEY || "";
-    
+
     if (!this.apiKey) {
       console.warn("⚠️ BREVO_API_KEY not configured. Email sending will fail.");
     }
@@ -31,7 +32,6 @@ class BrevoEmailService {
     textContent?: string;
     tags?: string[];
   }): Promise<{ messageId: string }> {
-   
     const emailData = {
       sender: {
         name: process.env.FROM_NAME || "VoteAurora",
@@ -91,17 +91,15 @@ class BrevoEmailService {
   private async logEmailSent(status: EmailDeliveryStatus) {
     try {
       // Log to audit trail for tracking
-      await prisma.auditTrail.create({
-        data: {
-          user_id: "system",
-          action: "EMAIL_DELIVERY_STATUS",
-          metadata: {
-            email: status.email,
-            status: status.status,
-            messageId: status.messageId,
-            timestamp: status.timestamp.toISOString(),
-            error: status.error,
-          },
+      await AuditTrailService.log({
+        user_id: "system",
+        action: "EMAIL_DELIVERY_STATUS",
+        metadata: {
+          email: status.email,
+          status: status.status,
+          messageId: status.messageId,
+          timestamp: status.timestamp.toISOString(),
+          error: status.error,
         },
       });
     } catch (error) {

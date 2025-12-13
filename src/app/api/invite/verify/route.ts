@@ -18,16 +18,16 @@ export async function GET(request: NextRequest) {
           select: {
             id: true,
             full_name: true,
-            email: true
-          }
+            email: true,
+          },
         },
         election: {
           select: {
             id: true,
-            title: true
-          }
-        }
-      }
+            title: true,
+          },
+        },
+      },
     });
 
     if (!invitation) {
@@ -59,10 +59,12 @@ export async function GET(request: NextRequest) {
       role: invitation.role,
       expires_at: invitation.expires_at.toISOString(),
       created_by: invitation.creator?.full_name || "System Administrator",
-      election: invitation.election ? {
-        id: invitation.election.id,
-        title: invitation.election.title
-      } : null,
+      election: invitation.election
+        ? {
+            id: invitation.election.id,
+            title: invitation.election.title,
+          }
+        : null,
     });
   } catch (error) {
     console.error("Error verifying invitation:", error);

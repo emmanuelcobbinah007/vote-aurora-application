@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
 
     // Parse the request body
     const body = await request.json();
-    
+
     if (!body.action) {
       return NextResponse.json(
         { success: false, message: "Action is required" },
@@ -130,9 +130,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Extract request metadata for audit trail
-    const ip_address = request.headers.get("x-forwarded-for") || 
-                      request.headers.get("x-real-ip") || 
-                      "unknown";
+    const ip_address =
+      request.headers.get("x-forwarded-for") ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
     const user_agent = request.headers.get("user-agent") || "unknown";
 
     // Create the audit trail entry using the service with hash chaining
@@ -146,10 +147,10 @@ export async function POST(request: NextRequest) {
         userId: session.user.id,
         user_name: session.user.name,
         user_email: session.user.email,
-        user_role: session.user.role
+        user_role: session.user.role,
       },
       ip_address,
-      user_agent
+      user_agent,
     });
 
     return NextResponse.json({
