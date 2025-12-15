@@ -300,6 +300,108 @@ export async function POST(request: NextRequest) {
         election.id
     );
 
+    // Send vote confirmation email with verification code
+    if (verificationCode) {
+      try {
+        const { brevoEmailService } = await import("@/libs/brevo-email");
+        const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/verify`;
+        
+        await brevoEmailService.sendEmail({
+          to: voter.student_email,
+          subject: `Vote Confirmation - ${election.title}`,
+          html: `
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset="utf-8">
+                <style>
+                  body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                  .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                  .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+                  .content { background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px; }
+                  .verification-code { background: white; border: 2px dashed #667eea; padding: 20px; text-align: center; margin: 20px 0; border-radius: 8px; }
+                  .code { font-size: 32px; font-weight: bold; color: #667eea; letter-spacing: 3px; font-family: monospace; }
+                  .button { display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+                  .footer { text-align: center; color: #6b7280; font-size: 12px; margin-top: 30px; }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <div class="header">
+                    <h1 style="margin: 0;">✅ Vote Confirmed!</h1>
+                  </div>
+                  <div class="content">
+                    <p>Dear Voter,</p>
+                    
+                    <p>Your vote has been successfully recorded for:</p>
+                    <p style="font-weight: bold; font-size: 18px; color: #667eea;">${election.title}</p>
+                    
+                    <p>Your vote verification code is:</p>
+                    
+                    <div class="verification-code">
+                      <div class="code">${verificationCode}</div>
+                    </div>
+                    
+                    <p><strong>⚠️ Important:</strong> Save this code! You can use it to verify that your vote was counted.</p>
+                    
+                    <p style="text-align: center;">
+                      <a href="${verifyUrl}" class="button">Verify Your Vote Now</a>
+                    </p>
+                    
+                    <p>To verify your vote:</p>
+                    <ol>
+                      <li>Visit: <a href="${verifyUrl}">${verifyUrl}</a></li>
+                      <li>Enter your verification code: <strong>${verificationCode}</strong></li>
+                      <li>See cryptographic proof your vote was recorded</li>
+                    </ol>
+                    
+                    <p style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
+                      <strong>🔒 Your vote remains secret!</strong><br>
+                      The verification system proves your vote was counted without revealing who you voted for.
+                    </p>
+                    
+                    <p>Thank you for participating in this election!</p>
+                  </div>
+                  <div class="footer">
+                    <p>This is an automated message from VoteAurora E-Voting System</p>
+                    <p>If you did not vote in this election, please contact the election administrators immediately.</p>
+                  </div>
+                </div>
+              </body>
+            </html>
+          `,
+          text: `
+Vote Confirmation - ${election.title}
+
+Your vote has been successfully recorded!
+
+Verification Code: ${verificationCode}
+
+⚠️ IMPORTANT: Save this code! You can use it to verify that your vote was counted.
+
+To verify your vote:
+1. Visit: ${verifyUrl}
+2. Enter your verification code: ${verificationCode}
+3. See cryptographic proof your vote was recorded
+
+🔒 Your vote remains secret!
+The verification system proves your vote was counted without revealing who you voted for.
+
+Thank you for participating in this election!
+
+---
+This is an automated message from VoteAurora E-Voting System
+If you did not vote in this election, please contact the election administrators immediately.
+          `,
+        });
+
+        console.log(`📧 Vote confirmation email sent to ${voter.student_email}`);
+      } catch (emailError) {
+        console.error("Failed to send vote confirmation email:", emailError);
+        // Don't fail the vote if email fails
+      }
+    }
+
     return NextResponse.json({
       success: true,
       message: "Your vote has been successfully recorded",
