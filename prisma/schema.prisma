@@ -245,7 +245,7 @@ model Votes {
   portfolio Portfolios  @relation(fields: [portfolio_id], references: [id], onDelete: Cascade)
   candidate Candidates? @relation(fields: [candidate_id], references: [id], onDelete: SetNull)
 
-  @@unique([voter_token_hash, election_id])
+  @@unique([voter_token_hash, portfolio_id])
   @@index([election_id])
   @@index([portfolio_id])
   @@index([voter_token_hash])

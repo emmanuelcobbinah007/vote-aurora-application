@@ -17,6 +17,7 @@ export async function middleware(request: NextRequest) {
     "/election-closed",
     "/api/auth", // Next Auth routes
     "/api/webhooks", // Webhook endpoints (Brevo, etc.)
+    "/api/cron", // Cron job endpoints
   ];
 
   const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
