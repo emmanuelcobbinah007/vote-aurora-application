@@ -320,7 +320,7 @@ export async function POST(request: NextRequest) {
         await brevoEmailService.sendEmail({
           to: voterRecord.student_email,
           subject: `Vote Confirmation - ${election.title}`,
-          html: `
+          htmlContent: `
             <!DOCTYPE html>
             <html>
               <head>
@@ -381,7 +381,7 @@ export async function POST(request: NextRequest) {
               </body>
             </html>
           `,
-          text: `
+          textContent: `
 Vote Confirmation - ${election.title}
 
 Your vote has been successfully recorded!
