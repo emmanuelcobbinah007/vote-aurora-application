@@ -3,7 +3,13 @@ import {
   CandidateFormData,
 } from "@/app/components/ui/superadmin/elections/details/ElectionDetailsTypes";
 
-const API_BASE_URL = "/api/superadmin/elections";
+// Helper to get the correct API base URL based on user role
+const getApiBaseUrl = (userRole?: string, userId?: string) => {
+  if (userRole === "ADMIN" && userId) {
+    return `/api/admin/${userId}/election`;
+  }
+  return "/api/superadmin/elections";
+};
 
 export interface CandidateResponse {
   candidates: Candidate[];
@@ -25,7 +31,12 @@ export interface DeleteCandidateResponse {
 
 export const candidateApi = {
   // Get all candidates for an election
-  getCandidates: async (electionId: string): Promise<Candidate[]> => {
+  getCandidates: async (
+    electionId: string,
+    userRole?: string,
+    userId?: string
+  ): Promise<Candidate[]> => {
+    const API_BASE_URL = getApiBaseUrl(userRole, userId);
     const response = await fetch(`${API_BASE_URL}/${electionId}/candidate`);
 
     if (!response.ok) {
@@ -41,8 +52,11 @@ export const candidateApi = {
   createCandidate: async (
     electionId: string,
     portfolioId: string,
-    candidateData: CandidateFormData
+    candidateData: CandidateFormData,
+    userRole?: string,
+    userId?: string
   ): Promise<Candidate> => {
+    const API_BASE_URL = getApiBaseUrl(userRole, userId);
     const response = await fetch(`${API_BASE_URL}/${electionId}/candidate`, {
       method: "POST",
       headers: {
@@ -67,10 +81,13 @@ export const candidateApi = {
   updateCandidate: async (
     electionId: string,
     candidateId: string,
-    candidateData: CandidateFormData
+    candidateData: CandidateFormData,
+    userRole?: string,
+    userId?: string
   ): Promise<Candidate> => {
+    const baseUrl = getApiBaseUrl(userRole, userId);
     const response = await fetch(
-      `${API_BASE_URL}/${electionId}/candidate/${candidateId}`,
+      `${baseUrl}/${electionId}/candidate/${candidateId}`,
       {
         method: "PUT",
         headers: {
@@ -92,10 +109,13 @@ export const candidateApi = {
   // Delete a candidate
   deleteCandidate: async (
     electionId: string,
-    candidateId: string
+    candidateId: string,
+    userRole?: string,
+    userId?: string
   ): Promise<void> => {
+    const baseUrl = getApiBaseUrl(userRole, userId);
     const response = await fetch(
-      `${API_BASE_URL}/${electionId}/candidate/${candidateId}`,
+      `${baseUrl}/${electionId}/candidate/${candidateId}`,
       {
         method: "DELETE",
       }

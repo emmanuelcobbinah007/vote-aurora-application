@@ -292,9 +292,16 @@ export class VoterVerificationService {
    * Validate voter token
    */
   private async validateVoterToken(voterToken: string) {
+    // Hash the token before lookup (tokens are stored hashed in the database)
+    const crypto = await import("crypto");
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(voterToken)
+      .digest("hex");
+
     const tokenRecord = await prisma.voterTokens.findFirst({
       where: {
-        voter_token: voterToken,
+        voter_token: hashedToken,
         used: false,
       },
       include: {

@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
             message: metadata.comments,
             createdAt: entry.timestamp.toISOString(),
             createdBy: entry.user_id,
-            createdByName: entry.user.full_name,
+            createdByName: entry.user?.full_name || "System",
             type: noteType,
           };
         });
@@ -160,7 +160,7 @@ export async function GET(request: NextRequest) {
         if (rejectionEntry) {
           reviewedAt = rejectionEntry.timestamp.toISOString();
           reviewedBy = rejectionEntry.user_id;
-          reviewedByName = rejectionEntry.user.full_name;
+          reviewedByName = rejectionEntry.user?.full_name || "System";
         }
       } else if (
         election.status === "APPROVED" ||

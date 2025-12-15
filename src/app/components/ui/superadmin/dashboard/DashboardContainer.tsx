@@ -30,6 +30,7 @@ export interface DashboardData {
     details: string;
     timestamp: string;
     type: string;
+    user: string;
   }>;
   upcomingElections: Array<{
     id: string;

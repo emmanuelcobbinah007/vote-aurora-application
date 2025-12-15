@@ -2,7 +2,7 @@ import prisma from "./prisma";
 import crypto from "crypto";
 
 interface AuditLogEntry {
-  user_id: string;
+  user_id: string | null;
   action: string;
   election_id?: string;
   metadata?: any;
@@ -59,7 +59,9 @@ export class AuditTrailService {
       console.error("❌ Failed to create audit log:", error);
       // Still throw to ensure audit failures are visible
       throw new Error(
-        `Audit logging failed: ${error instanceof Error ? error.message : error}`
+        `Audit logging failed: ${
+          error instanceof Error ? error.message : error
+        }`
       );
     }
   }
@@ -158,6 +160,9 @@ export class AuditTrailService {
     const userIPs = new Map<string, Set<string>>();
 
     logs.forEach((log) => {
+      // Skip system events (no user_id)
+      if (!log.user_id) return;
+      
       if (!userIPs.has(log.user_id)) {
         userIPs.set(log.user_id, new Set());
       }

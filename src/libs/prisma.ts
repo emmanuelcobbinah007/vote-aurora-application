@@ -34,7 +34,7 @@ prisma.$on("query" as never, (e: any) => {
       duration: e.duration,
       timestamp: new Date().toISOString(),
     });
-    
+
     // In production with Sentry, this would be captured
     if (process.env.NODE_ENV === "production") {
       // Sentry.captureMessage will be added when Sentry is configured
@@ -49,7 +49,7 @@ prisma.$on("query" as never, (e: any) => {
 // Track errors
 prisma.$on("error" as never, (e: any) => {
   console.error("❌ Prisma Error:", e);
-  
+
   if (process.env.NODE_ENV === "production") {
     // Sentry.captureException will be added when Sentry is configured
     console.error("PRISMA_ERROR", e);

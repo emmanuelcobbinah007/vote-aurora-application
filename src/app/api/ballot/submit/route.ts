@@ -236,7 +236,7 @@ export async function POST(request: NextRequest) {
 
     try {
       await AuditTrailService.log({
-        user_id: "System", // Use system user for voter actions
+        user_id: null, // Voter actions are anonymous (no user ID)
         election_id: election.id,
         action: "VOTE_CAST",
         metadata: {

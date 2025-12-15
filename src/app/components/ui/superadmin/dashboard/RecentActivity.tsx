@@ -21,6 +21,7 @@ interface ActivityItem {
   details: string;
   timestamp: string;
   type: string;
+  user: string;
 }
 
 interface RecentActivityProps {
@@ -145,8 +146,11 @@ const RecentActivity: React.FC<RecentActivityProps> = ({
                         {activity.type}
                       </Badge>
                     </div>
-                    <p className="text-sm text-gray-600 mb-2">
+                    <p className="text-sm text-gray-600 mb-1">
                       {activity.details}
+                    </p>
+                    <p className="text-xs text-gray-500 mb-1">
+                      by {activity.user}
                     </p>
                     <p className="text-xs text-gray-500">
                       {formatTimeAgo(activity.timestamp)}

@@ -410,7 +410,7 @@ Secure • Anonymous • Verified
 
       // Log in audit trail
       await AuditTrailService.log({
-        user_id: "system", // or provide the actual user ID if available
+        user_id: null, // System-level action (no specific user)
         election_id: electionId,
         action: "VOTING_EMAILS_SENT",
         metadata: {

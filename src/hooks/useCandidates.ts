@@ -19,10 +19,10 @@ export const candidateKeys = {
 };
 
 // Get candidates for an election
-export const useCandidates = (electionId: string) => {
+export const useCandidates = (electionId: string, userRole?: string, userId?: string) => {
   return useQuery({
     queryKey: candidateKeys.byElection(electionId),
-    queryFn: () => candidateApi.getCandidates(electionId),
+    queryFn: () => candidateApi.getCandidates(electionId, userRole, userId),
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
     retry: (failureCount, error: unknown) => {
@@ -34,7 +34,7 @@ export const useCandidates = (electionId: string) => {
 };
 
 // Create candidate mutation
-export const useCreateCandidate = (electionId: string) => {
+export const useCreateCandidate = (electionId: string, userRole?: string, userId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -44,7 +44,7 @@ export const useCreateCandidate = (electionId: string) => {
     }: {
       portfolioId: string;
       candidateData: CandidateFormData;
-    }) => candidateApi.createCandidate(electionId, portfolioId, candidateData),
+    }) => candidateApi.createCandidate(electionId, portfolioId, candidateData, userRole, userId),
 
     onMutate: async ({ portfolioId, candidateData }) => {
       // Cancel any outgoing refetches
@@ -150,7 +150,7 @@ export const useCreateCandidate = (electionId: string) => {
 };
 
 // Update candidate mutation
-export const useUpdateCandidate = (electionId: string) => {
+export const useUpdateCandidate = (electionId: string, userRole?: string, userId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -160,7 +160,7 @@ export const useUpdateCandidate = (electionId: string) => {
     }: {
       candidateId: string;
       candidateData: CandidateFormData;
-    }) => candidateApi.updateCandidate(electionId, candidateId, candidateData),
+    }) => candidateApi.updateCandidate(electionId, candidateId, candidateData, userRole, userId),
 
     onMutate: async ({ candidateId, candidateData }) => {
       await queryClient.cancelQueries({
@@ -221,12 +221,12 @@ export const useUpdateCandidate = (electionId: string) => {
 };
 
 // Delete candidate mutation
-export const useDeleteCandidate = (electionId: string) => {
+export const useDeleteCandidate = (electionId: string, userRole?: string, userId?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (candidateId: string) =>
-      candidateApi.deleteCandidate(electionId, candidateId),
+      candidateApi.deleteCandidate(electionId, candidateId, userRole, userId),
 
     onMutate: async (candidateId) => {
       await queryClient.cancelQueries({

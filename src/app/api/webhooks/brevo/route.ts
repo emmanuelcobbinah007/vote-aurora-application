@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
       // Update delivery status in database
       await AuditTrailService.log({
-        user_id: "system",
+        user_id: null,
         action: "EMAIL_WEBHOOK_RECEIVED",
         metadata: {
           email,
@@ -108,7 +108,7 @@ async function handleBouncedEmail(
     if (voterToken) {
       // Log bounce for election admins to review
       await AuditTrailService.log({
-        user_id: "system",
+        user_id: null,
         election_id: voterToken.election_id,
         action: "VOTER_EMAIL_BOUNCED",
         metadata: {

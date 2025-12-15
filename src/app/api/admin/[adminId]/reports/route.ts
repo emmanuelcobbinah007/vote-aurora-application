@@ -550,10 +550,14 @@ class ReportsDataService {
       action: log.action,
       metadata: log.metadata,
       timestamp: log.timestamp,
-      user: {
+      user: log.user ? {
         full_name: log.user.full_name,
         email: log.user.email,
         role: log.user.role,
+      } : {
+        full_name: "System",
+        email: "system@evoting.com",
+        role: "SYSTEM",
       },
     }));
   }

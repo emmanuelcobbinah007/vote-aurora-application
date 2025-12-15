@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
         details: activity.election?.title || "System action",
         timestamp: activity.timestamp.toISOString(),
         type: activity.election_id ? "election" : "system",
-        user: activity.user.full_name,
+        user: activity.user?.full_name || "System",
       })),
       upcomingElections: upcomingElections.map((election) => ({
         id: election.id,

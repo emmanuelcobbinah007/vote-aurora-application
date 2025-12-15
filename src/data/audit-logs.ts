@@ -1,6 +1,6 @@
 export interface AuditLog {
   id: string;
-  user_id: string; // Maps to Users table
+  user_id: string | null; // Maps to Users table, null for system events
   election_id?: string; // Maps to Elections table (optional)
   action: string;
   metadata: Record<string, any>; // JSON field in Prisma
@@ -145,7 +145,7 @@ export const mockAuditLogs: AuditLog[] = [
   },
   {
     id: "audit-007",
-    user_id: "system",
+    user_id: null,
     timestamp: "2024-03-15T09:45:30Z",
     action: "SYSTEM_BACKUP_COMPLETED",
     actor_name: "Automated System",
@@ -252,7 +252,7 @@ export const mockAuditLogs: AuditLog[] = [
   },
   {
     id: "audit-012",
-    user_id: "system",
+    user_id: null,
     timestamp: "2024-03-14T12:45:30Z",
     action: "SUSPICIOUS_ACTIVITY_DETECTED",
     actor_name: "Security Monitor",

@@ -92,7 +92,7 @@ class BrevoEmailService {
     try {
       // Log to audit trail for tracking
       await AuditTrailService.log({
-        user_id: "system",
+        user_id: null,
         action: "EMAIL_DELIVERY_STATUS",
         metadata: {
           email: status.email,

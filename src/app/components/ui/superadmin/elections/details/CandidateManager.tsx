@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -43,6 +44,7 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
   electionId,
   election,
 }) => {
+  const { data: session } = useSession();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(
     null
@@ -55,6 +57,10 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
   const { data: fetchedElection } = useElectionWithDetails(electionId);
   const electionData = election || fetchedElection;
 
+  // Get user role and ID from session
+  const userRole = session?.user?.role as string | undefined;
+  const userId = session?.user?.id as string | undefined;
+
   // TanStack Query hooks
   const { data: portfolios = [], isLoading: portfoliosLoading } =
     usePortfolios(electionId);
@@ -64,11 +70,11 @@ const CandidateManager: React.FC<CandidateManagerProps> = ({
     isLoading: candidatesLoading,
     error: candidatesError,
     refetch: refetchCandidates,
-  } = useCandidates(electionId);
+  } = useCandidates(electionId, userRole, userId);
 
-  const createCandidateMutation = useCreateCandidate(electionId);
-  const updateCandidateMutation = useUpdateCandidate(electionId);
-  const deleteCandidateMutation = useDeleteCandidate(electionId);
+  const createCandidateMutation = useCreateCandidate(electionId, userRole, userId);
+  const updateCandidateMutation = useUpdateCandidate(electionId, userRole, userId);
+  const deleteCandidateMutation = useDeleteCandidate(electionId, userRole, userId);
 
   const isLoading = candidatesLoading || portfoliosLoading;
 

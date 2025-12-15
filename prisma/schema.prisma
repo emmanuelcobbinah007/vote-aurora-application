@@ -270,7 +270,7 @@ model Analytics {
 
 model AuditTrail {
   id          String   @id @default(uuid())
-  user_id     String
+  user_id     String?
   election_id String?
   action      String
   metadata    Json
@@ -284,7 +284,7 @@ model AuditTrail {
   previous_hash String?  // Hash of previous audit log entry
   entry_hash    String   // SHA256 hash of this entry (action + metadata + timestamp + previous_hash)
 
-  user     Users      @relation(fields: [user_id], references: [id])
+  user     Users?     @relation(fields: [user_id], references: [id])
   election Elections? @relation(fields: [election_id], references: [id], onDelete: SetNull)
 
   @@index([user_id])
