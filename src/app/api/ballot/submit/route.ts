@@ -306,8 +306,19 @@ export async function POST(request: NextRequest) {
         const { brevoEmailService } = await import("@/libs/brevo-email");
         const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/verify`;
         
+        // Get voter's email from database
+        const voterRecord = await prisma.voterTokens.findUnique({
+          where: { id: voter.id },
+          select: { student_email: true },
+        });
+        
+        if (!voterRecord?.student_email) {
+          console.error("Voter email not found:", voter.id);
+          throw new Error("Voter email not available");
+        }
+        
         await brevoEmailService.sendEmail({
-          to: voter.student_email,
+          to: voterRecord.student_email,
           subject: `Vote Confirmation - ${election.title}`,
           html: `
             <!DOCTYPE html>
@@ -395,7 +406,7 @@ If you did not vote in this election, please contact the election administrators
           `,
         });
 
-        console.log(`📧 Vote confirmation email sent to ${voter.student_email}`);
+        console.log(`📧 Vote confirmation email sent to ${voterRecord.student_email}`);
       } catch (emailError) {
         console.error("Failed to send vote confirmation email:", emailError);
         // Don't fail the vote if email fails
